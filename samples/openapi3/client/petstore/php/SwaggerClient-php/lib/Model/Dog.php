@@ -55,8 +55,6 @@ class Dog extends Animal
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'class_name' => 'string',
-        'color' => 'string',
         'breed' => 'string'
     ];
 
@@ -66,8 +64,6 @@ class Dog extends Animal
       * @var string[]
       */
     protected static $swaggerFormats = [
-        'class_name' => null,
-        'color' => null,
         'breed' => null
     ];
 
@@ -98,8 +94,6 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $attributeMap = [
-        'class_name' => 'className',
-        'color' => 'color',
         'breed' => 'breed'
     ];
 
@@ -109,8 +103,6 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $setters = [
-        'class_name' => 'setClassName',
-        'color' => 'setColor',
         'breed' => 'setBreed'
     ];
 
@@ -120,8 +112,6 @@ class Dog extends Animal
      * @var string[]
      */
     protected static $getters = [
-        'class_name' => 'getClassName',
-        'color' => 'getColor',
         'breed' => 'getBreed'
     ];
 
@@ -181,8 +171,6 @@ class Dog extends Animal
     {
         parent::__construct($data);
 
-        $this->container['class_name'] = isset($data['class_name']) ? $data['class_name'] : null;
-        $this->container['color'] = isset($data['color']) ? $data['color'] : 'red';
         $this->container['breed'] = isset($data['breed']) ? $data['breed'] : null;
     }
 
@@ -195,9 +183,6 @@ class Dog extends Animal
     {
         $invalidProperties = parent::listInvalidProperties();
 
-        if ($this->container['class_name'] === null) {
-            $invalidProperties[] = "'class_name' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -213,60 +198,9 @@ class Dog extends Animal
             return false;
         }
 
-        if ($this->container['class_name'] === null) {
-            return false;
-        }
         return true;
     }
 
-
-    /**
-     * Gets class_name
-     *
-     * @return string
-     */
-    public function getClassName()
-    {
-        return $this->container['class_name'];
-    }
-
-    /**
-     * Sets class_name
-     *
-     * @param string $class_name class_name
-     *
-     * @return $this
-     */
-    public function setClassName($class_name)
-    {
-        $this->container['class_name'] = $class_name;
-
-        return $this;
-    }
-
-    /**
-     * Gets color
-     *
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->container['color'];
-    }
-
-    /**
-     * Sets color
-     *
-     * @param string $color color
-     *
-     * @return $this
-     */
-    public function setColor($color)
-    {
-        $this->container['color'] = $color;
-
-        return $this;
-    }
 
     /**
      * Gets breed

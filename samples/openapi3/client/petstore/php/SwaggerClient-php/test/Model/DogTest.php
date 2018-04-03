@@ -77,20 +77,6 @@ class DogTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test attribute "class_name"
-     */
-    public function testPropertyClassName()
-    {
-    }
-
-    /**
-     * Test attribute "color"
-     */
-    public function testPropertyColor()
-    {
-    }
-
-    /**
      * Test attribute "breed"
      */
     public function testPropertyBreed()
