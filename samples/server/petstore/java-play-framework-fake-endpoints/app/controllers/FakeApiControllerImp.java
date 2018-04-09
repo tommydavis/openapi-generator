@@ -2,9 +2,9 @@ package controllers;
 
 import java.math.BigDecimal;
 import apimodels.Client;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import apimodels.ERRORUNKNOWN;
 import apimodels.OuterComposite;
+import apimodels.User;
 
 import play.mvc.Http;
 import java.util.List;
@@ -15,52 +15,57 @@ import javax.validation.constraints.*;
 
 public class FakeApiControllerImp implements FakeApiControllerImpInterface {
     @Override
-    public Boolean fakeOuterBooleanSerialize(Boolean body) throws Exception {
+    public Boolean fakeOuterBooleanSerialize( UNKNOWN_PARAM_NAME) throws Exception {
         //Do your magic!!!
         return new Boolean(true);
     }
 
     @Override
-    public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws Exception {
+    public OuterComposite fakeOuterCompositeSerialize(OuterComposite outerComposite) throws Exception {
         //Do your magic!!!
         return new OuterComposite();
     }
 
     @Override
-    public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws Exception {
+    public BigDecimal fakeOuterNumberSerialize( UNKNOWN_PARAM_NAME) throws Exception {
         //Do your magic!!!
         return new BigDecimal(1.0);
     }
 
     @Override
-    public String fakeOuterStringSerialize(String body) throws Exception {
+    public String fakeOuterStringSerialize( UNKNOWN_PARAM_NAME) throws Exception {
         //Do your magic!!!
         return new String();
     }
 
     @Override
-    public Client testClientModel(Client body) throws Exception {
+    public void testBodyWithQueryParams( @NotNull String query, User user) throws Exception {
+        //Do your magic!!!
+    }
+
+    @Override
+    public Client testClientModel(Client client) throws Exception {
         //Do your magic!!!
         return new Client();
     }
 
     @Override
-    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, byte[] binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws Exception {
+    public void testEndpointParameters(ERRORUNKNOWN ERRORUNKNOWN) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testEnumParameters(List<String> enumFormStringArray, String enumFormString, List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble) throws Exception {
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, ERRORUNKNOWN ERRORUNKNOWN) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testInlineAdditionalProperties(Object param) throws Exception {
+    public void testInlineAdditionalProperties( UNKNOWN_PARAM_NAME) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void testJsonFormData(String param, String param2) throws Exception {
+    public void testJsonFormData(ERRORUNKNOWN ERRORUNKNOWN) throws Exception {
         //Do your magic!!!
     }
 

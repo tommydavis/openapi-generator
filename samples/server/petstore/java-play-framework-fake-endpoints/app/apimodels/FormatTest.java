@@ -40,7 +40,7 @@ public class FormatTest   {
   private byte[] _byte = null;
 
   @JsonProperty("binary")
-  private byte[] binary = null;
+  private String binary = null;
 
   @JsonProperty("date")
   private LocalDate date = null;
@@ -215,7 +215,7 @@ public class FormatTest   {
     this._byte = _byte;
   }
 
-  public FormatTest binary(byte[] binary) {
+  public FormatTest binary(String binary) {
     this.binary = binary;
     return this;
   }
@@ -224,11 +224,11 @@ public class FormatTest   {
    * Get binary
    * @return binary
   **/
-    public byte[] getBinary() {
+    public String getBinary() {
     return binary;
   }
 
-  public void setBinary(byte[] binary) {
+  public void setBinary(String binary) {
     this.binary = binary;
   }
 

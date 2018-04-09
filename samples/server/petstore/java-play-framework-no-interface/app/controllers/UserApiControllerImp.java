@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.List;
 import apimodels.User;
 
 import play.mvc.Http;
@@ -12,17 +11,17 @@ import javax.validation.constraints.*;
 
 public class UserApiControllerImp  {
     
-    public void createUser(User body) throws Exception {
+    public void createUser(User user) throws Exception {
         //Do your magic!!!
     }
 
     
-    public void createUsersWithArrayInput(List<User> body) throws Exception {
+    public void createUsersWithArrayInput(List<User> user) throws Exception {
         //Do your magic!!!
     }
 
     
-    public void createUsersWithListInput(List<User> body) throws Exception {
+    public void createUsersWithListInput(List<User> user) throws Exception {
         //Do your magic!!!
     }
 
@@ -49,7 +48,7 @@ public class UserApiControllerImp  {
     }
 
     
-    public void updateUser(String username, User body) throws Exception {
+    public void updateUser(String username, User user) throws Exception {
         //Do your magic!!!
     }
 
