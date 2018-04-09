@@ -4186,7 +4186,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenProperty = codegenProperty.items;
             }
         } else {
-            // HTTP reuqest body is primitive type (e.g. integer, string, etc)
+            // HTTP request body is primitive type (e.g. integer, string, etc)
             CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
             if (codegenProperty != null) {
                 if (schema.getExtensions() != null && schema.getExtensions().containsKey("x-codegen-body-parameter-name")) {
