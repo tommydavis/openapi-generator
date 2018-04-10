@@ -30,7 +30,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  UNKNOWN_PARAM_NAME: Petstore::null.new #  | Input boolean as post body
+  boolean_post_body: true # BOOLEAN | Input boolean as post body
 }
 
 begin
@@ -45,7 +45,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](.md)| Input boolean as post body | [optional] 
+ **boolean_post_body** | **BOOLEAN**| Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -122,7 +122,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  UNKNOWN_PARAM_NAME: Petstore::null.new #  | Input number as post body
+  body: 3.4 # Float | Input number as post body
 }
 
 begin
@@ -137,7 +137,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](.md)| Input number as post body | [optional] 
+ **body** | **Float**| Input number as post body | [optional] 
 
 ### Return type
 
@@ -168,7 +168,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  UNKNOWN_PARAM_NAME: Petstore::null.new #  | Input string as post body
+  body: 'body_example' # String | Input string as post body
 }
 
 begin
@@ -183,7 +183,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](.md)| Input string as post body | [optional] 
+ **body** | **String**| Input string as post body | [optional] 
 
 ### Return type
 
@@ -289,7 +289,7 @@ No authorization required
 
 
 # **test_endpoint_parameters**
-> test_endpoint_parameters(UNKNOWN_PARAM_NAME)
+> test_endpoint_parameters(error_unknown)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -307,11 +307,11 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-UNKNOWN_PARAM_NAME = Petstore::null.new #  | 
+error_unknown = Petstore::null.new #  | 
 
 begin
   #Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  api_instance.test_endpoint_parameters(UNKNOWN_PARAM_NAME)
+  api_instance.test_endpoint_parameters(error_unknown)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_endpoint_parameters: #{e}"
 end
@@ -321,7 +321,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](.md)|  | 
+ **error_unknown** | [****](.md)|  | 
 
 ### Return type
 
@@ -358,7 +358,7 @@ opts = {
   enum_query_string: 'enum_query_string_example', # String | Query parameter enum test (string)
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
   enum_query_double: 1.2, # Float | Query parameter enum test (double)
-  UNKNOWN_PARAM_NAME: Petstore::null.new #  | 
+  error_unknown: Petstore::null.new #  | 
 }
 
 begin
@@ -379,7 +379,7 @@ Name | Type | Description  | Notes
  **enum_query_string** | **String**| Query parameter enum test (string) | [optional] 
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **UNKNOWN_PARAM_NAME** | [****](.md)|  | [optional] 
+ **error_unknown** | [****](.md)|  | [optional] 
 
 ### Return type
 
@@ -397,7 +397,7 @@ No authorization required
 
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties(UNKNOWN_PARAM_NAME)
+> test_inline_additional_properties(body)
 
 test inline additionalProperties
 
@@ -407,11 +407,11 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-UNKNOWN_PARAM_NAME = Petstore::null.new #  | request body
+body = nil # Hash<String, String> | request body
 
 begin
   #test inline additionalProperties
-  api_instance.test_inline_additional_properties(UNKNOWN_PARAM_NAME)
+  api_instance.test_inline_additional_properties(body)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_inline_additional_properties: #{e}"
 end
@@ -421,7 +421,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](.md)| request body | 
+ **body** | **Hash&lt;String, String&gt;**| request body | 
 
 ### Return type
 
@@ -439,7 +439,7 @@ No authorization required
 
 
 # **test_json_form_data**
-> test_json_form_data(UNKNOWN_PARAM_NAME)
+> test_json_form_data(error_unknown)
 
 test json serialization of form data
 
@@ -449,11 +449,11 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-UNKNOWN_PARAM_NAME = Petstore::null.new #  | 
+error_unknown = Petstore::null.new #  | 
 
 begin
   #test json serialization of form data
-  api_instance.test_json_form_data(UNKNOWN_PARAM_NAME)
+  api_instance.test_json_form_data(error_unknown)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_json_form_data: #{e}"
 end
@@ -463,7 +463,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](.md)|  | 
+ **error_unknown** | [****](.md)|  | 
 
 ### Return type
 

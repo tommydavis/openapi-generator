@@ -21,7 +21,7 @@ module Petstore
     end
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
-    # @option opts [] :UNKNOWN_PARAM_NAME Input boolean as post body
+    # @option opts [BOOLEAN] :boolean_post_body Input boolean as post body
     # @return [OuterBoolean]
     def fake_outer_boolean_serialize(opts = {})
       data, _status_code, _headers = fake_outer_boolean_serialize_with_http_info(opts)
@@ -30,7 +30,7 @@ module Petstore
 
     # Test serialization of outer boolean types
     # @param [Hash] opts the optional parameters
-    # @option opts [] :UNKNOWN_PARAM_NAME Input boolean as post body
+    # @option opts [BOOLEAN] :boolean_post_body Input boolean as post body
     # @return [Array<(OuterBoolean, Fixnum, Hash)>] OuterBoolean data, response status code and response headers
     def fake_outer_boolean_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -53,7 +53,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'UNKNOWN_PARAM_NAME'])
+      post_body = @api_client.object_to_http_body(opts[:'boolean_post_body'])
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -117,7 +117,7 @@ module Petstore
     end
     # Test serialization of outer number types
     # @param [Hash] opts the optional parameters
-    # @option opts [] :UNKNOWN_PARAM_NAME Input number as post body
+    # @option opts [Float] :body Input number as post body
     # @return [OuterNumber]
     def fake_outer_number_serialize(opts = {})
       data, _status_code, _headers = fake_outer_number_serialize_with_http_info(opts)
@@ -126,7 +126,7 @@ module Petstore
 
     # Test serialization of outer number types
     # @param [Hash] opts the optional parameters
-    # @option opts [] :UNKNOWN_PARAM_NAME Input number as post body
+    # @option opts [Float] :body Input number as post body
     # @return [Array<(OuterNumber, Fixnum, Hash)>] OuterNumber data, response status code and response headers
     def fake_outer_number_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -149,7 +149,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'UNKNOWN_PARAM_NAME'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -165,7 +165,7 @@ module Petstore
     end
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
-    # @option opts [] :UNKNOWN_PARAM_NAME Input string as post body
+    # @option opts [String] :body Input string as post body
     # @return [OuterString]
     def fake_outer_string_serialize(opts = {})
       data, _status_code, _headers = fake_outer_string_serialize_with_http_info(opts)
@@ -174,7 +174,7 @@ module Petstore
 
     # Test serialization of outer string types
     # @param [Hash] opts the optional parameters
-    # @option opts [] :UNKNOWN_PARAM_NAME Input string as post body
+    # @option opts [String] :body Input string as post body
     # @return [Array<(OuterString, Fixnum, Hash)>] OuterString data, response status code and response headers
     def fake_outer_string_serialize_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -197,7 +197,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'UNKNOWN_PARAM_NAME'])
+      post_body = @api_client.object_to_http_body(opts[:'body'])
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -321,26 +321,26 @@ module Petstore
     end
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # @param UNKNOWN_PARAM_NAME 
+    # @param error_unknown 
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_endpoint_parameters(UNKNOWN_PARAM_NAME, opts = {})
-      test_endpoint_parameters_with_http_info(UNKNOWN_PARAM_NAME, opts)
+    def test_endpoint_parameters(error_unknown, opts = {})
+      test_endpoint_parameters_with_http_info(error_unknown, opts)
       nil
     end
 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # @param UNKNOWN_PARAM_NAME 
+    # @param error_unknown 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_endpoint_parameters_with_http_info(UNKNOWN_PARAM_NAME, opts = {})
+    def test_endpoint_parameters_with_http_info(error_unknown, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_endpoint_parameters ...'
       end
-      # verify the required parameter 'UNKNOWN_PARAM_NAME' is set
-      if @api_client.config.client_side_validation && UNKNOWN_PARAM_NAME.nil?
-        fail ArgumentError, "Missing the required parameter 'UNKNOWN_PARAM_NAME' when calling FakeApi.test_endpoint_parameters"
+      # verify the required parameter 'error_unknown' is set
+      if @api_client.config.client_side_validation && error_unknown.nil?
+        fail ArgumentError, "Missing the required parameter 'error_unknown' when calling FakeApi.test_endpoint_parameters"
       end
       # resource path
       local_var_path = '/fake'
@@ -357,7 +357,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(UNKNOWN_PARAM_NAME)
+      post_body = @api_client.object_to_http_body(error_unknown)
       auth_names = ['http_basic_test']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -379,7 +379,7 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string)
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
-    # @option opts [] :UNKNOWN_PARAM_NAME 
+    # @option opts [] :error_unknown 
     # @return [nil]
     def test_enum_parameters(opts = {})
       test_enum_parameters_with_http_info(opts)
@@ -395,7 +395,7 @@ module Petstore
     # @option opts [String] :enum_query_string Query parameter enum test (string)
     # @option opts [Integer] :enum_query_integer Query parameter enum test (double)
     # @option opts [Float] :enum_query_double Query parameter enum test (double)
-    # @option opts [] :UNKNOWN_PARAM_NAME 
+    # @option opts [] :error_unknown 
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
     def test_enum_parameters_with_http_info(opts = {})
       if @api_client.config.debugging
@@ -440,7 +440,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(opts[:'UNKNOWN_PARAM_NAME'])
+      post_body = @api_client.object_to_http_body(opts[:'error_unknown'])
       auth_names = []
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
@@ -454,25 +454,25 @@ module Petstore
       return data, status_code, headers
     end
     # test inline additionalProperties
-    # @param UNKNOWN_PARAM_NAME request body
+    # @param body request body
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_inline_additional_properties(UNKNOWN_PARAM_NAME, opts = {})
-      test_inline_additional_properties_with_http_info(UNKNOWN_PARAM_NAME, opts)
+    def test_inline_additional_properties(body, opts = {})
+      test_inline_additional_properties_with_http_info(body, opts)
       nil
     end
 
     # test inline additionalProperties
-    # @param UNKNOWN_PARAM_NAME request body
+    # @param body request body
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_inline_additional_properties_with_http_info(UNKNOWN_PARAM_NAME, opts = {})
+    def test_inline_additional_properties_with_http_info(body, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_inline_additional_properties ...'
       end
-      # verify the required parameter 'UNKNOWN_PARAM_NAME' is set
-      if @api_client.config.client_side_validation && UNKNOWN_PARAM_NAME.nil?
-        fail ArgumentError, "Missing the required parameter 'UNKNOWN_PARAM_NAME' when calling FakeApi.test_inline_additional_properties"
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling FakeApi.test_inline_additional_properties"
       end
       # resource path
       local_var_path = '/fake/inline-additionalProperties'
@@ -489,7 +489,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(UNKNOWN_PARAM_NAME)
+      post_body = @api_client.object_to_http_body(body)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
@@ -503,25 +503,25 @@ module Petstore
       return data, status_code, headers
     end
     # test json serialization of form data
-    # @param UNKNOWN_PARAM_NAME 
+    # @param error_unknown 
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def test_json_form_data(UNKNOWN_PARAM_NAME, opts = {})
-      test_json_form_data_with_http_info(UNKNOWN_PARAM_NAME, opts)
+    def test_json_form_data(error_unknown, opts = {})
+      test_json_form_data_with_http_info(error_unknown, opts)
       nil
     end
 
     # test json serialization of form data
-    # @param UNKNOWN_PARAM_NAME 
+    # @param error_unknown 
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_json_form_data_with_http_info(UNKNOWN_PARAM_NAME, opts = {})
+    def test_json_form_data_with_http_info(error_unknown, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_json_form_data ...'
       end
-      # verify the required parameter 'UNKNOWN_PARAM_NAME' is set
-      if @api_client.config.client_side_validation && UNKNOWN_PARAM_NAME.nil?
-        fail ArgumentError, "Missing the required parameter 'UNKNOWN_PARAM_NAME' when calling FakeApi.test_json_form_data"
+      # verify the required parameter 'error_unknown' is set
+      if @api_client.config.client_side_validation && error_unknown.nil?
+        fail ArgumentError, "Missing the required parameter 'error_unknown' when calling FakeApi.test_json_form_data"
       end
       # resource path
       local_var_path = '/fake/jsonFormData'
@@ -538,7 +538,7 @@ module Petstore
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(UNKNOWN_PARAM_NAME)
+      post_body = @api_client.object_to_http_body(error_unknown)
       auth_names = []
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,

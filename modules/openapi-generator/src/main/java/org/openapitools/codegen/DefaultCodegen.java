@@ -4186,8 +4186,26 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenProperty = codegenProperty.items;
             }
         } else {
-            // TODO need to handle primitive type in this block
-            LOGGER.warn("Scheme type " + schema.getType() + " not handled in reqeust body");
+            // HTTP request body is primitive type (e.g. integer, string, etc)
+            CodegenProperty codegenProperty = fromProperty("PRIMITIVE_REQUEST_BODY", schema);
+            if (codegenProperty != null) {
+                if (schema.getExtensions() != null && schema.getExtensions().containsKey("x-codegen-body-parameter-name")) {
+                    codegenParameter.baseName = (String) schema.getExtensions().get("x-codegen-body-parameter-name");
+                } else {
+                    codegenParameter.baseName = "body"; // default to body
+                }
+                codegenParameter.isPrimitiveType = true;
+                codegenParameter.baseType = codegenProperty.baseType;
+                codegenParameter.dataType = codegenProperty.datatype;
+                codegenParameter.description = codegenProperty.description;
+                codegenParameter.paramName = toParamName(codegenParameter.baseName);
+
+                if (codegenProperty.complexType != null) {
+                    imports.add(codegenProperty.complexType);
+                }
+
+            }
+            setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
         }
 
         // set the parameter's example value
