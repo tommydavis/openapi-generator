@@ -476,28 +476,24 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
             }
         } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         }
 

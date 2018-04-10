@@ -390,9 +390,8 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isStringSchema(p)) {
-            StringSchema sp = (StringSchema) p;
-            if (sp.getDefault() != null) {
-                return "'" + escapeText(sp.getDefault()) + "'";
+            if (p.getDefault() != null) {
+                return "'" + escapeText((String) p.getDefault()) + "'";
             }
         }
 

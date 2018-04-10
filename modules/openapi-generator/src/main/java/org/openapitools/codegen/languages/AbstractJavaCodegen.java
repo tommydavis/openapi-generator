@@ -705,10 +705,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return "null";
         } else if (ModelUtils.isStringSchema(p)) {
-            StringSchema sp = (StringSchema) p;
-            if (sp.getDefault() != null) {
-                String _default = sp.getDefault();
-                if (sp.getEnum() == null) {
+            if (p.getDefault() != null) {
+                String _default = (String) p.getDefault();
+                if (p.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels

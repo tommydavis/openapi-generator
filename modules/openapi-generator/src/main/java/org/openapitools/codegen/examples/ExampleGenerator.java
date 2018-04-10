@@ -192,12 +192,12 @@ public class ExampleGenerator {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
         } else if (ModelUtils.isStringSchema(property)) {
             logger.debug("String property");
-            String defaultValue = ((StringSchema) property).getDefault();
+            String defaultValue = (String) property.getDefault();
             if (defaultValue != null && !defaultValue.isEmpty()) {
                 logger.debug("Default value found: '{}'", defaultValue);
                 return defaultValue;
             }
-            List<String> enumValues = ((StringSchema) property).getEnum();
+            List<String> enumValues = property.getEnum();
             if (enumValues != null && !enumValues.isEmpty()) {
                 logger.debug("Enum value found: '{}'", enumValues.get(0));
                 return enumValues.get(0);

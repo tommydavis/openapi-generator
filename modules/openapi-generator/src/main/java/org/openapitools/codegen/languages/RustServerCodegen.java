@@ -874,14 +874,12 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                return "\"" + dp.getDefault() + "\".to_string()";
+            if (p.getDefault() != null) {
+                return "\"" + (String) p.getDefault() + "\".to_string()";
             }
         } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "false";
                 else
                     return "true";
@@ -891,9 +889,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                 return p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         }
 

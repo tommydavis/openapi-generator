@@ -178,10 +178,9 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format("new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
-            StringSchema sp = (StringSchema) p;
-            String def = sp.getDefault();
+            String def = (String) p.getDefault();
             if (def != null) {
-                out = sp.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                out = p.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
             }
         } else {
             out = super.toDefaultValue(p);
@@ -440,16 +439,15 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
                     ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
                     : "'" + escapeText(example) + "'";
         } else if (ModelUtils.isStringSchema(p)) { // string
-            StringSchema sp = (StringSchema) p;
-            List<String> enums = sp.getEnum();
+            List<String> enums = p.getEnum();
             if (enums != null && example.isEmpty()) {
                 example = enums.get(0);
-                sp.setExample(example);
+                p.setExample(example);
             } else if (example.isEmpty()) {
                 example = "aeiou";
             } else {
                 example = escapeText(example);
-                sp.setExample(example);
+                p.setExample(example);
             }
             example = "'" + example + "'";
         }

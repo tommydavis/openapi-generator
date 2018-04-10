@@ -553,17 +553,15 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher(dp.getDefault()).find())
-                    return "'''" + dp.getDefault() + "'''";
+            if (p.getDefault() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                    return "'''" + p.getDefault() + "'''";
                 else
-                    return "'" + dp.getDefault() + "'";
+                    return "'" + p.getDefault() + "'";
             }
         } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
                 else
                     return "True";
@@ -573,14 +571,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         }
 

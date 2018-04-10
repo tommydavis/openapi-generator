@@ -653,28 +653,24 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toExampleValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getExample() != null) {
-                return "\"" + dp.getExample().toString() + "\"";
+            if (p.getExample() != null) {
+                return "\"" + p.getExample().toString() + "\"";
             }
         } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
+            if (p.getExample() != null) {
+                return p.getExample().toString();
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
+            if (p.getExample() != null) {
+                return p.getExample().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getExample() != null) {
-                return dp.getExample().toString();
+            if (p.getExample() != null) {
+                return p.getExample().toString();
             }
         }
 
@@ -690,10 +686,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-               String _default = dp.getDefault();
-               if (dp.getEnum() == null) {
+            if (p.getDefault() != null) {
+               String _default = (String) p.getDefault();
+               if (p.getEnum() == null) {
                    return "\"" + _default + "\"";
                } else {
                    // convert to enum var name later in postProcessModels
@@ -701,23 +696,20 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                }
             }
         } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         } else if (ModelUtils.isDateSchema(p)) {
             // TODO
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         }
 

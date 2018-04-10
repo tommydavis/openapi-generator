@@ -478,14 +478,12 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
             }
         } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
                 else
                     return "True";
@@ -495,14 +493,12 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
         } else if (ModelUtils.isNumberSchema(p)) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
         }
 

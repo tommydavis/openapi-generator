@@ -401,9 +401,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema sp = (StringSchema) p;
-            if (sp.getDefault() != null) {
-                return toOptionalValue("\"" + sp.getDefault().toString() + "\"");
+            if (p.getDefault() != null) {
+                return toOptionalValue("\"" + p.getDefault().toString() + "\"");
             }
             return toOptionalValue(null);
         } else if (p instanceof BooleanSchema) {
@@ -423,9 +422,8 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return toOptionalValue(null);
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema ip = (IntegerSchema) p;
-            if (ip.getDefault() != null) {
-                return toOptionalValue(ip.getDefault().toString());
+            if (p.getDefault() != null) {
+                return toOptionalValue(p.getDefault().toString());
             }
             return toOptionalValue(null);
         } else {

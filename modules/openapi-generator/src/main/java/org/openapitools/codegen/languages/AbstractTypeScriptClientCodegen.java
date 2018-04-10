@@ -240,21 +240,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
         } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
-            StringSchema sp = (StringSchema) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
+            if (p.getEnum() != null) {
+                return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
         } else if (ModelUtils.isIntegerSchema(p)) {
             // Handle integer enums
-            IntegerSchema sp = (IntegerSchema) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
+            if (p.getEnum() != null) {
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         } else if (ModelUtils.isNumberSchema(p)) {
             // Handle double enums
-            NumberSchema sp = (NumberSchema) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
+            if (p.getEnum() != null) {
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
         /* TODO revise the logic below
@@ -313,9 +310,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isStringSchema(p)) {
-            StringSchema sp = (StringSchema) p;
-            if (sp.getDefault() != null) {
-                return "'" + sp.getDefault() + "'";
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
             }
             return UNDEFINED_VALUE;
         } else if (p instanceof BooleanSchema) {
@@ -331,9 +327,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isIntegerSchema(p)) {
-            IntegerSchema ip = (IntegerSchema) p;
-            if (ip.getDefault() != null) {
-                return ip.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
         } else {
