@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.PathItem;
@@ -104,7 +105,7 @@ public class TypeScriptJqueryClientCodegen extends AbstractTypeScriptClientCodeg
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             if (p.getEnum() != null) {
                 return openAPIType;
             }

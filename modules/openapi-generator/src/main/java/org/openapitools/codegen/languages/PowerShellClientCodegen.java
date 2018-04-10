@@ -5,6 +5,7 @@ import org.openapitools.codegen.*;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -360,11 +361,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             // TODO not sure if the following map/hash declaration is correct
             return "{String, " + getTypeDeclaration(inner) + "}";

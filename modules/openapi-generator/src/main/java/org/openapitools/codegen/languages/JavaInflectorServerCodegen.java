@@ -1,12 +1,7 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import org.openapitools.codegen.utils.URLPathUtil;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.core.util.Yaml;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;

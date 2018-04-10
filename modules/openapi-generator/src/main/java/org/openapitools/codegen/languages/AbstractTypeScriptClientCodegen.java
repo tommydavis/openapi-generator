@@ -10,6 +10,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
@@ -211,60 +212,56 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
-        } else if (p instanceof FileSchema) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return "any";
-        } else if (p instanceof StringSchema && SchemaTypeUtil.BINARY_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
         }
         return super.getTypeDeclaration(p);
     }
 
-
     @Override
     protected String getParameterDataType(Parameter parameter, Schema p) {
         // handle enums of various data types
         Schema inner;
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema mp1 = (ArraySchema) p;
             inner = mp1.getItems();
             return this.getSchemaType(p) + "<" + this.getParameterDataType(parameter, inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getParameterDataType(parameter, inner) + "; }";
-        } else if (p instanceof StringSchema) {
+        } else if (ModelUtils.isStringSchema(p)) {
             // Handle string enums
-            StringSchema sp = (StringSchema) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
+            if (p.getEnum() != null) {
+                return enumValuesToEnumTypeUnion(p.getEnum(), "string");
             }
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             // Handle integer enums
-            IntegerSchema sp = (IntegerSchema) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
+            if (p.getEnum() != null) {
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             // Handle double enums
-            NumberSchema sp = (NumberSchema) p;
-            if (sp.getEnum() != null) {
-                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(sp.getEnum()));
+            if (p.getEnum() != null) {
+                return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
         /* TODO revise the logic below
-        else if (p instanceof DateSchema) {
+        else if (ModelUtils.isDateSchema(p)) {
             // Handle date enums
             DateSchema sp = (DateSchema) p;
             if (sp.getEnum() != null) {
                 return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
             }
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // Handle datetime enums
             DateTimeSchema sp = (DateTimeSchema) p;
             if (sp.getEnum() != null) {
@@ -312,33 +309,32 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            StringSchema sp = (StringSchema) p;
-            if (sp.getDefault() != null) {
-                return "'" + sp.getDefault() + "'";
-            }
+        if (ModelUtils.isBooleanSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return UNDEFINED_VALUE;
-        } else if (p instanceof DateTimeSchema) {
-            return UNDEFINED_VALUE;
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
             return UNDEFINED_VALUE;
-        } else if (p instanceof IntegerSchema) {
-            IntegerSchema ip = (IntegerSchema) p;
-            if (ip.getDefault() != null) {
-                return ip.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+            return UNDEFINED_VALUE;
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
             }
             return UNDEFINED_VALUE;
         } else {
             return UNDEFINED_VALUE;
         }
+
     }
 
     @Override

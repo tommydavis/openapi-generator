@@ -5,6 +5,8 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -123,9 +125,9 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             return instantiationTypes.get("map");
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return instantiationTypes.get("array");
         } else {
             return null;
@@ -194,27 +196,27 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
     //Might not be needed
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            return "std::string()";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
                 return "float(0)";
             }
             return "double(0)";
 
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                 return "long(0)";
             }
             return "int(0)";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             return "new std::map()";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return "new std::list()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "std::string()";
         }
         return "null";
     }

@@ -17,6 +17,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 
 import io.swagger.v3.oas.models.media.*;
@@ -174,7 +175,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof FileSchema) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else {
             return super.getTypeDeclaration(p);

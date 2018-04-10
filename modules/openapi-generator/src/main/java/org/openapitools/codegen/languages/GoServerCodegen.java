@@ -55,17 +55,17 @@ public class GoServerCodegen extends AbstractGoCodegen {
          * Reserved words.  Override this with reserved words specific to your language
          */
         setReservedWordsLowerCase(
-            Arrays.asList(
-                // data type
-                "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                "complex64", "complex128", "rune", "byte", "uintptr",
+                Arrays.asList(
+                        // data type
+                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                        "complex64", "complex128", "rune", "byte", "uintptr",
 
-                "break", "default", "func", "interface", "select",
-                "case", "defer", "go", "map", "struct",
-                "chan", "else", "goto", "package", "switch",
-                "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var", "error", "nil")
+                        "break", "default", "func", "interface", "select",
+                        "case", "defer", "go", "map", "struct",
+                        "chan", "else", "goto", "package", "switch",
+                        "const", "fallthrough", "if", "range", "type",
+                        "continue", "for", "import", "return", "var", "error", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
     }
@@ -76,8 +76,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
 

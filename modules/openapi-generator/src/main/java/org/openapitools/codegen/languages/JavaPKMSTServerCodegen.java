@@ -17,15 +17,11 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.URLPathUtil;
+import org.openapitools.codegen.utils.URLPathUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.oas.models.tags.Tag;
-import io.swagger.v3.core.util.Json;
 
 /**
  * Created by prokarma on 04/09/17.
@@ -545,7 +541,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
             additionalProperties.put(TITLE, this.title);
         }
 
-        URL url = URLPathUtil.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
         String host = url.getHost();
         Integer port = url.getPort();
 

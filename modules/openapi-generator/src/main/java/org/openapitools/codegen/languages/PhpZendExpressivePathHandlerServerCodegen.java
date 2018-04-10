@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.parameters.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 
 import java.io.File;
@@ -186,7 +187,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
         if (parameter instanceof QueryParameter) {
             QueryParameter queryParameter = (QueryParameter) parameter;
             // array
-            if (queryParameter.getSchema() instanceof ArraySchema) {
+            if (ModelUtils.isArraySchema(queryParameter.getSchema())) {
                 Schema inner = ((ArraySchema) queryParameter.getSchema()).getItems();
                 ArraySchema arraySchema = new ArraySchema();
                 arraySchema.setMinItems(queryParameter.getSchema().getMinItems());

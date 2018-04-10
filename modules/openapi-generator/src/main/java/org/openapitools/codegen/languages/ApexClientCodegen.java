@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
@@ -12,6 +13,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -88,29 +90,29 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         typeMapping.put("UUID", "String");
 
         setReservedWordsLowerCase(
-            Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
-                "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
-                "catch", "char", "class", "collect", "commit", "const", "continue",
-                "convertcurrency", "date", "decimal", "default", "delete", "desc", "do", "else",
-                "end", "enum", "exception", "exit", "export", "extends", "false", "final",
-                "finally", "float", "for", "from", "future", "global", "goto", "group", "having",
-                "hint", "if", "implements", "import", "inner", "insert", "instanceof", "int",
-                "interface", "into", "join", "last_90_days", "last_month", "last_n_days",
-                "last_week", "like", "limit", "list", "long", "loop", "map", "merge", "new",
-                "next_90_days", "next_month", "next_n_days", "next_week", "not", "null", "nulls",
-                "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
-                "pragma", "private", "protected", "public", "retrieve", "return", "returning",
-                "rollback", "savepoint", "search", "select", "set", "short", "sort", "stat",
-                "static", "super", "switch", "synchronized", "system", "testmethod", "then", "this",
-                "this_month", "this_week", "throw", "today", "tolabel", "tomorrow", "transaction",
-                "trigger", "true", "try", "type", "undelete", "update", "upsert", "using",
-                "virtual", "webservice", "when", "where", "while", "yesterday"
-            ));
+                Arrays.asList("abstract", "activate", "and", "any", "array", "as", "asc", "autonomous",
+                        "begin", "bigdecimal", "blob", "break", "bulk", "by", "byte", "case", "cast",
+                        "catch", "char", "class", "collect", "commit", "const", "continue",
+                        "convertcurrency", "date", "decimal", "default", "delete", "desc", "do", "else",
+                        "end", "enum", "exception", "exit", "export", "extends", "false", "final",
+                        "finally", "float", "for", "from", "future", "global", "goto", "group", "having",
+                        "hint", "if", "implements", "import", "inner", "insert", "instanceof", "int",
+                        "interface", "into", "join", "last_90_days", "last_month", "last_n_days",
+                        "last_week", "like", "limit", "list", "long", "loop", "map", "merge", "new",
+                        "next_90_days", "next_month", "next_n_days", "next_week", "not", "null", "nulls",
+                        "number", "object", "of", "on", "or", "outer", "override", "package", "parallel",
+                        "pragma", "private", "protected", "public", "retrieve", "return", "returning",
+                        "rollback", "savepoint", "search", "select", "set", "short", "sort", "stat",
+                        "static", "super", "switch", "synchronized", "system", "testmethod", "then", "this",
+                        "this_month", "this_week", "throw", "today", "tolabel", "tomorrow", "transaction",
+                        "trigger", "true", "try", "type", "undelete", "update", "upsert", "using",
+                        "virtual", "webservice", "when", "where", "while", "yesterday"
+                ));
 
         languageSpecificPrimitives = new HashSet<String>(
-            Arrays.asList("Blob", "Boolean", "Date", "Datetime", "Decimal", "Double", "ID",
-                "Integer", "Long", "Object", "String", "Time"
-            ));
+                Arrays.asList("Blob", "Boolean", "Date", "Datetime", "Decimal", "Double", "ID",
+                        "Integer", "Long", "Object", "String", "Time"
+                ));
     }
 
     @Override
@@ -128,12 +130,12 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         additionalProperties.put(API_VERSION, apiVersion);
 
         if (additionalProperties.containsKey(BUILD_METHOD)) {
-            setBuildMethod((String)additionalProperties.get(BUILD_METHOD));
+            setBuildMethod((String) additionalProperties.get(BUILD_METHOD));
         }
         additionalProperties.put(BUILD_METHOD, buildMethod);
 
         if (additionalProperties.containsKey(NAMED_CREDENTIAL)) {
-            setNamedCredential((String)additionalProperties.get(NAMED_CREDENTIAL));
+            setNamedCredential((String) additionalProperties.get(NAMED_CREDENTIAL));
         }
         additionalProperties.put(NAMED_CREDENTIAL, namedCredential);
 
@@ -160,26 +162,25 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
     @Override
     public String toDefaultValue(Schema p) {
         String out = null;
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             Schema inner = ((ArraySchema) p).getItems();
             out = String.format(
-                "new List<%s>()",
-                inner == null ? "Object" : getTypeDeclaration(inner)
+                    "new List<%s>()",
+                    inner == null ? "Object" : getTypeDeclaration(inner)
             );
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
             out = String.valueOf(((BooleanSchema) p).getDefault());
-        } else if (p instanceof IntegerSchema && SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) { // long
-            out = ((IntegerSchema) p).getDefault()== null ? out : ((IntegerSchema) p).getDefault().toString() + "L";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isLongSchema(p)) { // long
+            out = p.getDefault() == null ? out : p.getDefault().toString() + "L";
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format("new Map<String, %s>()", s);
-        } else if (p instanceof StringSchema) {
-            StringSchema sp = (StringSchema) p;
-            String def = sp.getDefault();
+        } else if (ModelUtils.isStringSchema(p)) {
+            String def = (String) p.getDefault();
             if (def != null) {
-                out = sp.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
+                out = p.getEnum() == null ? String.format("'%s'", escapeText(def)) : def;
             }
         } else {
             out = super.toDefaultValue(p);
@@ -259,7 +260,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         String sanitized = sanitizeName(calloutLabel);
         additionalProperties.put("calloutName", sanitized);
         supportingFiles.add(new SupportingFile("namedCredential.mustache", srcPath + "/namedCredentials",
-            sanitized + ".namedCredential"
+                sanitized + ".namedCredential"
         ));
 
         if (additionalProperties.get(BUILD_METHOD).equals("sfdx")) {
@@ -345,9 +346,9 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
 
     private void postProcessOpts() {
         supportingFiles.add(
-            new SupportingFile("client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
+                new SupportingFile("client.mustache", srcPath + "classes", classPrefix + "Client.cls"));
         supportingFiles.add(new SupportingFile("cls-meta.mustache", srcPath + "classes",
-            classPrefix + "Client.cls-meta.xml"
+                classPrefix + "Client.cls-meta.xml"
         ));
     }
 
@@ -372,84 +373,83 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
         }
         Object obj = p.getExample();
         String example = obj == null ? "" : obj.toString();
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) { // array
             example = "new " + getTypeDeclaration(p) + "{" + toExampleValue(
-                ((ArraySchema) p).getItems()) + "}";
-        } else if (p instanceof BooleanSchema) {
+                    ((ArraySchema) p).getItems()) + "}";
+        } else if (ModelUtils.isBooleanSchema(p)) {
             example = String.valueOf(!"false".equals(example));
-        } else if (p instanceof ByteArraySchema) {
+        } else if (ModelUtils.isByteArraySchema(p)) { // byte array
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
             }
             ((ByteArraySchema) p).setExample(example);
             example = "EncodingUtil.base64Decode('" + example + "')";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) { // date
             if (example.matches("^\\d{4}(-\\d{2}){2}")) {
                 example = example.substring(0, 10).replaceAll("-0?", ", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23";
             } else {
                 LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 date. Defaulting to '2000-01-23'. [%s]", p
-                    .getName(), example));
+                        .getName(), example));
                 example = "2000, 1, 23";
             }
             example = "Date.newInstance(" + example + ")";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) { // datetime
             if (example.matches("^\\d{4}([-T:]\\d{2}){5}.+")) {
                 example = example.substring(0, 19).replaceAll("[-T:]0?", ", ");
             } else if (example.isEmpty()) {
                 example = "2000, 1, 23, 4, 56, 7";
             } else {
                 LOGGER.warn(String.format("The example provided for property '%s' is not a valid RFC3339 datetime. Defaulting to '2000-01-23T04-56-07Z'. [%s]", p
-                    .getName(), example));
+                        .getName(), example));
                 example = "2000, 1, 23, 4, 56, 7";
             }
             example = "Datetime.newInstanceGmt(" + example + ")";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) { // number
             example = example.replaceAll("[^-0-9.]", "");
             example = example.isEmpty() ? "1.3579" : example;
-        } else if (p instanceof FileSchema) {
+        } else if (ModelUtils.isFileSchema(p)) { // file
             if (example.isEmpty()) {
                 example = "VGhlIHF1aWNrIGJyb3duIGZveCBqdW1wZWQgb3ZlciB0aGUgbGF6eSBkb2cu";
                 ((FileSchema) p).setExample(example);
             }
             example = "EncodingUtil.base64Decode(" + example + ")";
-        } else if (p instanceof EmailSchema) {
+        } else if (ModelUtils.isEmailSchema(p)) { // email
             if (example.isEmpty()) {
                 example = "example@example.com";
                 ((EmailSchema) p).setExample(example);
             }
             example = "'" + example + "'";
-        } else if (p instanceof IntegerSchema && SchemaTypeUtil.INTEGER64_FORMAT.equals(p)) {
+        } else if (ModelUtils.isLongSchema(p)) { // long
             example = example.isEmpty() ? "123456789L" : example + "L";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) { // map
             example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(
                     (Schema) p.getAdditionalProperties()) + "}";
-        } else if (p instanceof ObjectSchema) {
+        } else if (ModelUtils.isObjectSchema(p)) { // object
             example = example.isEmpty() ? "null" : example;
-        } else if (p instanceof PasswordSchema) {
+        } else if (ModelUtils.isPasswordSchema(p)) { // password
             example = example.isEmpty() ? "password123" : escapeText(example);
             ((PasswordSchema) p).setExample(example);
             example = "'" + example + "'";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             example = getTypeDeclaration(p) + ".getExample()";
-        } else if (p instanceof StringSchema) {
-            StringSchema sp = (StringSchema) p;
-            List<String> enums = sp.getEnum();
+        } else if (ModelUtils.isUUIDSchema(p)) {
+            example = example.isEmpty()
+                    ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
+                    : "'" + escapeText(example) + "'";
+        } else if (ModelUtils.isStringSchema(p)) { // string
+            List<String> enums = p.getEnum();
             if (enums != null && example.isEmpty()) {
                 example = enums.get(0);
-                sp.setExample(example);
+                p.setExample(example);
             } else if (example.isEmpty()) {
                 example = "aeiou";
             } else {
                 example = escapeText(example);
-                sp.setExample(example);
+                p.setExample(example);
             }
             example = "'" + example + "'";
-        } else if (p instanceof UUIDSchema) {
-            example = example.isEmpty()
-                ? "'046b6c7f-0b8a-43b9-b35d-6489e6daee91'"
-                : "'" + escapeText(example) + "'";
         }
 
         return example;

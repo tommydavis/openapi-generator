@@ -11,6 +11,7 @@ import java.util.Set;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
@@ -260,18 +261,18 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         }
-        if (p instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(p.getType())
-                || p instanceof DateSchema
-                || p instanceof DateTimeSchema || p instanceof FileSchema
+        if (ModelUtils.isStringSchema(p)
+                || ModelUtils.isDateSchema(p)
+                || ModelUtils.isDateTimeSchema(p) || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -281,29 +282,27 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            return "\"\"";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "\"\"";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "\"\"";
-        } else if (p instanceof NumberSchema) {
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (ModelUtils.isFloatSchema(p)) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (p instanceof IntegerSchema) {
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (ModelUtils.isLongSchema(p)) {
                 return "0L";
             }
             return "0";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {
@@ -312,7 +311,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "\"\"";
         }
+
         return "nullptr";
     }
 

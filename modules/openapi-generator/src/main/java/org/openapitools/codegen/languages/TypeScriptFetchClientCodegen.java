@@ -3,6 +3,7 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.PathItem;
@@ -97,15 +98,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     @Override
     public String getTypeDeclaration(Schema p) {
         Schema inner;
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
-        } else if (p instanceof FileSchema) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return "any";
-        } else if (p instanceof BinarySchema) {
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
         } else {
             return super.getTypeDeclaration(p);

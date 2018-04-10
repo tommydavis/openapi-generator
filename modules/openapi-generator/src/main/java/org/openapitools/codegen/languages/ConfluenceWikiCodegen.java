@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -70,11 +71,11 @@ public class ConfluenceWikiCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }

@@ -8,6 +8,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -62,7 +63,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                         "is", "library", "new", "null", "operator", "part", "rethrow",
                         "return", "set", "static", "super", "switch", "sync*", "this",
                         "throw", "true", "try", "typedef", "var", "void", "while",
-                        "with", "yield", "yield*" )
+                        "with", "yield", "yield*")
         );
 
         languageSpecificPrimitives = new HashSet<String>(
@@ -170,7 +171,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, Boolean.TRUE.toString());
         } else {
             additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP,
-            Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
+                    Boolean.valueOf(additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP).toString()));
         }
 
         // make api and model doc path available in mustache template
@@ -276,9 +277,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             return "{}";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return "[]";
         }
         return super.toDefaultValue(p);
@@ -286,11 +287,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return getSchemaType(p) + "<String, " + getTypeDeclaration(inner) + ">";
@@ -416,12 +417,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toEnumValue(String value, String datatype) {
-      if ("number".equalsIgnoreCase(datatype) ||
-            "int".equalsIgnoreCase(datatype)) {
-          return value;
-      } else {
-          return "\"" + escapeText(value) + "\"";
-      }
+        if ("number".equalsIgnoreCase(datatype) ||
+                "int".equalsIgnoreCase(datatype)) {
+            return value;
+        } else {
+            return "\"" + escapeText(value) + "\"";
+        }
     }
 
     @Override

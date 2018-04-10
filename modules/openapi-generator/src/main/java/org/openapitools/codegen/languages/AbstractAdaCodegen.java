@@ -6,12 +6,14 @@ import com.samskivert.mustache.Mustache;
 
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.core.util.Json;
+
 
 import java.util.*;
 
@@ -290,12 +292,12 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             schemaType = schemaType.replace("-", "_");
         }
 
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "_Vectors.Vector";
         }
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             String name = getTypeDeclaration(inner) + "_Map";
             if (name.startsWith("Swagger.")) {
@@ -317,8 +319,7 @@ abstract public class AbstractAdaCodegen extends DefaultCodegen implements Codeg
             return schemaType;
         }
         String modelType = toModelName(schemaType).replace("-", "_");
-        if (p instanceof StringSchema || p instanceof DateSchema
-                || p instanceof DateTimeSchema || p instanceof FileSchema
+        if (ModelUtils.isStringSchema(p) || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(modelType)) {
             return modelType;
         }

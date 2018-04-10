@@ -1,14 +1,9 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.oas.models.info.Info;
 
@@ -256,7 +251,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
         info.setVersion(StringUtils.join(versionComponents, "."));
 
-        URL url = URLPathUtil.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
         additionalProperties.put("serverHost", url.getHost());
         additionalProperties.put("serverPort", url.getPort());
     }
@@ -687,7 +682,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             String innerType = getTypeDeclaration(inner);
@@ -697,7 +692,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
             typeDeclaration.append(innerType).append(">");
             return typeDeclaration.toString();
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             String innerType = getTypeDeclaration(inner);
             StringBuilder typeDeclaration = new StringBuilder(typeMapping.get("map")).append("<").append(typeMapping.get("string")).append(", ");
@@ -770,11 +765,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return instantiationTypes.get("array") + "<" + getSchemaType(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return instantiationTypes.get("map") + "<" + typeMapping.get("string") + ", " + getSchemaType(inner) + ">";
         } else {
@@ -795,7 +790,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             Schema schema = allDefinitions.get(getSimpleRef(model.get$ref()));
             mdl.dataType = typeMapping.get(schema.getType());
         }
-        if (model instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(model)) {
             ArraySchema am = (ArraySchema) model;
             if ((am.getItems() != null) &&
                     (am.getItems().getXml() != null)) {
@@ -878,27 +873,24 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                return "\"" + dp.getDefault() + "\".to_string()";
-            }
-        } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "false";
                 else
                     return "true";
             }
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (p instanceof IntegerSchema) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "\"" + (String) p.getDefault() + "\".to_string()";
             }
         }
 

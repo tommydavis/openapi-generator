@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Strings;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -606,7 +607,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (inner == null) {
@@ -614,7 +615,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 inner = new StringSchema().description("TODO default missing array inner type to string");
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
@@ -635,7 +636,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             final ArraySchema ap = (ArraySchema) p;
             final String pattern;
             if (fullJavaUtil) {
@@ -657,7 +658,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(pattern, typeDeclaration);
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern;
             if (fullJavaUtil) {
@@ -679,7 +680,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
 
             return String.format(pattern, typeDeclaration);
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                     return p.getDefault().toString() + "l";
@@ -688,7 +689,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return "null";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
                     return p.getDefault().toString() + "f";
@@ -697,17 +698,16 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return "null";
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             BooleanSchema bp = (BooleanSchema) p;
             if (bp.getDefault() != null) {
                 return bp.getDefault().toString();
             }
             return "null";
-        } else if (p instanceof StringSchema) {
-            StringSchema sp = (StringSchema) p;
-            if (sp.getDefault() != null) {
-                String _default = sp.getDefault();
-                if (sp.getEnum() == null) {
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                String _default = (String) p.getDefault();
+                if (p.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
                     // convert to enum var name later in postProcessModels

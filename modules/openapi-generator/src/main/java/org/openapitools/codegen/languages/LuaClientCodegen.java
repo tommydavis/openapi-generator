@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -319,11 +320,11 @@ public class LuaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
         }

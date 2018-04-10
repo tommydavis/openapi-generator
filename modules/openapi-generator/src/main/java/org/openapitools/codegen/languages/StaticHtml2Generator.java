@@ -13,6 +13,7 @@ import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.utils.Markdown;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -105,11 +106,11 @@ public class StaticHtml2Generator extends DefaultCodegen implements CodegenConfi
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }

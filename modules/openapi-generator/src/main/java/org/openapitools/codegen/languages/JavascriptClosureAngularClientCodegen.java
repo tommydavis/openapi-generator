@@ -10,6 +10,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
@@ -213,14 +214,14 @@ public class JavascriptClosureAngularClientCodegen extends DefaultCodegen implem
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<!" + getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "Object<!string, "+ getTypeDeclaration(inner) + ">";
-        } else if (p instanceof FileSchema) {
+        } else if (ModelUtils.isFileSchema(p)) {
             return "Object";
         }
         String type = super.getTypeDeclaration(p);

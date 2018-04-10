@@ -9,6 +9,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -357,11 +358,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
@@ -551,35 +552,31 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher(dp.getDefault()).find())
-                    return "'''" + dp.getDefault() + "'''";
-                else
-                    return "'" + dp.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                if (dp.getDefault().toString().equalsIgnoreCase("false"))
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
                 else
                     return "True";
             }
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof NumberSchema) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof IntegerSchema) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                    return "'''" + p.getDefault() + "'''";
+                else
+                    return "'" + p.getDefault() + "'";
             }
         }
 

@@ -2,7 +2,9 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.mustache.*;
+
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.media.*;
@@ -15,7 +17,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.apache.commons.lang3.StringUtils;
-
 
 public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String packageName = "org.openapitools";
@@ -190,7 +191,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema || isMapSchema(p)) {
+        if (ModelUtils.isArraySchema(p) || ModelUtils.isMapSchema(p)) {
             return getSchemaType(p);
         }
         return super.getTypeDeclaration(p);
@@ -213,28 +214,28 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            return "null";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "null";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return "0.0";
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
             return "0";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             return "new Dictionary()";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             return "new Array()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "NaN";
         }

@@ -1,34 +1,20 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
-import org.openapitools.codegen.mustache.*;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.oas.models.info.*;
 import io.swagger.v3.oas.models.PathItem.*;
 import io.swagger.v3.oas.models.Paths;
-import io.swagger.v3.core.util.Yaml;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
@@ -332,8 +318,8 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtil.getServerURL(openAPI);
-        String host = URLPathUtil.LOCAL_HOST;
+        URL url = URLPathUtils.getServerURL(openAPI);
+        String host = URLPathUtils.LOCAL_HOST;
         String port = defaultServerPort;
         String basePath = null;
         if (url != null) {

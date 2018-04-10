@@ -93,18 +93,18 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         );
         reservedWords = new HashSet<>(
                 Arrays.asList(
-                    // name used by swift client
-                    "ErrorResponse", "Response",
+                        // name used by swift client
+                        "ErrorResponse", "Response",
 
-                    // swift keywords
-                    "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
-                    "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
-                    "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
-                    "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
-                    "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
-                    "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
-                    "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
-                    "required", "right", "set", "Type", "unowned", "weak", "Data")
+                        // swift keywords
+                        "Int", "Int32", "Int64", "Int64", "Float", "Double", "Bool", "Void", "String", "Character", "AnyObject", "Any", "Error", "URL",
+                        "class", "Class", "break", "as", "associativity", "deinit", "case", "dynamicType", "convenience", "enum", "continue",
+                        "false", "dynamic", "extension", "default", "is", "didSet", "func", "do", "nil", "final", "import", "else",
+                        "self", "get", "init", "fallthrough", "Self", "infix", "internal", "for", "super", "inout", "let", "if",
+                        "true", "lazy", "operator", "in", "COLUMN", "left", "private", "return", "FILE", "mutating", "protocol",
+                        "switch", "FUNCTION", "none", "public", "where", "LINE", "nonmutating", "static", "while", "optional",
+                        "struct", "override", "subscript", "postfix", "typealias", "precedence", "var", "prefix", "Protocol",
+                        "required", "right", "set", "Type", "unowned", "weak", "Data")
         );
 
         typeMapping = new HashMap<>();
@@ -176,7 +176,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
         final Schema additionalProperties = (Schema) schema.getAdditionalProperties();
 
-        if(additionalProperties != null) {
+        if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         }
     }
@@ -262,7 +262,7 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;  // add an underscore to the name
@@ -280,11 +280,11 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
@@ -293,14 +293,14 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getSchemaType(Schema p) {
-        String schemaType = super.getSchemaType(p);
+        String openAPIType = super.getSchemaType(p);
         String type;
-        if (typeMapping.containsKey(schemaType)) {
-            type = typeMapping.get(schemaType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || defaultIncludes.contains(type))
                 return type;
         } else
-            type = schemaType;
+            type = openAPIType;
         return toModelName(type);
     }
 
@@ -373,11 +373,11 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return inner;
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "[" + inner + "]";
@@ -461,21 +461,21 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
         CodegenModel codegenModel = super.fromModel(name, schema, allDefinitions);
-        if(codegenModel.description != null) {
+        if (codegenModel.description != null) {
             codegenModel.imports.add("ApiModel");
         }
         if (allDefinitions != null) {
-          String parentSchema = codegenModel.parentSchema;
+            String parentSchema = codegenModel.parentSchema;
 
-          // multilevel inheritance: reconcile properties of all the parents
-          while (parentSchema != null) {
-            final Schema parentModel = allDefinitions.get(parentSchema);
-            final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
-            codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
+            // multilevel inheritance: reconcile properties of all the parents
+            while (parentSchema != null) {
+                final Schema parentModel = allDefinitions.get(parentSchema);
+                final CodegenModel parentCodegenModel = super.fromModel(codegenModel.parent, parentModel, allDefinitions);
+                codegenModel = Swift3Codegen.reconcileProperties(codegenModel, parentCodegenModel);
 
-            // get the next parent
-            parentSchema = parentCodegenModel.parentSchema;
-          }
+                // get the next parent
+                parentSchema = parentCodegenModel.parentSchema;
+            }
         }
 
         return codegenModel;
@@ -645,24 +645,24 @@ public class Swift3Codegen extends DefaultCodegen implements CodegenConfig {
         boolean removedChildProperty = false;
 
         for (CodegenProperty parentModelCodegenProperty : parentModelCodegenProperties) {
-          // Now that we have found a prop in the parent class,
-          // and search the child class for the same prop.
-          Iterator<CodegenProperty> iterator = codegenProperties.iterator();
-          while (iterator.hasNext()) {
-              CodegenProperty codegenProperty = iterator.next();
-              if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
-                  // We found a property in the child class that is
-                  // a duplicate of the one in the parent, so remove it.
-                  iterator.remove();
-                  removedChildProperty = true;
-              }
-          }
+            // Now that we have found a prop in the parent class,
+            // and search the child class for the same prop.
+            Iterator<CodegenProperty> iterator = codegenProperties.iterator();
+            while (iterator.hasNext()) {
+                CodegenProperty codegenProperty = iterator.next();
+                if (codegenProperty.baseName == parentModelCodegenProperty.baseName) {
+                    // We found a property in the child class that is
+                    // a duplicate of the one in the parent, so remove it.
+                    iterator.remove();
+                    removedChildProperty = true;
+                }
+            }
         }
 
-        if(removedChildProperty) {
+        if (removedChildProperty) {
             // If we removed an entry from this model's vars, we need to ensure hasMore is updated
             int count = 0, numVars = codegenProperties.size();
-            for(CodegenProperty codegenProperty : codegenProperties) {
+            for (CodegenProperty codegenProperty : codegenProperties) {
                 count += 1;
                 codegenProperty.hasMore = (count < numVars) ? true : false;
             }

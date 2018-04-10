@@ -9,6 +9,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
     protected String docsBasePath = "docs";
     protected String apiDirName = "Api";
     protected String modelDirName = "Model";
-    protected String variableNamingConvention= "snake_case";
+    protected String variableNamingConvention = "snake_case";
     protected String apiDocPath = docsBasePath + "/" + apiDirName;
     protected String modelDocPath = docsBasePath + "/" + modelDirName;
 
@@ -74,12 +75,12 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         setReservedWordsLowerCase(
                 Arrays.asList(
-                    // local variables used in api methods (endpoints)
-                    "resourcePath", "httpBody", "queryParams", "headerParams",
-                    "formParams", "_header_accept", "_tempBody",
+                        // local variables used in api methods (endpoints)
+                        "resourcePath", "httpBody", "queryParams", "headerParams",
+                        "formParams", "_header_accept", "_tempBody",
 
-                    // PHP reserved words
-                    "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
+                        // PHP reserved words
+                        "__halt_compiler", "abstract", "and", "array", "as", "break", "callable", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor")
         );
 
         // ref: http://php.net/manual/en/language.types.intro.php
@@ -105,7 +106,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
 
         // provide primitives to mustache template
-        List sortedLanguageSpecificPrimitives= new ArrayList(languageSpecificPrimitives);
+        List sortedLanguageSpecificPrimitives = new ArrayList(languageSpecificPrimitives);
         Collections.sort(sortedLanguageSpecificPrimitives);
         String primitives = "'" + StringUtils.join(sortedLanguageSpecificPrimitives, "', '") + "'";
         additionalProperties.put("primitives", primitives);
@@ -182,7 +183,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
                 // Trim prefix file separators from package path
                 .replaceAll(regFirstPathSeparator, ""))
                 // Trim trailing file separators from the overall path
-                .replaceAll(regLastPathSeparator+ "$", "");
+                .replaceAll(regLastPathSeparator + "$", "");
     }
 
     @Override
@@ -319,7 +320,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -367,11 +368,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) {
@@ -444,13 +445,13 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
         name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
 
         if ("camelCase".equals(variableNamingConvention)) {
-          // return the name in camelCase style
-          // phone_number => phoneNumber
-          name =  camelize(name, true);
+            // return the name in camelCase style
+            // phone_number => phoneNumber
+            name = camelize(name, true);
         } else { // default to snake case
-          // return the name in underscore style
-          // PhoneNumber => phone_number
-          name =  underscore(name);
+            // return the name in underscore style
+            // PhoneNumber => phone_number
+            name = underscore(name);
         }
 
         // parameter name starting with number won't compile
@@ -543,29 +544,25 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
-            StringSchema dp = (StringSchema) p;
-            if (dp.getDefault() != null) {
-                return "'" + dp.getDefault() + "'";
+        if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof BooleanSchema) {
-            BooleanSchema dp = (BooleanSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
-            }
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof NumberSchema) {
-            NumberSchema dp = (NumberSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
-        } else if (p instanceof IntegerSchema) {
-            IntegerSchema dp = (IntegerSchema) p;
-            if (dp.getDefault() != null) {
-                return dp.getDefault().toString();
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
             }
         }
 
