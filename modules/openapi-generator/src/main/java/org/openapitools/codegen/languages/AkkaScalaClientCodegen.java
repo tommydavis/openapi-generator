@@ -246,9 +246,8 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
             return "None";
         }
-        if (ModelUtils.isStringSchema(p)) {
-            return "null";
-        } else if (p instanceof BooleanSchema) {
+
+        if (ModelUtils.isBooleanSchema(p)) {
             return "null";
         } else if (ModelUtils.isDateSchema(p)) {
             return "null";
@@ -266,6 +265,8 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "Seq[" + inner + "].empty ";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "null";
         }

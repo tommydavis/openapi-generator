@@ -238,11 +238,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + p.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -257,6 +253,10 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + p.getDefault() + "'";
             }
         }
 

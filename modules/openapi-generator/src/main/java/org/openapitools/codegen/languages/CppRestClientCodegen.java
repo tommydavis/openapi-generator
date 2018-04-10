@@ -283,7 +283,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isStringSchema(p)
-                || ModelUtils.isDateSchema(p)|| ModelUtils.isDateTimeSchema(p)
+                || ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)
                 || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
@@ -294,9 +294,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            return "utility::conversions::to_string_t(\"\")";
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
         } else if (ModelUtils.isDateSchema(p)) {
             return "utility::datetime()";
@@ -325,6 +323,8 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "utility::conversions::to_string_t(\"\")";
         }
         return "nullptr";
     }

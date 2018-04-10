@@ -168,7 +168,7 @@ public class ApexClientCodegen extends AbstractJavaCodegen {
                     "new List<%s>()",
                     inner == null ? "Object" : getTypeDeclaration(inner)
             );
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             // true => "true", false => "false", null => "null"
             out = String.valueOf(((BooleanSchema) p).getDefault());
         } else if (ModelUtils.isLongSchema(p)) { // long

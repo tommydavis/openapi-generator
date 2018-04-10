@@ -282,9 +282,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            return "\"\"";
-        } else if (ModelUtils.isBooleanSchema(p)) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
         } else if (ModelUtils.isDateSchema(p)) {
             return "\"\"";
@@ -313,7 +311,10 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return "std::vector<" + inner + ">()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "\"\"";
         }
+
         return "nullptr";
     }
 

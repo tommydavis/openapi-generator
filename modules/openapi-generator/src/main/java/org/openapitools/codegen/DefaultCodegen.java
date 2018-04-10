@@ -1128,10 +1128,10 @@ public class DefaultCodegen implements CodegenConfig {
             datatype = "BigDecimal";
         } else if (ModelUtils.isByteArraySchema(schema)) {
             datatype = "ByteArray";
-        } else if (ModelUtils.isBinarySchema(schema)) {
-            datatype = SchemaTypeUtil.BINARY_FORMAT;
         } else if (ModelUtils.isFileSchema(schema)) {
             datatype = "file";
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            datatype = SchemaTypeUtil.BINARY_FORMAT;
         } else if (ModelUtils.isBooleanSchema(schema)) {
             datatype = SchemaTypeUtil.BOOLEAN_TYPE;
         } else if (ModelUtils.isDateSchema(schema)) {

@@ -552,14 +552,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
-                    return "'''" + p.getDefault() + "'''";
-                else
-                    return "'" + p.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
@@ -577,6 +570,13 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
+                    return "'''" + p.getDefault() + "'''";
+                else
+                    return "'" + p.getDefault() + "'";
             }
         }
 

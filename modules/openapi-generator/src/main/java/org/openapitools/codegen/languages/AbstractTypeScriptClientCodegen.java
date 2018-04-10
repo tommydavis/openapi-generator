@@ -309,12 +309,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
-            }
-            return UNDEFINED_VALUE;
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateSchema(p)) {
             return UNDEFINED_VALUE;
@@ -331,9 +326,15 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 return p.getDefault().toString();
             }
             return UNDEFINED_VALUE;
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
+            }
+            return UNDEFINED_VALUE;
         } else {
             return UNDEFINED_VALUE;
         }
+
     }
 
     @Override

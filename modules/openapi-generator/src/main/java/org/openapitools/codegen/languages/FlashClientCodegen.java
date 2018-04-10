@@ -214,9 +214,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            return "null";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
         } else if (ModelUtils.isDateSchema(p)) {
             return "null";
@@ -236,6 +234,8 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
             return "new Dictionary()";
         } else if (ModelUtils.isArraySchema(p)) {
             return "new Array()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "NaN";
         }

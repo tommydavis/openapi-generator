@@ -698,7 +698,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
             }
             return "null";
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             BooleanSchema bp = (BooleanSchema) p;
             if (bp.getDefault() != null) {
                 return bp.getDefault().toString();

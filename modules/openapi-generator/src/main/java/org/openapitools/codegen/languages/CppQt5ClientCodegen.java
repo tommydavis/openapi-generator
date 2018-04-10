@@ -303,12 +303,9 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
         }
     }
 
-
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            return "new QString(\"\")";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "false";
         } else if (ModelUtils.isDateSchema(p)) {
             return "NULL";
@@ -331,9 +328,9 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "new QList<" + getTypeDeclaration(inner) + ">()";
-        }
-        // else
-        if (!StringUtils.isEmpty(p.get$ref())) {
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "new QString(\"\")";
+        } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
         }
         return "NULL";

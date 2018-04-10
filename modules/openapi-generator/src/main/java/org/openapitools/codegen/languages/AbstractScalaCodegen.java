@@ -127,13 +127,14 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public Mustache.Compiler processCompiler(Mustache.Compiler compiler) {
         Mustache.Escaper SCALA = new Mustache.Escaper() {
-            @Override public String escape (String text) {
+            @Override
+            public String escape(String text) {
                 // Fix included as suggested by akkie in #6393
                 // The given text is a reserved word which is escaped by enclosing it with grave accents. If we would
                 // escape that with the default Mustache `HTML` escaper, then the escaper would also escape our grave
                 // accents. So we remove the grave accents before the escaping and add it back after the escaping.
                 if (text.startsWith("`") && text.endsWith("`")) {
-                    String unescaped =  text.substring(1, text.length() - 1);
+                    String unescaped = text.substring(1, text.length() - 1);
                     return "`" + Escapers.HTML.escape(unescaped) + "`";
                 }
 
@@ -187,7 +188,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType((Schema)p.getAdditionalProperties());
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return instantiationTypes.get("map") + "[String, " + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -200,9 +201,7 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            return "null";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "null";
         } else if (ModelUtils.isDateSchema(p)) {
             return "null";
@@ -220,6 +219,8 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "new ListBuffer[" + inner + "]() ";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "null";
         } else {
             return "null";
         }

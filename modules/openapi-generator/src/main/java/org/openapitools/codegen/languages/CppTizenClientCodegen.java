@@ -196,9 +196,7 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
     //Might not be needed
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            return "std::string()";
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             return "bool(false)";
         } else if (ModelUtils.isNumberSchema(p)) {
             if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
@@ -217,6 +215,8 @@ public class CppTizenClientCodegen extends DefaultCodegen implements CodegenConf
             return "new std::list()";
         } else if (!StringUtils.isEmpty(p.get$ref())) {
             return "new " + toModelName(getSimpleRef(p.get$ref())) + "()";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return "std::string()";
         }
         return "null";
     }

@@ -86,7 +86,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         // fully qualified name
                         "Client", "client", "parameter",
                         // local variable names in API methods (endpoints)
-                        "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams", 
+                        "localVarPath", "localVarPathParams", "localVarQueryParams", "localVarHeaderParams",
                         "localVarFormParams", "localVarFileParams", "localVarStatusCode", "localVarResponse",
                         "localVarPostBody", "localVarHttpHeaderAccepts", "localVarHttpHeaderAccept",
                         "localVarHttpContentTypes", "localVarHttpContentType",
@@ -218,14 +218,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
             LOGGER.warn(String.format("%s is not used by C# generators. Please use %s", CodegenConstants.INVOKER_PACKAGE, CodegenConstants.PACKAGE_NAME));
         }
-        
+
         // {{packageTitle}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_TITLE)) {
             setPackageTitle((String) additionalProperties.get(CodegenConstants.PACKAGE_TITLE));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_TITLE, packageTitle);
         }
-        
+
         // {{packageProductName}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_PRODUCTNAME)) {
             setPackageProductName((String) additionalProperties.get(CodegenConstants.PACKAGE_PRODUCTNAME));
@@ -239,14 +239,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_DESCRIPTION, packageDescription);
         }
-        
+
         // {{packageCompany}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_COMPANY)) {
             setPackageCompany((String) additionalProperties.get(CodegenConstants.PACKAGE_COMPANY));
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_COMPANY, packageCompany);
         }
-        
+
         // {{packageCopyright}}
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_COPYRIGHT)) {
             setPackageCopyright((String) additionalProperties.get(CodegenConstants.PACKAGE_COPYRIGHT));
@@ -260,7 +260,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else {
             additionalProperties.put(CodegenConstants.PACKAGE_AUTHORS, packageAuthors);
         }
-        
+
         // {{useDateTimeOffset}}
         if (additionalProperties.containsKey(CodegenConstants.USE_DATETIME_OFFSET)) {
             useDateTimeOffset(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_DATETIME_OFFSET));
@@ -294,9 +294,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
         if (additionalProperties.containsKey(CodegenConstants.INTERFACE_PREFIX)) {
             String useInterfacePrefix = additionalProperties.get(CodegenConstants.INTERFACE_PREFIX).toString();
-            if("false".equals(useInterfacePrefix.toLowerCase())) {
+            if ("false".equals(useInterfacePrefix.toLowerCase())) {
                 setInterfacePrefix("");
-            } else if(!"true".equals(useInterfacePrefix.toLowerCase())) {
+            } else if (!"true".equals(useInterfacePrefix.toLowerCase())) {
                 // NOTE: if user passes "true" explicitly, we use the default I- prefix. The other supported case here is a custom prefix.
                 setInterfacePrefix(sanitizeName(useInterfacePrefix));
             }
@@ -364,7 +364,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
-        final Map<String, Object> processed =  super.postProcessAllModels(objs);
+        final Map<String, Object> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
         return processed;
     }
@@ -372,13 +372,14 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     /**
      * C# differs from other languages in that Enums are not _true_ objects; enums are compiled to integral types.
      * So, in C#, an enum is considers more like a user-defined primitive.
-     *
+     * <p>
      * When working with enums, we can't always assume a RefModel is a nullable type (where default(YourType) == null),
      * so this post processing runs through all models to find RefModel'd enums. Then, it runs through all vars and modifies
      * those vars referencing RefModel'd enums to work the same as inlined enums rather than as objects.
+     *
      * @param models processed models to be further processed for enum references
      */
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     private void postProcessEnumRefs(final Map<String, Object> models) {
         Map<String, CodegenModel> enumRefs = new HashMap<String, CodegenModel>();
         for (Map.Entry<String, Object> entry : models.entrySet()) {
@@ -434,7 +435,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
                     // Since we iterate enumVars for modelnnerEnum and enumClass templates, and CodegenModel is missing some of CodegenProperty's properties,
                     // we can take advantage of Mustache's contextual lookup to add the same "properties" to the model's enumVars scope rather than CodegenProperty's scope.
-                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>)model.allowableValues.get("enumVars");
+                    List<Map<String, String>> enumVars = (ArrayList<Map<String, String>>) model.allowableValues.get("enumVars");
                     List<Map<String, Object>> newEnumVars = new ArrayList<Map<String, Object>>();
                     for (Map<String, String> enumVar : enumVars) {
                         Map<String, Object> mixedVars = new HashMap<String, Object>();
@@ -531,15 +532,13 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
-                    if (operation.examples != null){
-                        for (Map<String, String> example : operation.examples)
-                        {
-                            for (Map.Entry<String, String> entry : example.entrySet())
-                            {
+                    if (operation.examples != null) {
+                        for (Map<String, String> example : operation.examples) {
+                            for (Map.Entry<String, String> entry : example.entrySet()) {
                                 // Replace " with \", \r, \n with \\r, \\n
                                 String val = entry.getValue().replace("\"", "\\\"")
-                                    .replace("\r","\\r")
-                                    .replace("\n","\\n");
+                                        .replace("\r", "\\r")
+                                        .replace("\n", "\\n");
                                 entry.setValue(val);
                             }
                         }
@@ -634,11 +633,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
 
         return name;
-    }   
+    }
 
     @Override
-    public String escapeReservedWord(String name) {           
-        if(this.reservedWordsMappings().containsKey(name)) {
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -656,7 +655,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (p.getExample() != null) {
                 return "\"" + p.getExample().toString() + "\"";
             }
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             if (p.getExample() != null) {
                 return p.getExample().toString();
             }
@@ -685,17 +684,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-               String _default = (String) p.getDefault();
-               if (p.getEnum() == null) {
-                   return "\"" + _default + "\"";
-               } else {
-                   // convert to enum var name later in postProcessModels
-                   return _default;
-               }
-            }
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
@@ -710,6 +699,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                String _default = (String) p.getDefault();
+                if (p.getEnum() == null) {
+                    return "\"" + _default + "\"";
+                } else {
+                    // convert to enum var name later in postProcessModels
+                    return _default;
+                }
             }
         }
 
@@ -747,6 +746,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     /**
      * Provides C# strongly typed declaration for simple arrays of some type and arrays of arrays of some type.
+     *
      * @param arr The input array property
      * @return The type declaration when the type is an array of arrays.
      */
@@ -843,11 +843,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void setPackageVersion(String packageVersion) {
         this.packageVersion = packageVersion;
     }
-    
+
     public void setPackageTitle(String packageTitle) {
         this.packageTitle = packageTitle;
     }
-    
+
     public void setPackageProductName(String packageProductName) {
         this.packageProductName = packageProductName;
     }
@@ -855,11 +855,11 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void setPackageDescription(String packageDescription) {
         this.packageDescription = packageDescription;
     }
-    
+
     public void setPackageCompany(String packageCompany) {
         this.packageCompany = packageCompany;
     }
-    
+
     public void setPackageCopyright(String packageCopyright) {
         this.packageCopyright = packageCopyright;
     }
@@ -867,7 +867,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
     public void setPackageAuthors(String packageAuthors) {
         this.packageAuthors = packageAuthors;
     }
-    
+
     public void setSourceFolder(String sourceFolder) {
         this.sourceFolder = sourceFolder;
     }
@@ -886,7 +886,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         // Per: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/enum
         // The approved types for an enum are byte, sbyte, short, ushort, int, uint, long, or ulong.
         // but we're not supporting unsigned integral types or shorts.
-        if(datatype.startsWith("int") || datatype.startsWith("long") || datatype.startsWith("byte")) {
+        if (datatype.startsWith("int") || datatype.startsWith("long") || datatype.startsWith("byte")) {
             return value;
         }
 

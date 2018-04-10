@@ -477,11 +477,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
-                return "'" + (String) p.getDefault() + "'";
-            }
-        } else if (p instanceof BooleanSchema) {
+        if (ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 if (p.getDefault().toString().equalsIgnoreCase("false"))
                     return "False";
@@ -499,6 +495,10 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
         } else if (ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (p.getDefault() != null) {
+                return "'" + (String) p.getDefault() + "'";
             }
         }
 
