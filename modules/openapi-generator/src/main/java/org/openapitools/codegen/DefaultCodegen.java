@@ -14,6 +14,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.samskivert.mustache.Mustache.Compiler;
 
+import io.swagger.models.Model;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -52,7 +53,10 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -995,7 +999,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @return string presentation of the instantiation type of the property
      */
     public String toInstantiationType(Schema schema) {
-        if (schema instanceof MapSchema || schema.getAdditionalProperties() != null && schema.getAdditionalProperties() instanceof Schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             Schema additionalProperties = (Schema) schema.getAdditionalProperties();
             String type = additionalProperties.getType();
             if (null == type) {
@@ -1004,7 +1008,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             String inner = getSchemaType(additionalProperties);
             return instantiationTypes.get("map") + "<String, " + inner + ">";
-        } else if (schema instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             ArraySchema arraySchema = (ArraySchema) schema;
             String inner = getSchemaType(arraySchema.getItems());
             return instantiationTypes.get("array") + "<" + inner + ">";
@@ -1033,19 +1037,19 @@ public class DefaultCodegen implements CodegenConfig {
             return schema.getExample().toString();
         }
 
-        if (schema instanceof StringSchema) {
+        if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
-        } else if (schema instanceof BooleanSchema) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             return "null";
-        } else if (schema instanceof DateSchema) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             return "null";
-        } else if (schema instanceof DateTimeSchema) {
+        } else if (ModelUtils.isNumberSchema(schema)) {
             return "null";
-        } else if (schema instanceof NumberSchema) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
             return "null";
-        } else if (schema instanceof IntegerSchema) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             return "null";
-        } else if (schema instanceof ObjectSchema) {
+        } else if (ModelUtils.isObjectSchema(schema)) {
             return "null";
         } else {
             return "null";
@@ -1060,19 +1064,19 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("static-method")
     public String toDefaultValue(Schema schema) {
-        if (schema instanceof StringSchema) {
+        if (ModelUtils.isBooleanSchema(schema)) {
             return "null";
-        } else if (schema instanceof BooleanSchema) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             return "null";
-        } else if (schema instanceof DateSchema) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             return "null";
-        } else if (schema instanceof DateTimeSchema) {
+        } else if (ModelUtils.isNumberSchema(schema)) {
             return "null";
-        } else if (schema instanceof NumberSchema) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
             return "null";
-        } else if (schema instanceof IntegerSchema) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             return "null";
-        } else if (schema instanceof ObjectSchema) {
+        } else if (ModelUtils.isObjectSchema(schema)) {
             return "null";
         } else {
             return "null";
@@ -1119,42 +1123,44 @@ public class DefaultCodegen implements CodegenConfig {
             return datatype;
         }
 
-        if (schema instanceof StringSchema && "number".equals(schema.getFormat())) {
+        if (ModelUtils.isStringSchema(schema) && "number".equals(schema.getFormat())) {
+            // special handle of type: string, format: number
             datatype = "BigDecimal";
-        } else if (schema instanceof ByteArraySchema || (schema instanceof StringSchema && "byte".equals(schema.getFormat()))) {
+        } else if (ModelUtils.isByteArraySchema(schema)) {
             datatype = "ByteArray";
-        } else if (schema instanceof BinarySchema) {
+        } else if (ModelUtils.isBinarySchema(schema)) {
             datatype = SchemaTypeUtil.BINARY_FORMAT;
-        } else if (schema instanceof FileSchema) {
+        } else if (ModelUtils.isFileSchema(schema)) {
             datatype = "file";
-        } else if (schema instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(schema)) {
             datatype = SchemaTypeUtil.BOOLEAN_TYPE;
-        } else if (schema instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             datatype = SchemaTypeUtil.DATE_FORMAT;
-        } else if (schema instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             datatype = "DateTime";
-        } else if (schema instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())) {
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) {
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (ModelUtils.isFloatSchema(schema)) {
                 datatype = SchemaTypeUtil.FLOAT_FORMAT;
-            } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) {
+            } else if (ModelUtils.isDoubleSchema(schema)) {
                 datatype = SchemaTypeUtil.DOUBLE_FORMAT;
             } else { // without format
                 datatype = schema.getType(); // number
             }
-        } else if (schema instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) {
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (ModelUtils.isLongSchema(schema)) {
                 datatype = "long";
             } else {
                 datatype = schema.getType(); // integer
             }
-        } else if (schema instanceof MapSchema) {
+        } else if (ModelUtils.isMapSchema(schema)) {
             datatype = "map";
-        } else if (schema instanceof UUIDSchema) {
+        } else if (ModelUtils.isUUIDSchema(schema)) {
             datatype = "UUID";
-        } else if (schema instanceof StringSchema) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             datatype = "string";
         } else {
             if (schema != null) {
+                // TODO the following check should be covered by ModelUtils.isMapSchema(schema) above so can be removed
                 if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && schema.getAdditionalProperties() != null) {
                     datatype = "map";
                 } else {
@@ -1333,7 +1339,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.xmlName = schema.getXml().getName();
         }
 
-        if (schema instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(schema)) {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
             addParentContainer(m, name, schema);
@@ -1439,7 +1445,7 @@ public class DefaultCodegen implements CodegenConfig {
                 m.allowableValues = new HashMap<String, Object>();
                 m.allowableValues.put("values", schema.getEnum());
             }
-            if (schema.getAdditionalProperties() != null || schema instanceof MapSchema) {
+            if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
             }
             addVars(m, schema.getProperties(), schema.getRequired());
@@ -1574,7 +1580,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String type = getSchemaType(p);
-        if (p instanceof IntegerSchema || SchemaTypeUtil.INTEGER_TYPE.equals(p.getType())) {
+        if (ModelUtils.isIntegerSchema(p)) {
             property.isNumeric = Boolean.TRUE;
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                 property.isLong = Boolean.TRUE;
@@ -1624,10 +1630,11 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (p instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(p.getType())) {
-            if (p instanceof BinarySchema || SchemaTypeUtil.BINARY_FORMAT.equals(p.getFormat())) {
+        if (ModelUtils.isStringSchema(p)) {
+            if (ModelUtils.isBinarySchema(p)) {
                 property.isBinary = true;
-            } else if (p instanceof FileSchema) {
+                property.isFile = true; // file = binary in OAS3
+            } else if (ModelUtils.isFileSchema(p)) {
                 property.isFile = true;
             } else {
                 property.maxLength = p.getMaxLength();
@@ -1652,27 +1659,27 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (p instanceof BooleanSchema || SchemaTypeUtil.BOOLEAN_TYPE.equals(p.getType())) {
+        if (ModelUtils.isBooleanSchema(p)) {
             property.isBoolean = true;
             property.getter = toBooleanGetter(name);
         }
 
 
-        if (p instanceof UUIDSchema || SchemaTypeUtil.UUID_FORMAT.equals(p.getFormat())) {
+        if (ModelUtils.isUUIDSchema(p)) {
             // keep isString to true to make it backward compatible
             property.isString = true;
             property.isUuid = true;
         }
-        if (p instanceof ByteArraySchema || SchemaTypeUtil.BYTE_FORMAT.equals(p.getFormat())) {
+        if (ModelUtils.isByteArraySchema(p)) {
             property.isByteArray = true;
             property.isFile = true; // in OAS3.0 "file" is 'byte' (format)
         }
 
-        if (p instanceof NumberSchema || SchemaTypeUtil.NUMBER_TYPE.equals(p.getType())) {
+        if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) { // float
+            if (ModelUtils.isFloatSchema(p)) { // float
                 property.isFloat = Boolean.TRUE;
-            } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(p.getFormat())) { // double
+            } else if (ModelUtils.isDoubleSchema(p)) { // double
                 property.isDouble = Boolean.TRUE;
             } else { // type is number and without format
                 property.isNumber = Boolean.TRUE;
@@ -1711,7 +1718,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (p instanceof DateSchema || SchemaTypeUtil.DATE_FORMAT.equals(p.getFormat())) {
+        if (ModelUtils.isDateSchema(p)) {
             property.isString = false; // for backward compatibility with 2.x
             property.isDate = true;
             if (p.getEnum() != null) {
@@ -1729,7 +1736,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (p instanceof DateTimeSchema || SchemaTypeUtil.DATE_TIME_FORMAT.equals(p.getFormat())) {
+        if (ModelUtils.isDateTimeSchema(p)) {
             property.isString = false; // for backward compatibility with 2.x
             property.isDateTime = true;
             if (p.getEnum() != null) {
@@ -1760,7 +1767,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         property.baseType = getSchemaType(p);
 
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
             property.isListContainer = true;
             property.containerType = "array";
@@ -1784,7 +1791,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             CodegenProperty cp = fromProperty(itemName, ((ArraySchema) p).getItems());
             updatePropertyForArray(property, cp);
-        } else if (p instanceof MapSchema || p.getAdditionalProperties() != null) {
+        } else if (ModelUtils.isMapSchema(p)) {
             property.isContainer = true;
             property.isMapContainer = true;
             property.containerType = "map";
@@ -2076,11 +2083,11 @@ public class DefaultCodegen implements CodegenConfig {
                 if (responseSchema != null) {
                     CodegenProperty cm = fromProperty("response", responseSchema);
 
-                    if (responseSchema instanceof ArraySchema) {
+                    if (ModelUtils.isArraySchema(responseSchema)) {
                         ArraySchema as = (ArraySchema) responseSchema;
                         CodegenProperty innerProperty = fromProperty("response", as.getItems());
                         op.returnBaseType = innerProperty.baseType;
-                    } else if (responseSchema instanceof MapSchema) {
+                    } else if (ModelUtils.isMapSchema(responseSchema)) {
                         MapSchema ms = (MapSchema) responseSchema;
                         CodegenProperty innerProperty = fromProperty("response", (Schema) ms.getAdditionalProperties());
                         op.returnBaseType = innerProperty.baseType;
@@ -2321,7 +2328,7 @@ public class DefaultCodegen implements CodegenConfig {
         if (r.schema != null) {
             CodegenProperty cp = fromProperty("response", responseSchema);
 
-            if (responseSchema instanceof ArraySchema) {
+            if (ModelUtils.isArraySchema(responseSchema)) {
                 ArraySchema as = (ArraySchema) responseSchema;
                 CodegenProperty innerProperty = fromProperty("response", as.getItems());
                 r.baseType = innerProperty.baseType;
@@ -2443,7 +2450,7 @@ public class DefaultCodegen implements CodegenConfig {
             Schema parameterSchema = parameter.getSchema();
             // TDOO revise collectionFormat
             String collectionFormat = null;
-            if (parameterSchema instanceof ArraySchema) { // for array parameter
+            if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
                 final ArraySchema arraySchema = (ArraySchema) parameterSchema;
                 Schema inner = arraySchema.getItems();
                 if (inner == null) {
@@ -2466,7 +2473,7 @@ public class DefaultCodegen implements CodegenConfig {
                     codegenProperty = codegenProperty.items;
                 }
 
-            } else if (parameterSchema instanceof MapSchema) { // for map parameter
+            } else if (ModelUtils.isMapSchema(parameterSchema)) { // for map parameter
                 CodegenProperty codegenProperty = fromProperty("inner", (Schema) parameterSchema.getAdditionalProperties());
                 codegenParameter.items = codegenProperty;
                 codegenParameter.baseType = codegenProperty.datatype;
@@ -2543,7 +2550,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // validation
             // handle maximum, minimum properly for int/long by removing the trailing ".0"
-            if (parameterSchema instanceof IntegerSchema) {
+            if (ModelUtils.isIntegerSchema(parameterSchema)) {
                 codegenParameter.maximum = parameterSchema.getMaximum() == null ? null : String.valueOf(parameterSchema.getMaximum().longValue());
                 codegenParameter.minimum = parameterSchema.getMinimum() == null ? null : String.valueOf(parameterSchema.getMinimum().longValue());
             } else {
@@ -2721,14 +2728,15 @@ public class DefaultCodegen implements CodegenConfig {
      * Returns the data type of a parameter.
      * Returns null by default to use the CodegenProperty.datatype value
      *
-     * @param parameter
-     * @param property
+     * @param parameter Parameter
+     * @param schema Schema
      * @return
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
         return null;
     }
 
+    // TODO revise below as it should be replaced by ModelUtils.isByteArraySchema(parameterSchema)
     public boolean isDataTypeBinary(String dataType) {
         if (dataType != null) {
             return dataType.toLowerCase().startsWith("byte");
@@ -2737,6 +2745,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
             return dataType.toLowerCase().equals("file");
@@ -3967,9 +3976,9 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getCollectionFormat(Parameter parameter) {
         if (
-               Parameter.StyleEnum.FORM.equals(parameter.getStyle())
-            || Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())
-           ) {
+                Parameter.StyleEnum.FORM.equals(parameter.getStyle())
+                        || Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())
+                ) {
             if (parameter.getExplode() != null && parameter.getExplode()) {
                 return "csv";
             } else {
@@ -3984,6 +3993,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    // TODO do we still need the methdo below?
     protected static boolean hasSchemaProperties(Schema schema) {
         final Object additionalProperties = schema.getAdditionalProperties();
         return additionalProperties != null && additionalProperties instanceof Schema;
@@ -4071,7 +4081,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         // validation
         // handle maximum, minimum properly for int/long by removing the trailing ".0"
-        if (propertySchema instanceof IntegerSchema) {
+        if (ModelUtils.isIntegerSchema(propertySchema)) {
             codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum().longValue());
             codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum().longValue());
         } else {
@@ -4123,7 +4133,7 @@ public class DefaultCodegen implements CodegenConfig {
             schema = schemas.get(name);
         }
 
-        if (isObjectSchema(schema)) {
+        if (ModelUtils.isObjectSchema(schema)) {
             CodegenModel codegenModel = null;
             if (StringUtils.isNotBlank(name)) {
                 schema.setName(name);
@@ -4151,7 +4161,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
             }
-        } else if (schema instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
             if (inner == null) {
@@ -4195,31 +4205,6 @@ public class DefaultCodegen implements CodegenConfig {
         setParameterExampleValue(codegenParameter);
 
         return codegenParameter;
-    }
-
-    private boolean isObjectSchema(Schema schema) {
-        if (schema instanceof ObjectSchema) {
-            return true;
-        }
-        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
-            return true;
-        }
-        if (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean isMapSchema(Schema schema) {
-        if (schema instanceof MapSchema) {
-            return true;
-        }
-
-        if (schema.getAdditionalProperties() != null) {
-            return true;
-        }
-
-        return false;
     }
 
     protected void addOption(String key, String description) {

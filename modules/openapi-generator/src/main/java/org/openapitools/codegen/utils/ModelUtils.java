@@ -3,9 +3,9 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.CodegenModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,6 +99,7 @@ public class ModelUtils {
         return unusedSchemas;
     }
 
+    // todo change it to public later
     protected static String getSimpleRef(String ref) {
         if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
@@ -108,4 +109,204 @@ public class ModelUtils {
 
         return ref;
     }
+
+    public static boolean isObjectSchema(Schema schema) {
+        if (schema instanceof ObjectSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.OBJECT_TYPE.equals(schema.getType()) && !(schema instanceof MapSchema)) {
+            return true;
+        }
+        if (schema.getType() == null && schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isComposedSchema(Schema schema) {
+        if (schema instanceof ComposedSchema) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isMapSchema(Schema schema) {
+        if (schema instanceof MapSchema) {
+            return true;
+        }
+        if (schema.getAdditionalProperties() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isArraySchema(Schema schema) {
+        if (schema instanceof ArraySchema) {
+            return true;
+        }
+        // assume it's an array if maxItems, minItems is set
+        if (schema.getMaxItems() != null || schema.getMinItems() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isStringSchema(Schema schema) {
+        if (schema instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isIntegerSchema(Schema schema) {
+        if (schema instanceof IntegerSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isShortchema(Schema schema) {
+        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
+                && SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // format: short (int32)
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isLongSchema(Schema schema) {
+        if (SchemaTypeUtil.INTEGER_TYPE.equals(schema.getType()) // type: integer
+                && SchemaTypeUtil.INTEGER64_FORMAT.equals(schema.getFormat())) { // format: long (int64)
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isBooleanSchema(Schema schema) {
+        if (schema instanceof BooleanSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.BOOLEAN_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNumberSchema(Schema schema) {
+        if (schema instanceof NumberSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isFloatSchema(Schema schema) {
+        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) { // format: float
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isDoubleSchema(Schema schema) {
+        if (schema instanceof NumberSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.NUMBER_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.DOUBLE_FORMAT.equals(schema.getFormat())) { // format: double
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isDateSchema(Schema schema) {
+        if (schema instanceof DateSchema) {
+            return true;
+        }
+
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.DATE_FORMAT.equals(schema.getFormat())) { // format: date
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isDateTimeSchema(Schema schema) {
+        if (schema instanceof DateTimeSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.DATE_TIME_FORMAT.equals(schema.getFormat())) { // format: date-time
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isPasswordSchema(Schema schema) {
+        if (schema instanceof PasswordSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.PASSWORD_FORMAT.equals(schema.getFormat())) { // double
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isByteArraySchema(Schema schema) {
+        if (schema instanceof ByteArraySchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.BYTE_FORMAT.equals(schema.getFormat())) { // format: byte
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isBinarySchema(Schema schema) {
+        if (schema instanceof BinarySchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.BINARY_FORMAT.equals(schema.getFormat())) { // format: binary
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isFileSchema(Schema schema) {
+        if (schema instanceof FileSchema) {
+            return true;
+        }
+        // file type in oas2 mapped to binary in oas3
+        return isBinarySchema(schema);
+    }
+
+    public static boolean isUUIDSchema(Schema schema) {
+        if (schema instanceof UUIDSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.UUID_FORMAT.equals(schema.getFormat())) { // format: uuid
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isEmailSchema(Schema schema) {
+        if (schema instanceof EmailSchema) {
+            return true;
+        }
+        if (SchemaTypeUtil.STRING_TYPE.equals(schema.getType())
+                && SchemaTypeUtil.EMAIL_FORMAT.equals(schema.getFormat())) { // format: email
+            return true;
+        }
+        return false;
+    }
+
 }

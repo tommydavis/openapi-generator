@@ -9,6 +9,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -357,11 +358,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
@@ -551,7 +552,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             StringSchema dp = (StringSchema) p;
             if (dp.getDefault() != null) {
                 if (Pattern.compile("\r\n|\r|\n").matcher(dp.getDefault()).find())
@@ -567,16 +568,16 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 else
                     return "True";
             }
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             IntegerSchema dp = (IntegerSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();

@@ -4,6 +4,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
+import io.swagger.models.Model;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
 import org.openapitools.codegen.mustache.*;
@@ -375,29 +376,29 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String getTypeDeclaration(Schema prop) {
-        if (prop instanceof ArraySchema) {
-            ArraySchema ap = (ArraySchema) prop;
+    public String getTypeDeclaration(Schema p) {
+        if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(prop)) {
-            Schema inner = (Schema) prop.getAdditionalProperties();
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = (Schema) p.getAdditionalProperties();
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
-        return super.getTypeDeclaration(prop);
+        return super.getTypeDeclaration(p);
     }
 
     @Override
-    public String getSchemaType(Schema prop) {
-        String swaggerType = super.getSchemaType(prop);
+    public String getSchemaType(Schema p) {
+        String openAPIType = super.getSchemaType(p);
         String type;
-        if (typeMapping.containsKey(swaggerType)) {
-            type = typeMapping.get(swaggerType);
+        if (typeMapping.containsKey(openAPIType)) {
+            type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type) || defaultIncludes.contains(type)) {
                 return type;
             }
         } else {
-            type = swaggerType;
+            type = openAPIType;
         }
         return toModelName(type);
     }
@@ -475,13 +476,13 @@ public class Swift4Codegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
-    public String toInstantiationType(Schema prop) {
-        if (isMapSchema(prop)) {
-            MapSchema ap = (MapSchema) prop;
+    public String toInstantiationType(Schema p) {
+        if (ModelUtils.isMapSchema(p)) {
+            MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return inner;
-        } else if (prop instanceof ArraySchema) {
-            ArraySchema ap = (ArraySchema) prop;
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "[" + inner + "]";
         }

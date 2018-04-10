@@ -1,6 +1,7 @@
 package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.languages.features.SwaggerFeatures;
@@ -170,7 +171,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return instantiationTypes.get("array") + " " + inner;
@@ -198,7 +199,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
     public CodegenModel fromModel(String name, Schema schema, Map<String, Schema> allDefinitions) {
         CodegenModel m = super.fromModel(name, schema, allDefinitions);
 
-        if (schema instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(schema)) {
             ArraySchema am = (ArraySchema) schema;
             CodegenProperty codegenProperty = fromProperty(name, (Schema) am.getItems());
             m.vendorExtensions.putAll(codegenProperty.vendorExtensions);
@@ -399,7 +400,7 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             StringSchema sp = (StringSchema) p;
             if (sp.getDefault() != null) {
                 return toOptionalValue("\"" + sp.getDefault().toString() + "\"");
@@ -411,17 +412,17 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return toOptionalValue(Boolean.valueOf(bp.getDefault().toString()) ? "True" : "False");
             }
             return toOptionalValue(null);
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return toOptionalValue(null);
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return toOptionalValue(null);
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return toOptionalValue(dp.getDefault().toString());
             }
             return toOptionalValue(null);
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             IntegerSchema ip = (IntegerSchema) p;
             if (ip.getDefault() != null) {
                 return toOptionalValue(ip.getDefault().toString());
@@ -455,11 +456,11 @@ public class ElmClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner);
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getTypeDeclaration(inner);
         }

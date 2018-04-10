@@ -13,10 +13,8 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
-import io.swagger.v3.oas.models.security.OAuthFlow;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.tags.Tag;
 
 import org.apache.commons.io.IOUtils;
@@ -27,7 +25,7 @@ import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 //import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.utils.ImplementationVersion;
 import org.openapitools.codegen.utils.ModelUtils;
-import org.openapitools.codegen.utils.URLPathUtil;
+import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -174,9 +172,9 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             config.vendorExtensions().putAll(openAPI.getExtensions());
         }
 
-        URL url = URLPathUtil.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
         contextPath = config.escapeText(url == null ? "" : url.getPath());
-        basePath = config.escapeText(URLPathUtil.getHost(openAPI));
+        basePath = config.escapeText(URLPathUtils.getHost(openAPI));
         basePathWithoutHost = contextPath; // for backward compatibility
     }
 
@@ -704,7 +702,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         Map<String, Object> apis = new HashMap<String, Object>();
         apis.put("apis", allOperations);
 
-        URL url = URLPathUtil.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
         if (url != null) {
             bundle.put("host", url.getHost());
         }
@@ -713,7 +711,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         bundle.put("swagger", openAPI); // for backward compatibility
         bundle.put("basePath", basePath);
         bundle.put("basePathWithoutHost", basePathWithoutHost);
-        bundle.put("scheme", URLPathUtil.getScheme(openAPI, config));
+        bundle.put("scheme", URLPathUtils.getScheme(openAPI, config));
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
         bundle.put("models", allModels);

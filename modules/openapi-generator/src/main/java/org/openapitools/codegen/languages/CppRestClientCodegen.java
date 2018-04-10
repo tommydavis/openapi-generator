@@ -275,16 +275,16 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<utility::string_t, " + getTypeDeclaration(inner) + ">";
-        } else if (p instanceof StringSchema || SchemaTypeUtil.STRING_TYPE.equals(p.getType())
-                || p instanceof DateSchema || p instanceof DateTimeSchema
-                || p instanceof FileSchema
+        } else if (ModelUtils.isStringSchema(p)
+                || ModelUtils.isDateSchema(p)|| ModelUtils.isDateTimeSchema(p)
+                || ModelUtils.isFileSchema(p)
                 || languageSpecificPrimitives.contains(openAPIType)) {
             return toModelName(openAPIType);
         }
@@ -294,29 +294,29 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             return "utility::conversions::to_string_t(\"\")";
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             return "false";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "utility::datetime()";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "utility::datetime()";
-        } else if (p instanceof NumberSchema) {
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isNumberSchema(p)) {
+            if (ModelUtils.isFloatSchema(p)) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (p instanceof IntegerSchema) {
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            if (ModelUtils.isLongSchema(p)) {
                 return "0L";
             }
             return "0";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return "std::map<utility::string_t, " + inner + ">()";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             if (!languageSpecificPrimitives.contains(inner)) {

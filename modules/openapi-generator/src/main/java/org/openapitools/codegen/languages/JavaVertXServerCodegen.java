@@ -6,16 +6,14 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
-import org.openapitools.codegen.utils.URLPathUtil;
+import org.openapitools.codegen.utils.URLPathUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.PathItem.HttpMethod;
 import io.swagger.v3.core.util.Json;
 
-import javax.validation.Path;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
@@ -201,7 +199,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
         this.additionalProperties.put("fullOpenAPI", openAPIDef);
 
         // add server port from the swagger file, 8080 by default
-        URL url = URLPathUtil.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
         Integer port = url.getPort();
         this.additionalProperties.put("serverPort", port);
 

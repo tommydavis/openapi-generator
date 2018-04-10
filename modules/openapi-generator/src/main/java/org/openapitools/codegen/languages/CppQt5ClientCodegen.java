@@ -2,6 +2,8 @@ package org.openapitools.codegen.languages;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -284,11 +286,11 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
     public String getTypeDeclaration(Schema p) {
         String openAPIType = getSchemaType(p);
 
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">*";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<QString, " + getTypeDeclaration(inner) + ">*";
         }
@@ -304,28 +306,28 @@ public class CppQt5ClientCodegen extends AbstractCppCodegen implements CodegenCo
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             return "new QString(\"\")";
         } else if (p instanceof BooleanSchema) {
             return "false";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "NULL";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "NULL";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             if (SchemaTypeUtil.FLOAT_FORMAT.equals(p.getFormat())) {
                 return "0.0f";
             }
             return "0.0";
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
                 return "0L";
             }
             return "0";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "new QMap<QString, " + getTypeDeclaration(inner) + ">()";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "new QList<" + getTypeDeclaration(inner) + ">()";

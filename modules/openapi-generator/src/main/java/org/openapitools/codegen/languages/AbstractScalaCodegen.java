@@ -11,6 +11,7 @@ import com.samskivert.mustache.Mustache;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
@@ -156,11 +157,11 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
 
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
@@ -185,10 +186,10 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             String inner = getSchemaType((Schema)p.getAdditionalProperties());
             return instantiationTypes.get("map") + "[String, " + inner + "]";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return instantiationTypes.get("array") + "[" + inner + "]";
@@ -199,23 +200,23 @@ public abstract class AbstractScalaCodegen extends DefaultCodegen {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             return "null";
         } else if (p instanceof BooleanSchema) {
             return "null";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "null";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             return "null";
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             return "null";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return "new HashMap[String, " + inner + "]() ";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "new ListBuffer[" + inner + "]() ";

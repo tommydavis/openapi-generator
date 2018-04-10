@@ -33,17 +33,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
         embeddedTemplateDir = templateDir = "go";
 
         setReservedWordsLowerCase(
-            Arrays.asList(
-                // data type
-                "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
-                "int", "int8", "int16", "int32", "int64", "float32", "float64",
-                "complex64", "complex128", "rune", "byte", "uintptr",
+                Arrays.asList(
+                        // data type
+                        "string", "bool", "uint", "uint8", "uint16", "uint32", "uint64",
+                        "int", "int8", "int16", "int32", "int64", "float32", "float64",
+                        "complex64", "complex128", "rune", "byte", "uintptr",
 
-                "break", "default", "func", "interface", "select",
-                "case", "defer", "go", "map", "struct",
-                "chan", "else", "goto", "package", "switch",
-                "const", "fallthrough", "if", "range", "type",
-                "continue", "for", "import", "return", "var", "error", "ApiResponse", "nil")
+                        "break", "default", "func", "interface", "select",
+                        "case", "defer", "go", "map", "struct",
+                        "chan", "else", "goto", "package", "switch",
+                        "const", "fallthrough", "if", "range", "type",
+                        "continue", "for", "import", "return", "var", "error", "ApiResponse", "nil")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
 
@@ -73,15 +73,13 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
             setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
-        }
-        else {
+        } else {
             setPackageName("swagger");
         }
 
         if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
             setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
-        }
-        else {
+        } else {
             setPackageVersion("1.0.0");
         }
 
@@ -103,9 +101,9 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
 
-        if(additionalProperties.containsKey(WITH_XML)) {
+        if (additionalProperties.containsKey(WITH_XML)) {
             setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
-            if ( withXml ) {
+            if (withXml) {
                 additionalProperties.put(WITH_XML, "true");
             }
         }

@@ -9,6 +9,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -367,11 +368,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getTypeDeclaration(inner) + "[]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         } else if (StringUtils.isNotBlank(p.get$ref())) {
@@ -543,7 +544,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             StringSchema dp = (StringSchema) p;
             if (dp.getDefault() != null) {
                 return "'" + dp.getDefault() + "'";
@@ -553,16 +554,16 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             IntegerSchema dp = (IntegerSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();

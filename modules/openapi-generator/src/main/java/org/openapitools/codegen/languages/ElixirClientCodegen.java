@@ -3,6 +3,8 @@ package org.openapitools.codegen.languages;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.*;
@@ -417,42 +419,42 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "%{optional(String.t) => " + getTypeDeclaration(inner) + "}";
-        } else if (p instanceof PasswordSchema) {
+        } else if (ModelUtils.isPasswordSchema(p)) {
             return "String.t";
-        } else if (p instanceof EmailSchema) {
+        } else if (ModelUtils.isEmailSchema(p)) {
             return "String.t";
-        } else if (p instanceof ByteArraySchema) {
+        } else if (ModelUtils.isByteArraySchema(p)) {
             return "binary()";
-        } else if (p instanceof StringSchema) {
+        } else if (ModelUtils.isUUIDSchema(p)) {
             return "String.t";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "Date.t";
-        } else if (p instanceof UUIDSchema) {
-            return "String.t";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "DateTime.t";
-        } else if (p instanceof ObjectSchema) {
+        } else if (ModelUtils.isObjectSchema(p)) {
             // How to map it?
             return super.getTypeDeclaration(p);
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             return "integer()";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             return "float()";
-        } else if (p instanceof BinarySchema) {
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "binary()";
-        } else if (p instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(p)) {
             return "boolean()";
         } else if (!StringUtils.isEmpty(p.get$ref())) { // model
             // How to map it?
             return super.getTypeDeclaration(p);
-        } else if (p instanceof FileSchema) {
+        } else if (ModelUtils.isFileSchema(p)) {
+            return "String.t";
+        } else if (ModelUtils.isStringSchema(p)) {
             return "String.t";
         }
         return super.getTypeDeclaration(p);

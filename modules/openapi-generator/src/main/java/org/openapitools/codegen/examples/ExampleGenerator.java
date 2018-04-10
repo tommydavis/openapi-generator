@@ -14,6 +14,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import io.swagger.v3.core.util.Json;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,7 +137,60 @@ public class ExampleGenerator {
         if (property.getExample() != null) {
             logger.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
             return property.getExample();
-        } else if (property instanceof StringSchema) {
+        } else if (ModelUtils.isBooleanSchema(property)) {
+            Object defaultValue = property.getDefault();
+            if (defaultValue != null) {
+                return defaultValue;
+            }
+            return Boolean.TRUE;
+        } else if (ModelUtils.isArraySchema(property)) {
+            Schema innerType = ((ArraySchema) property).getItems();
+            if (innerType != null) {
+                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
+                Object[] objectProperties = new Object[arrayLength];
+                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
+                for (int i = 0; i < arrayLength; i++) {
+                    objectProperties[i] = objProperty;
+                }
+                return objectProperties;
+            }
+        } else if (ModelUtils.isDateSchema(property)) {
+            return "2000-01-23";
+        } else if (ModelUtils.isDateTimeSchema(property)) {
+            return "2000-01-23T04:56:07.000+00:00";
+        } else if (ModelUtils.isNumberSchema(property)) {
+            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
+            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            if (ModelUtils.isFloatSchema(property)) { // float
+                return (float) randomNumber(min, max);
+            } else if (ModelUtils.isDoubleSchema(property)) { // decimal/double
+                return new BigDecimal(randomNumber(min, max));
+            } else { // no format defined
+                return randomNumber(min, max);
+            }
+        } else if (ModelUtils.isFileSchema(property)) {
+            return "";  // TODO
+
+        } else if (ModelUtils.isIntegerSchema(property)) {
+            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
+            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
+            if (ModelUtils.isLongSchema(property)) {
+                return (long) randomNumber(min, max);
+            }
+            return (int) randomNumber(min, max);
+        } else if (ModelUtils.isMapSchema(property)) {
+            Map<String, Object> mp = new HashMap<String, Object>();
+            if (property.getName() != null) {
+                mp.put(property.getName(),
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+            } else {
+                mp.put("key",
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+            }
+            return mp;
+        } else if (ModelUtils.isUUIDSchema(property)) {
+            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+        } else if (ModelUtils.isStringSchema(property)) {
             logger.debug("String property");
             String defaultValue = ((StringSchema) property).getDefault();
             if (defaultValue != null && !defaultValue.isEmpty()) {
@@ -155,60 +209,7 @@ public class ExampleGenerator {
             }
             logger.debug("No values found, using property name " + propertyName + " as example");
             return propertyName;
-        } else if (property instanceof BooleanSchema) {
-            Object defaultValue = property.getDefault();
-            if (defaultValue != null) {
-                return defaultValue;
-            }
-            return Boolean.TRUE;
-        } else if (property instanceof ArraySchema) {
-            Schema innerType = ((ArraySchema) property).getItems();
-            if (innerType != null) {
-                int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
-                Object[] objectProperties = new Object[arrayLength];
-                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
-                for(int i=0; i < arrayLength; i++) {
-                    objectProperties[i] = objProperty;
-                }
-                return objectProperties;
-            }
-        } else if (property instanceof DateSchema) {
-            return "2000-01-23";
-        } else if (property instanceof DateTimeSchema) {
-            return "2000-01-23T04:56:07.000+00:00";
-        } else if (property instanceof NumberSchema) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(property.getFormat())) { // float
-                return (float) randomNumber(min, max);
-            } else if (SchemaTypeUtil.DOUBLE_FORMAT.equals(property.getFormat())) { // decimal
-                return new BigDecimal(randomNumber(min, max));
-            } else { // no format defined
-                return randomNumber(min, max);
-            }
-        } else if (property instanceof FileSchema) {
-            return "";  // TODO
-
-        } else if (property instanceof IntegerSchema) {
-            Double min = property.getMinimum() == null ? null : property.getMinimum().doubleValue();
-            Double max = property.getMaximum() == null ? null : property.getMaximum().doubleValue();
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(property.getFormat())) {
-                return (long) randomNumber(min, max);
-            }
-            return (int) randomNumber(min, max);
-        } else if (property instanceof MapSchema && property.getAdditionalProperties() != null && property.getAdditionalProperties() instanceof Schema) {
-            Map<String, Object> mp = new HashMap<String, Object>();
-            if (property.getName() != null) {
-                mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
-            } else {
-                mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
-            }
-            return mp;
-        } else if (property instanceof UUIDSchema) {
-            return "046b6c7f-0b8a-43b9-b35d-6489e6daee91"; 
-        } else if (property instanceof ObjectSchema) {
+        } else if (ModelUtils.isObjectSchema(property)) {
             return "{}";
         }
 

@@ -9,13 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.PathItem.HttpMethod;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.info.*;
 
 public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptNodeClientCodegen.class);
@@ -67,9 +63,9 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof FileSchema) {
+        if (ModelUtils.isFileSchema(p)) {
             return "Buffer";
-        } else if (p instanceof BinarySchema) {
+        } else if (ModelUtils.isBinarySchema(p)) {
             return "Buffer";
         }
         return super.getTypeDeclaration(p);

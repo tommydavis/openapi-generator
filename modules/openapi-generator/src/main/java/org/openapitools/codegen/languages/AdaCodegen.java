@@ -7,6 +7,8 @@ import java.io.Writer;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.utils.ModelUtils;
+
 
 public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
 

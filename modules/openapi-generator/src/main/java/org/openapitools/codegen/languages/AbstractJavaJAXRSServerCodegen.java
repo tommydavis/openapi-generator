@@ -12,8 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import org.openapitools.codegen.utils.URLPathUtil;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.URLPathUtils;
 import io.swagger.v3.oas.models.*;
 
 public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
@@ -89,7 +89,7 @@ public abstract class AbstractJavaJAXRSServerCodegen extends AbstractJavaCodegen
         */
 
         if (!this.additionalProperties.containsKey("serverPort")) {
-            URL url = URLPathUtil.getServerURL(openAPI);
+            URL url = URLPathUtils.getServerURL(openAPI);
 
             Integer port = 8080; // Default value for a JEE Server
             if (url.getPort() != 0) {

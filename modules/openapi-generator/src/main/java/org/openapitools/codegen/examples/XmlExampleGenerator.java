@@ -14,6 +14,7 @@ import io.swagger.v3.oas.models.media.XML;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,7 +122,7 @@ public class XmlExampleGenerator {
         }
         StringBuilder sb = new StringBuilder();
 
-        if (schema instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(schema)) {
             ArraySchema as = (ArraySchema) schema;
             Schema inner = as.getItems();
             boolean wrapped = false;
@@ -175,30 +176,30 @@ public class XmlExampleGenerator {
     protected String getExample(Schema schema) {
         if (schema.getExample() != null) {
             return schema.getExample().toString();
-        } else if (schema instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
             return "2000-01-23T04:56:07.000Z";
-        } else if (schema instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(schema)) {
             return "2000-01-23";
-        } else if (schema instanceof BooleanSchema) {
+        } else if (ModelUtils.isBooleanSchema(schema)) {
             return "true";
-        } else if (schema instanceof NumberSchema) {
-            if (SchemaTypeUtil.FLOAT_FORMAT.equals(schema.getFormat())) { // float
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (ModelUtils.isFloatSchema(schema)) { // float
                 return "1.3579";
             } else { // double
                 return "3.149";
             }
-        } else if (schema instanceof PasswordSchema) {
+        } else if (ModelUtils.isPasswordSchema(schema)) {
             return "********";
-        } else if (schema instanceof UUIDSchema) {
+        } else if (ModelUtils.isUUIDSchema(schema)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
         // do these last in case the specific types above are derived from these classes
-        } else if (schema instanceof StringSchema) {
+        } else if (ModelUtils.isStringSchema(schema)) {
             return "aeiou";
-        } else if (schema instanceof IntegerSchema) {
-            if (SchemaTypeUtil.INTEGER32_FORMAT.equals(schema.getFormat())) { // integer
-                return "123";
-            } else { //long
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (ModelUtils.isLongSchema(schema)) { // long
                 return "123456789";
+            } else { //integer
+                return "123";
             }
         }
         LOGGER.warn("default example value not implemented for " + schema);

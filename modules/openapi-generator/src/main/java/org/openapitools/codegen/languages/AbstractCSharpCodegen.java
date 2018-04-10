@@ -5,6 +5,7 @@ import com.samskivert.mustache.Mustache;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.*;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.mustache.*;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.*;
@@ -651,7 +652,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toExampleValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             StringSchema dp = (StringSchema) p;
             if (dp.getExample() != null) {
                 return "\"" + dp.getExample().toString() + "\"";
@@ -661,16 +662,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (dp.getExample() != null) {
                 return dp.getExample().toString();
             }
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             NumberSchema dp = (NumberSchema) p;
             if (dp.getExample() != null) {
                 return dp.getExample().toString();
             }
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             IntegerSchema dp = (IntegerSchema) p;
             if (dp.getExample() != null) {
                 return dp.getExample().toString();
@@ -688,7 +689,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
      */
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             StringSchema dp = (StringSchema) p;
             if (dp.getDefault() != null) {
                String _default = dp.getDefault();
@@ -704,16 +705,16 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             // TODO
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             // TODO
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             NumberSchema dp = (NumberSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
             }
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             IntegerSchema dp = (IntegerSchema) p;
             if (dp.getDefault() != null) {
                 return dp.getDefault().toString();
@@ -771,7 +772,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
         }
         return super.toInstantiationType(p);
@@ -779,9 +780,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             // Should we also support maps of maps?
             Schema inner = (Schema) p.getAdditionalProperties();
             return getSchemaType(p) + "<string, " + getTypeDeclaration(inner) + ">";

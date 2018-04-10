@@ -6,9 +6,8 @@ import com.samskivert.mustache.Template;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.OptionalFeatures;
-import org.openapitools.codegen.utils.URLPathUtil;
+import org.openapitools.codegen.utils.URLPathUtils;
 import io.swagger.v3.oas.models.*;
-import io.swagger.v3.core.util.Yaml;
 
 import java.net.URL;
 import java.io.File;
@@ -396,7 +395,7 @@ public class SpringCodegen extends AbstractJavaCodegen
             additionalProperties.put(TITLE, this.title);
         }
 
-        URL url = URLPathUtil.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI);
         Integer port = 8080;
         if (url.getPort() != 0) {
             port = url.getPort();

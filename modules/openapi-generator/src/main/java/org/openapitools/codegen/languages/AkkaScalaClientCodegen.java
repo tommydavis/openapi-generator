@@ -14,10 +14,10 @@ import org.openapitools.codegen.CodegenResponse;
 import org.openapitools.codegen.CodegenSecurity;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -246,23 +246,23 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
             return "None";
         }
-        if (p instanceof StringSchema) {
+        if (ModelUtils.isStringSchema(p)) {
             return "null";
         } else if (p instanceof BooleanSchema) {
             return "null";
-        } else if (p instanceof DateSchema) {
+        } else if (ModelUtils.isDateSchema(p)) {
             return "null";
-        } else if (p instanceof DateTimeSchema) {
+        } else if (ModelUtils.isDateTimeSchema(p)) {
             return "null";
-        } else if (p instanceof NumberSchema) {
+        } else if (ModelUtils.isNumberSchema(p)) {
             return "null";
-        } else if (p instanceof IntegerSchema) {
+        } else if (ModelUtils.isIntegerSchema(p)) {
             return "null";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             String inner = getSchemaType((Schema) ap.getAdditionalProperties());
             return "Map[String, " + inner + "].empty ";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             return "Seq[" + inner + "].empty ";

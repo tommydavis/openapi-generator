@@ -1,20 +1,11 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.features.BeanValidationFeatures;
-import org.openapitools.codegen.languages.features.UseGenericResponseFeatures;
-import org.openapitools.codegen.utils.URLPathUtil;
-import io.swagger.v3.oas.models.*;
-import io.swagger.v3.core.util.Json;
 
 import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.*;
 
 public class JavaUndertowServerCodegen extends AbstractJavaCodegen {

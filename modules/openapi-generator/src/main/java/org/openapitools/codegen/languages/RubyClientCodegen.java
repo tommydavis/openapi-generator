@@ -10,6 +10,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
 import java.util.Arrays;
@@ -371,10 +372,10 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getTypeDeclaration(Schema schema) {
-        if (schema instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(schema)) {
             Schema inner = ((ArraySchema) schema).getItems();
             return getSchemaType(schema) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (isMapSchema(schema)) {
+        } else if (ModelUtils.isMapSchema(schema)) {
             Schema inner = (Schema) schema.getAdditionalProperties();
             return getSchemaType(schema) + "<String, " + getTypeDeclaration(inner) + ">";
         }
@@ -384,11 +385,11 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (p instanceof IntegerSchema || p instanceof NumberSchema || p instanceof BooleanSchema) {
+        if (ModelUtils.isIntegerSchema(p)|| ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
             }
-        } else if (p instanceof StringSchema) {
+        } else if (ModelUtils.isStringSchema(p)) {
             StringSchema sp = (StringSchema) p;
             if (sp.getDefault() != null) {
                 return "'" + escapeText(sp.getDefault()) + "'";

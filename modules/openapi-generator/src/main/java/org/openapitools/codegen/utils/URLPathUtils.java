@@ -10,9 +10,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class URLPathUtil {
+public class URLPathUtils {
 
-    protected static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtil.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(URLPathUtils.class);
     public static String DEFAULT_PATH = "/";
     public static final String LOCAL_HOST = "http://localhost";
 

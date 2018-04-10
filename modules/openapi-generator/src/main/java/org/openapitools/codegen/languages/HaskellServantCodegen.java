@@ -11,6 +11,7 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.utils.ModelUtils;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -267,11 +268,11 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
      */
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (p instanceof ArraySchema) {
+        if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
-        } else if (isMapSchema(p)) {
+        } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = (Schema) p.getAdditionalProperties();
             return "Map.Map String " + getTypeDeclaration(inner);
         }
@@ -306,7 +307,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
 
     @Override
     public String toInstantiationType(Schema p) {
-        if (isMapSchema(p)) {
+        if (ModelUtils.isMapSchema(p)) {
             MapSchema ap = (MapSchema) p;
             Schema additionalProperties2 = (Schema) ap.getAdditionalProperties();
             String type = additionalProperties2.getType();
@@ -316,7 +317,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
             }
             String inner = getSchemaType(additionalProperties2);
             return "(Map.Map Text " + inner + ")";
-        } else if (p instanceof ArraySchema) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
             // Return only the inner type; the wrapping with QueryList is done
