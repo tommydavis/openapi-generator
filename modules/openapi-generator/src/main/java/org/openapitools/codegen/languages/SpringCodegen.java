@@ -422,7 +422,7 @@ public class SpringCodegen extends AbstractJavaCodegen
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
                             }
-                            operation.getExtensions().put("x-tags", tags);
+                            operation.addExtension("x-tags", tags);
                         }
                     }
                 }

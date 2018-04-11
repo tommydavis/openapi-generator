@@ -511,10 +511,10 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                             : "application/json";
                     List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
                     String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                    operation.getExtensions().put("x-contentType", contentType);
+                    operation.addExtension("x-contentType", contentType);
                 }
                 String accepts = getAccept(operation);
-                operation.getExtensions().put("x-accepts", accepts);
+                operation.addExtension("x-accepts", accepts);
             }
         }*/
 
@@ -566,7 +566,7 @@ public class JavaPKMSTServerCodegen extends AbstractJavaCodegen {
                                 String tag = operation.getTags().get(0);
                                 operation.setTags(Arrays.asList(tag));
                             }
-                            operation.getExtensions().put("x-tags", tags);
+                            operation.addExtension("x-tags", tags);
                         }
                     }
                 }

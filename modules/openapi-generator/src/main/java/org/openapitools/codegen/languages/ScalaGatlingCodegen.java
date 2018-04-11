@@ -212,9 +212,9 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 if (!operation.getExtensions().keySet().contains("x-gatling-path")) {
                     if (pathname.contains("{")) {
                         String gatlingPath = pathname.replaceAll("\\{", "\\$\\{");
-                        operation.getExtensions().put("x-gatling-path", gatlingPath);
+                        operation.addExtension("x-gatling-path", gatlingPath);
                     } else {
-                        operation.getExtensions().put("x-gatling-path", pathname);
+                        operation.addExtension("x-gatling-path", pathname);
                     }
                 }
 
@@ -303,8 +303,8 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 vendorList.add(extensionMap);
                 parameterNames.add(parameter.getName());
             }
-            operation.getExtensions().put("x-gatling-" + parameterType.toLowerCase() + "-params", vendorList);
-            operation.getExtensions().put("x-gatling-" + parameterType.toLowerCase() + "-feeder", operation.getOperationId() + parameterType.toUpperCase() + "Feeder");
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase() + "-params", vendorList);
+            operation.addExtension("x-gatling-" + parameterType.toLowerCase() + "-feeder", operation.getOperationId() + parameterType.toUpperCase() + "Feeder");
             try {
                 FileUtils.writeStringToFile(new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase() + "Params.csv"), StringUtils.join(parameterNames, ","));
             } catch (IOException ioe) {

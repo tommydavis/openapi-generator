@@ -930,10 +930,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     String defaultContentType = hasFormParameter(operation) ? "application/x-www-form-urlencoded" : "application/json";
                     List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
                     String contentType = consumes == null || consumes.isEmpty() ? defaultContentType : consumes.get(0);
-                    operation.getExtensions().put("x-contentType", contentType);
+                    operation.addExtension("x-contentType", contentType);
                 }
                 String accepts = getAccept(operation);
-                operation.getExtensions().put("x-accepts", accepts);
+                operation.addExtension("x-accepts", accepts);
 
             }
         }
