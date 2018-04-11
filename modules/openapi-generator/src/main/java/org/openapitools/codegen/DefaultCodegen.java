@@ -830,7 +830,7 @@ public class DefaultCodegen implements CodegenConfig {
         typeMapping.put("binary", "byte[]");
         typeMapping.put("file", "File");
         typeMapping.put("UUID", "UUID");
-        typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
+        //typeMapping.put("BigDecimal", "BigDecimal"); //TODO need the mapping?
 
 
         instantiationTypes = new HashMap<String, String>();
@@ -1139,12 +1139,14 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(schema)) {
             datatype = "DateTime";
         } else if (ModelUtils.isNumberSchema(schema)) {
-            if (ModelUtils.isFloatSchema(schema)) {
+            if (schema.getFormat() == null ) { // no format defined
+                datatype = "number";
+            } else if (ModelUtils.isFloatSchema(schema)) {
                 datatype = SchemaTypeUtil.FLOAT_FORMAT;
             } else if (ModelUtils.isDoubleSchema(schema)) {
                 datatype = SchemaTypeUtil.DOUBLE_FORMAT;
-            } else { // without format
-                datatype = schema.getType(); // number
+            } else {
+                LOGGER.warn("Unknown `format` detected for " + schema.getName() + ": " + schema.getFormat());
             }
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (ModelUtils.isLongSchema(schema)) {
