@@ -169,12 +169,12 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                             String operationId = getOrGenerateOperationId(operation, pathname, method.name());
                             model.setDescription("Query parameters for " + operationId);
                             model.setProperties(schemas);
-                            model.getExtensions().put(VEN_FROM_QUERY, Boolean.TRUE);
+                            model.addExtension(VEN_FROM_QUERY, Boolean.TRUE);
                             String definitionName = generateUniqueDefinitionName(operationId + "QueryData", openAPI);
                             openAPI.getComponents().addSchemas(definitionName, model);
                             String definitionModel = "\\" + modelPackage + "\\" + toModelName(definitionName);
-                            operation.getExtensions().put(VEN_QUERY_DATA_TYPE, definitionModel);
-                            operation.getExtensions().put(VEN_HAS_QUERY_DATA, Boolean.TRUE);
+                            operation.addExtension(VEN_QUERY_DATA_TYPE, definitionModel);
+                            operation.addExtension(VEN_HAS_QUERY_DATA, Boolean.TRUE);
                         }
                     }
                 }
@@ -197,7 +197,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                 if (collectionFormat == null) {
                     collectionFormat = "csv";
                 }
-                arraySchema.getExtensions().put(VEN_COLLECTION_FORMAT, collectionFormat);
+                arraySchema.addExtension(VEN_COLLECTION_FORMAT, collectionFormat);
                 property = arraySchema;
             } else { // non-array e.g. string, integer
                 switch (queryParameter.getSchema().getType()) {
@@ -240,7 +240,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
                     required.add(queryParameter.getName());
                 }
 
-                property.getExtensions().put(VEN_FROM_QUERY, Boolean.TRUE);
+                property.addExtension(VEN_FROM_QUERY, Boolean.TRUE);
             }
         }
         return property;

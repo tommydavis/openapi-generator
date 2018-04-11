@@ -391,7 +391,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
                             operation.setOperationId(getOrGenerateOperationId(operation, pathname, method.toString()));
                         }
                         if (operation.getExtensions().get("x-openapi-router-controller") == null) {
-                            operation.getExtensions().put("x-openapi-router-controller", sanitizeTag(tag));
+                            operation.addExtension("x-openapi-router-controller", sanitizeTag(tag));
                         }
                     }
                 }

@@ -110,7 +110,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
                 if (path.readOperations() != null) {
                     for (Operation operation : path.readOperations()) {
                         String pathWithDollars = pathname.replaceAll("\\{", "\\$\\{");
-                        operation.getExtensions().put("x-path", pathWithDollars);
+                        operation.addExtension("x-path", pathWithDollars);
                     }
                 }
             }

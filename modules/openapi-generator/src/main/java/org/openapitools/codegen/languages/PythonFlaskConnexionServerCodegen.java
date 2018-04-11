@@ -317,7 +317,7 @@ public class PythonFlaskConnexionServerCodegen extends DefaultCodegen implements
                         }
                         operation.setOperationId(toOperationId(operationId));
                         if (operation.getExtensions().get("x-swagger-router-controller") == null) {
-                            operation.getExtensions().put(
+                            operation.addExtension(
                                     "x-swagger-router-controller",
                                     controllerPackage + "." + toApiFilename(tag)
                             );
