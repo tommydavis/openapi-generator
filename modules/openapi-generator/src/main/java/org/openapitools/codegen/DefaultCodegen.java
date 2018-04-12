@@ -1139,7 +1139,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(schema)) {
             datatype = "DateTime";
         } else if (ModelUtils.isNumberSchema(schema)) {
-            if (schema.getFormat() == null ) { // no format defined
+            if (schema.getFormat() == null) { // no format defined
                 datatype = "number";
             } else if (ModelUtils.isFloatSchema(schema)) {
                 datatype = SchemaTypeUtil.FLOAT_FORMAT;
@@ -1582,11 +1582,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String type = getSchemaType(p);
-        if (ModelUtils.isIntegerSchema(p)) {
+        if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) { // int64/long format
                 property.isLong = Boolean.TRUE;
-            } else {
+            } else { // int32 format
                 property.isInteger = Boolean.TRUE;
             }
 
@@ -1630,54 +1630,76 @@ public class DefaultCodegen implements CodegenConfig {
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
-        }
+        } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
+            property.isBoolean = true;
+            property.getter = toBooleanGetter(name);
+        } else if (ModelUtils.isDateSchema(p)) { // date format
+            property.isString = false; // for backward compatibility with 2.x
+            property.isDate = true;
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
+                property._enum = new ArrayList<String>();
+                for (String i : _enum) {
+                    property._enum.add(i);
+                }
+                property.isEnum = true;
 
-        if (ModelUtils.isStringSchema(p)) {
-            if (ModelUtils.isBinarySchema(p)) {
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
+            property.isString = false; // for backward compatibility with 2.x
+            property.isDateTime = true;
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
+                property._enum = new ArrayList<String>();
+                for (String i : _enum) {
+                    property._enum.add(i);
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (ModelUtils.isByteArraySchema(p)) {
+                property.isByteArray = true;
+            } else if (ModelUtils.isBinarySchema(p)) {
                 property.isBinary = true;
                 property.isFile = true; // file = binary in OAS3
             } else if (ModelUtils.isFileSchema(p)) {
                 property.isFile = true;
-            } else {
-                property.maxLength = p.getMaxLength();
-                property.minLength = p.getMinLength();
-                property.pattern = toRegularExpression(p.getPattern());
-
-                // check if any validation rule defined
-                if (property.pattern != null || property.minLength != null || property.maxLength != null)
-                    property.hasValidation = true;
-
+            } else if (ModelUtils.isUUIDSchema(p)) {
+                // keep isString to true to make it backward compatible
                 property.isString = true;
-                if (p.getEnum() != null) {
-                    List<String> _enum = p.getEnum();
-                    property._enum = _enum;
-                    property.isEnum = true;
-
-                    // legacy support
-                    Map<String, Object> allowableValues = new HashMap<String, Object>();
-                    allowableValues.put("values", _enum);
-                    property.allowableValues = allowableValues;
-                }
+                property.isUuid = true;
+            } else {
+                property.isString = true;
             }
-        }
 
-        if (ModelUtils.isBooleanSchema(p)) {
-            property.isBoolean = true;
-            property.getter = toBooleanGetter(name);
-        }
+            property.maxLength = p.getMaxLength();
+            property.minLength = p.getMinLength();
+            property.pattern = toRegularExpression(p.getPattern());
 
+            // check if any validation rule defined
+            if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                property.hasValidation = true;
 
-        if (ModelUtils.isUUIDSchema(p)) {
-            // keep isString to true to make it backward compatible
-            property.isString = true;
-            property.isUuid = true;
-        }
-        if (ModelUtils.isByteArraySchema(p)) {
-            property.isByteArray = true;
-            property.isFile = true; // in OAS3.0 "file" is 'byte' (format)
-        }
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
+                property._enum = _enum;
+                property.isEnum = true;
 
-        if (ModelUtils.isNumberSchema(p)) {
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        } else if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isFloatSchema(p)) { // float
                 property.isFloat = Boolean.TRUE;
@@ -1720,44 +1742,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (ModelUtils.isDateSchema(p)) {
-            property.isString = false; // for backward compatibility with 2.x
-            property.isDate = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (String i : _enum) {
-                    property._enum.add(i);
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        if (ModelUtils.isDateTimeSchema(p)) {
-            property.isString = false; // for backward compatibility with 2.x
-            property.isDateTime = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (String i : _enum) {
-                    property._enum.add(i);
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-
         property.datatype = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
+        property.baseType = getSchemaType(p);
 
         // this can cause issues for clients which don't support enums
         if (property.isEnum) {
@@ -1766,8 +1753,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.datatypeWithEnum = property.datatype;
         }
-
-        property.baseType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
@@ -2730,7 +2715,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Returns null by default to use the CodegenProperty.datatype value
      *
      * @param parameter Parameter
-     * @param schema Schema
+     * @param schema    Schema
      * @return
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
