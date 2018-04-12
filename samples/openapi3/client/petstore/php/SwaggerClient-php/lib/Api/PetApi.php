@@ -1824,7 +1824,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  string $file file to upload (optional)
+     * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1843,7 +1843,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  string $file file to upload (optional)
+     * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1920,7 +1920,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  string $file file to upload (optional)
+     * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1942,7 +1942,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  string $file file to upload (optional)
+     * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1994,7 +1994,7 @@ class PetApi
      *
      * @param  int $pet_id ID of pet to update (required)
      * @param  string $additional_metadata Additional data to pass to server (optional)
-     * @param  string $file file to upload (optional)
+     * @param  \SplFileObject $file file to upload (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request

@@ -402,7 +402,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
 );
 $pet_id = 789; // int | ID of pet to update
 $additional_metadata = "additional_metadata_example"; // string | Additional data to pass to server
-$file = "file_example"; // string | file to upload
+$file = "/path/to/file.txt"; // \SplFileObject | file to upload
 
 try {
     $result = $apiInstance->uploadFile($pet_id, $additional_metadata, $file);
@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **pet_id** | **int**| ID of pet to update |
  **additional_metadata** | **string**| Additional data to pass to server | [optional]
- **file** | **string****string**| file to upload | [optional]
+ **file** | **\SplFileObject****\SplFileObject**| file to upload | [optional]
 
 ### Return type
 
