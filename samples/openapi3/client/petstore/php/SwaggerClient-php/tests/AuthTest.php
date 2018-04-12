@@ -51,7 +51,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
 
         $fakeHttpClient = new FakeHttpClient();
         $api = new FakeApi($fakeHttpClient, $authConfig);
-        $api->testEndpointParameters(123, 100.1, 'ASD_', 'ASD');
+        $api->testEndpointParameters(123, 100.1, 'ASD_', new \SplFileObject(__DIR__ . '/../composer.json'));
 
         $headers = $fakeHttpClient->getLastRequest()->getHeaders();
 
