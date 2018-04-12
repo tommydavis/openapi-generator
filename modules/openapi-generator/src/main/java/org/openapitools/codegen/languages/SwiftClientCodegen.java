@@ -352,8 +352,7 @@ public class SwiftClientCodegen extends DefaultCodegen implements CodegenConfig 
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            MapSchema ap = (MapSchema) p;
-            String inner = getSchemaType((Schema) ap.getAdditionalProperties());
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "[String:" + inner + "]";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
