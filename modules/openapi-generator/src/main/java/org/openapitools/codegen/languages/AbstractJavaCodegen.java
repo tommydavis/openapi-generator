@@ -659,18 +659,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(p)) {
-            final MapSchema ap = (MapSchema) p;
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
             } else {
                 pattern = "new HashMap<%s>()";
             }
-            if (ap.getAdditionalProperties() == null) {
+            if (p.getAdditionalProperties() == null) {
                 return null;
             }
 
-            String typeDeclaration = String.format("String, %s", getTypeDeclaration((Schema) ap.getAdditionalProperties()));
+            String typeDeclaration = String.format("String, %s", getTypeDeclaration((Schema) p.getAdditionalProperties()));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());

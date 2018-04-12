@@ -308,8 +308,7 @@ public class HaskellServantCodegen extends DefaultCodegen implements CodegenConf
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            MapSchema ap = (MapSchema) p;
-            Schema additionalProperties2 = (Schema) ap.getAdditionalProperties();
+            Schema additionalProperties2 = (Schema) p.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Property " + additionalProperties2 + "\n" //

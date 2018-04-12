@@ -299,8 +299,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            MapSchema ap = (MapSchema) p;
-            String inner = getSchemaType((Schema) ap.getAdditionalProperties());
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

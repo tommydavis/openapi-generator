@@ -2090,8 +2090,7 @@ public class DefaultCodegen implements CodegenConfig {
                         CodegenProperty innerProperty = fromProperty("response", as.getItems());
                         op.returnBaseType = innerProperty.baseType;
                     } else if (ModelUtils.isMapSchema(responseSchema)) {
-                        MapSchema ms = (MapSchema) responseSchema;
-                        CodegenProperty innerProperty = fromProperty("response", (Schema) ms.getAdditionalProperties());
+                        CodegenProperty innerProperty = fromProperty("response", (Schema) responseSchema.getAdditionalProperties());
                         op.returnBaseType = innerProperty.baseType;
                     } else {
                         if (cm.complexType != null) {

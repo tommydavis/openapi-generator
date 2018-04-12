@@ -534,8 +534,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            MapSchema ap = (MapSchema) p;
-            Schema additionalProperties2 = (Schema) ap.getAdditionalProperties();
+            Schema additionalProperties2 = (Schema) p.getAdditionalProperties();
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //

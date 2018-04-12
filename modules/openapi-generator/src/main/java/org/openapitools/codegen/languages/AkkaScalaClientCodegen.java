@@ -258,8 +258,7 @@ public class AkkaScalaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return "null";
         } else if (ModelUtils.isMapSchema(p)) {
-            MapSchema ap = (MapSchema) p;
-            String inner = getSchemaType((Schema) ap.getAdditionalProperties());
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
