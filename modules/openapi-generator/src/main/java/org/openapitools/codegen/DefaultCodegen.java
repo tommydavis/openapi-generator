@@ -3484,10 +3484,10 @@ public class DefaultCodegen implements CodegenConfig {
         // cases in the future.
 
         // better error handling when map/array type is invalid
-        if (name == null) {
+/*        if (name == null) {
             LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
             return "ERROR_UNKNOWN";
-        }
+        } */
 
         // if the name is just '$', map it to 'value' for the time being.
         if ("$".equals(name)) {
@@ -4150,6 +4150,14 @@ public class DefaultCodegen implements CodegenConfig {
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
                 if (codegenProperty != null) {
+                    LOGGER.warn("The folowing schema has undefined (null) baseType. " +
+                            "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                            "A correct 'consumes' for form parameters should be " +
+                            "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                    LOGGER.warn("schema: " + schema);
+                    LOGGER.warn("Defaulting baseType to UNKNOWN_BASE_TYPE");
+                    codegenProperty.baseType = "UNKNOWN_BASE_TYPE";
+
                     codegenParameter.baseName = codegenProperty.baseType;
                     codegenParameter.baseType = codegenProperty.baseType;
                     codegenParameter.dataType = codegenProperty.datatype;

@@ -386,7 +386,8 @@ opts = {
   enum_query_string: 'enum_query_string_example', # String | Query parameter enum test (string)
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
   enum_query_double: 1.2, # Float | Query parameter enum test (double)
-  error_unknown: Petstore::null.new #  | 
+  enum_form_string_array: nil, # Array<String> | Form parameter enum test (string array)
+  enum_form_string: 'enum_form_string_example' # String | Form parameter enum test (string)
 }
 
 begin
@@ -407,7 +408,8 @@ Name | Type | Description  | Notes
  **enum_query_string** | **String**| Query parameter enum test (string) | [optional] 
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **error_unknown** | [****](.md)|  | [optional] 
+ **enum_form_string_array** | [**Array&lt;String&gt;**](Array.md)| Form parameter enum test (string array) | [optional] 
+ **enum_form_string** | **String**| Form parameter enum test (string) | [optional] 
 
 ### Return type
 
@@ -419,7 +421,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 
@@ -467,7 +469,7 @@ No authorization required
 
 
 # **test_json_form_data**
-> test_json_form_data(error_unknown)
+> test_json_form_data(param, param2)
 
 test json serialization of form data
 
@@ -477,11 +479,12 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-error_unknown = Petstore::null.new #  | 
+param = 'param_example' # String | field1
+param2 = 'param2_example' # String | field2
 
 begin
   #test json serialization of form data
-  api_instance.test_json_form_data(error_unknown)
+  api_instance.test_json_form_data(param, param2)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_json_form_data: #{e}"
 end
@@ -491,7 +494,8 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **error_unknown** | [****](.md)|  | 
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
 
 ### Return type
 
@@ -503,7 +507,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 
