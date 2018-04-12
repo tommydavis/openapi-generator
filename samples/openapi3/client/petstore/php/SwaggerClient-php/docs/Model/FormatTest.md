@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **float** | **float** |  | [optional] 
 **double** | **double** |  | [optional] 
 **string** | **string** |  | [optional] 
-**byte** | **string** |  | 
+**byte** | [**\SplFileObject**](\SplFileObject.md) |  | 
 **binary** | [**\SplFileObject**](\SplFileObject.md) |  | [optional] 
 **date** | [**\DateTime**](\DateTime.md) |  | 
 **date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 

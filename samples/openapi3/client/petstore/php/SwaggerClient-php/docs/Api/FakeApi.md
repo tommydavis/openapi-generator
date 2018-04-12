@@ -287,7 +287,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
 $number = 3.4; // float | None
 $double = 3.4; // double | None
 $pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
-$byte = "byte_example"; // string | None
+$byte = "/path/to/file.txt"; // \SplFileObject | None
 $integer = 56; // int | None
 $int32 = 56; // int | None
 $int64 = 56; // int | None
@@ -314,7 +314,7 @@ Name | Type | Description  | Notes
  **number** | **float**| None |
  **double** | **double**| None |
  **pattern_without_delimiter** | **string**| None |
- **byte** | **string****string**| None |
+ **byte** | **\SplFileObject****\SplFileObject**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
