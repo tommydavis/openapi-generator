@@ -54,8 +54,8 @@ function user_api:create_user(user)
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "*/*" }
-	req.headers:upsert("accept", "*/*")
+	--local var_content_type = { "application/json" }
+	req.headers:upsert("accept", "application/json")
 
 	req:set_body(dkjson.encode(user))
 
@@ -89,11 +89,6 @@ function user_api:create_users_with_array_input(user)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper accept
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "*/*" }
-	req.headers:upsert("accept", "*/*")
-
 	req:set_body(dkjson.encode(user))
 
 
@@ -126,11 +121,6 @@ function user_api:create_users_with_list_input(user)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper accept
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "*/*" }
-	req.headers:upsert("accept", "*/*")
-
 	req:set_body(dkjson.encode(user))
 
 
@@ -317,8 +307,8 @@ function user_api:update_user(username, user)
 	req.headers:upsert(":method", "PUT")
 	-- TODO: create a function to select proper accept
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "*/*" }
-	req.headers:upsert("accept", "*/*")
+	--local var_content_type = { "application/json" }
+	req.headers:upsert("accept", "application/json")
 
 	req:set_body(dkjson.encode(user))
 
