@@ -57,7 +57,6 @@ public class ExampleGenerator {
                 kv.put(CONTENT_TYPE, mediaType);
                 if (property != null && mediaType.startsWith(MIME_TYPE_JSON)) {
                     String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
-
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -78,6 +77,7 @@ public class ExampleGenerator {
                 output.add(kv);
             }
         }
+
         if (output.size() == 0) {
             Map<String, String> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
