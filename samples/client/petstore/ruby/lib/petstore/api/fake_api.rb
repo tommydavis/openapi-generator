@@ -321,27 +321,117 @@ module Petstore
     end
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # @param error_unknown 
+    # @param number None
+    # @param double None
+    # @param pattern_without_delimiter None
+    # @param byte None
     # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :integer None
+    # @option opts [Integer] :int32 None
+    # @option opts [Integer] :int64 None
+    # @option opts [Float] :float None
+    # @option opts [String] :string None
+    # @option opts [File] :binary None
+    # @option opts [Date] :date None
+    # @option opts [DateTime] :date_time None
+    # @option opts [String] :password None
+    # @option opts [String] :callback None
     # @return [nil]
-    def test_endpoint_parameters(error_unknown, opts = {})
-      test_endpoint_parameters_with_http_info(error_unknown, opts)
+    def test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts = {})
+      test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts)
       nil
     end
 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
     # Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-    # @param error_unknown 
+    # @param number None
+    # @param double None
+    # @param pattern_without_delimiter None
+    # @param byte None
     # @param [Hash] opts the optional parameters
+    # @option opts [Integer] :integer None
+    # @option opts [Integer] :int32 None
+    # @option opts [Integer] :int64 None
+    # @option opts [Float] :float None
+    # @option opts [String] :string None
+    # @option opts [File] :binary None
+    # @option opts [Date] :date None
+    # @option opts [DateTime] :date_time None
+    # @option opts [String] :password None
+    # @option opts [String] :callback None
     # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
-    def test_endpoint_parameters_with_http_info(error_unknown, opts = {})
+    def test_endpoint_parameters_with_http_info(number, double, pattern_without_delimiter, byte, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: FakeApi.test_endpoint_parameters ...'
       end
-      # verify the required parameter 'error_unknown' is set
-      if @api_client.config.client_side_validation && error_unknown.nil?
-        fail ArgumentError, "Missing the required parameter 'error_unknown' when calling FakeApi.test_endpoint_parameters"
+      # verify the required parameter 'number' is set
+      if @api_client.config.client_side_validation && number.nil?
+        fail ArgumentError, "Missing the required parameter 'number' when calling FakeApi.test_endpoint_parameters"
       end
+      if @api_client.config.client_side_validation && number > 543.2
+        fail ArgumentError, 'invalid value for "number" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 543.2.'
+      end
+
+      if @api_client.config.client_side_validation && number < 32.1
+        fail ArgumentError, 'invalid value for "number" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 32.1.'
+      end
+
+      # verify the required parameter 'double' is set
+      if @api_client.config.client_side_validation && double.nil?
+        fail ArgumentError, "Missing the required parameter 'double' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && double > 123.4
+        fail ArgumentError, 'invalid value for "double" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 123.4.'
+      end
+
+      if @api_client.config.client_side_validation && double < 67.8
+        fail ArgumentError, 'invalid value for "double" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 67.8.'
+      end
+
+      # verify the required parameter 'pattern_without_delimiter' is set
+      if @api_client.config.client_side_validation && pattern_without_delimiter.nil?
+        fail ArgumentError, "Missing the required parameter 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && pattern_without_delimiter !~ Regexp.new(/^[A-Z].*/)
+        fail ArgumentError, "invalid value for 'pattern_without_delimiter' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /^[A-Z].*/."
+      end
+
+      # verify the required parameter 'byte' is set
+      if @api_client.config.client_side_validation && byte.nil?
+        fail ArgumentError, "Missing the required parameter 'byte' when calling FakeApi.test_endpoint_parameters"
+      end
+      if @api_client.config.client_side_validation && !opts[:'integer'].nil? && opts[:'integer'] > 100
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 100.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'integer'].nil? && opts[:'integer'] < 10
+        fail ArgumentError, 'invalid value for "opts[:"integer"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 10.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'int32'].nil? && opts[:'int32'] > 200
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 200.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'int32'].nil? && opts[:'int32'] < 20
+        fail ArgumentError, 'invalid value for "opts[:"int32"]" when calling FakeApi.test_endpoint_parameters, must be greater than or equal to 20.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'float'].nil? && opts[:'float'] > 987.6
+        fail ArgumentError, 'invalid value for "opts[:"float"]" when calling FakeApi.test_endpoint_parameters, must be smaller than or equal to 987.6.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'string'].nil? && opts[:'string'] !~ Regexp.new(/[a-z]/i)
+        fail ArgumentError, "invalid value for 'opts[:\"string\"]' when calling FakeApi.test_endpoint_parameters, must conform to the pattern /[a-z]/i."
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length > 64
+        fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be smaller than or equal to 64.'
+      end
+
+      if @api_client.config.client_side_validation && !opts[:'password'].nil? && opts[:'password'].to_s.length < 10
+        fail ArgumentError, 'invalid value for "opts[:"password"]" when calling FakeApi.test_endpoint_parameters, the character length must be great than or equal to 10.'
+      end
+
       # resource path
       local_var_path = '/fake'
 
@@ -351,13 +441,27 @@ module Petstore
       # header parameters
       header_params = {}
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/xml; charset=utf-8', 'application/json; charset=utf-8'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/x-www-form-urlencoded'])
 
       # form parameters
       form_params = {}
+      form_params['number'] = number
+      form_params['double'] = double
+      form_params['pattern_without_delimiter'] = pattern_without_delimiter
+      form_params['byte'] = byte
+      form_params['integer'] = opts[:'integer'] if !opts[:'integer'].nil?
+      form_params['int32'] = opts[:'int32'] if !opts[:'int32'].nil?
+      form_params['int64'] = opts[:'int64'] if !opts[:'int64'].nil?
+      form_params['float'] = opts[:'float'] if !opts[:'float'].nil?
+      form_params['string'] = opts[:'string'] if !opts[:'string'].nil?
+      form_params['binary'] = opts[:'binary'] if !opts[:'binary'].nil?
+      form_params['date'] = opts[:'date'] if !opts[:'date'].nil?
+      form_params['dateTime'] = opts[:'date_time'] if !opts[:'date_time'].nil?
+      form_params['password'] = opts[:'password'] if !opts[:'password'].nil?
+      form_params['callback'] = opts[:'callback'] if !opts[:'callback'].nil?
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(error_unknown)
+      post_body = nil
       auth_names = ['http_basic_test']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
