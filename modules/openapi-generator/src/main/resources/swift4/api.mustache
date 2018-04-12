@@ -107,9 +107,9 @@ open class {{classname}} {
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
        - name: {{name}}
        {{/authMethods}}
-     {{#responseHeaders}}
-     - responseHeaders: {{{responseHeaders}}}
-     {{/responseHeaders}}
+     {{#hasResponseHeaders}}
+     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
+     {{/hasResponseHeaders}}
      {{#examples}}
      - examples: {{{examples}}}
      {{/examples}}
