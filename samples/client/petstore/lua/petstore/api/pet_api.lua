@@ -53,11 +53,6 @@ function pet_api:add_pet(pet)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "POST")
-	-- TODO: create a function to select proper accept
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "application/json", "application/xml" }
-	req.headers:upsert("accept", "application/json")
-
 	req:set_body(dkjson.encode(pet))
 
 	-- oAuth
@@ -287,11 +282,6 @@ function pet_api:update_pet(pet)
 
 	-- set HTTP verb
 	req.headers:upsert(":method", "PUT")
-	-- TODO: create a function to select proper accept
-	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "application/json", "application/xml" }
-	req.headers:upsert("accept", "application/json")
-
 	req:set_body(dkjson.encode(pet))
 
 	-- oAuth

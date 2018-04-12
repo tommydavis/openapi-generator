@@ -180,8 +180,8 @@ function store_api:place_order(order)
 	req.headers:upsert(":method", "POST")
 	-- TODO: create a function to select proper accept
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
-	--local var_content_type = { "*/*" }
-	req.headers:upsert("accept", "*/*")
+	--local var_content_type = { "application/json" }
+	req.headers:upsert("accept", "application/json")
 
 	-- TODO: create a function to select proper content-type
 	-- ref: https://github.com/swagger-api/swagger-codegen/pull/6252#issuecomment-321199879
