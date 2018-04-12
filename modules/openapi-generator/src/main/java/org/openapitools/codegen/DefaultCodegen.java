@@ -3484,10 +3484,10 @@ public class DefaultCodegen implements CodegenConfig {
         // cases in the future.
 
         // better error handling when map/array type is invalid
-/*        if (name == null) {
+        if (name == null) {
             LOGGER.error("String to be sanitized is null. Default to ERROR_UNKNOWN");
             return "ERROR_UNKNOWN";
-        } */
+        }
 
         // if the name is just '$', map it to 'value' for the time being.
         if ("$".equals(name)) {
