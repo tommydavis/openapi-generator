@@ -289,7 +289,7 @@ No authorization required
 
 
 # **test_endpoint_parameters**
-> test_endpoint_parameters(error_unknown)
+> test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts)
 
 Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 
@@ -307,11 +307,26 @@ Petstore.configure do |config|
 end
 
 api_instance = Petstore::FakeApi.new
-error_unknown = Petstore::null.new #  | 
+number = 3.4 # Float | None
+double = 3.4 # Float | None
+pattern_without_delimiter = 'pattern_without_delimiter_example' # String | None
+byte = 'byte_example' # String | None
+opts = {
+  integer: 56, # Integer | None
+  int32: 56, # Integer | None
+  int64: 56, # Integer | None
+  float: 3.4, # Float | None
+  string: 'string_example', # String | None
+  binary: File.new('/path/to/file'), # File | None
+  date: Date.parse('2013-10-20'), # Date | None
+  date_time: DateTime.parse('2013-10-20T19:20:30+01:00'), # DateTime | None
+  password: 'password_example', # String | None
+  callback: 'callback_example' # String | None
+}
 
 begin
   #Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-  api_instance.test_endpoint_parameters(error_unknown)
+  api_instance.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_endpoint_parameters: #{e}"
 end
@@ -321,7 +336,20 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **error_unknown** | [****](.md)|  | 
+ **number** | **Float**| None | 
+ **double** | **Float**| None | 
+ **pattern_without_delimiter** | **String**| None | 
+ **byte** | **String**| None | 
+ **integer** | **Integer**| None | [optional] 
+ **int32** | **Integer**| None | [optional] 
+ **int64** | **Integer**| None | [optional] 
+ **float** | **Float**| None | [optional] 
+ **string** | **String**| None | [optional] 
+ **binary** | **File**| None | [optional] 
+ **date** | **Date**| None | [optional] 
+ **date_time** | **DateTime**| None | [optional] 
+ **password** | **String**| None | [optional] 
+ **callback** | **String**| None | [optional] 
 
 ### Return type
 
@@ -333,7 +361,7 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml; charset=utf-8, application/json; charset=utf-8
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 
@@ -358,7 +386,8 @@ opts = {
   enum_query_string: 'enum_query_string_example', # String | Query parameter enum test (string)
   enum_query_integer: 56, # Integer | Query parameter enum test (double)
   enum_query_double: 1.2, # Float | Query parameter enum test (double)
-  error_unknown: Petstore::null.new #  | 
+  enum_form_string_array: nil, # Array<String> | Form parameter enum test (string array)
+  enum_form_string: 'enum_form_string_example' # String | Form parameter enum test (string)
 }
 
 begin
@@ -379,7 +408,8 @@ Name | Type | Description  | Notes
  **enum_query_string** | **String**| Query parameter enum test (string) | [optional] 
  **enum_query_integer** | **Integer**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **Float**| Query parameter enum test (double) | [optional] 
- **error_unknown** | [****](.md)|  | [optional] 
+ **enum_form_string_array** | [**Array&lt;String&gt;**](Array.md)| Form parameter enum test (string array) | [optional] 
+ **enum_form_string** | **String**| Form parameter enum test (string) | [optional] 
 
 ### Return type
 
@@ -391,7 +421,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 
@@ -439,7 +469,7 @@ No authorization required
 
 
 # **test_json_form_data**
-> test_json_form_data(error_unknown)
+> test_json_form_data(param, param2)
 
 test json serialization of form data
 
@@ -449,11 +479,12 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-error_unknown = Petstore::null.new #  | 
+param = 'param_example' # String | field1
+param2 = 'param2_example' # String | field2
 
 begin
   #test json serialization of form data
-  api_instance.test_json_form_data(error_unknown)
+  api_instance.test_json_form_data(param, param2)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_json_form_data: #{e}"
 end
@@ -463,7 +494,8 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **error_unknown** | [****](.md)|  | 
+ **param** | **String**| field1 | 
+ **param2** | **String**| field2 | 
 
 ### Return type
 
@@ -475,7 +507,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
 
