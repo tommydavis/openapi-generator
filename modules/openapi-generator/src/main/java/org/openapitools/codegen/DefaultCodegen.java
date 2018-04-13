@@ -4129,7 +4129,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseName = codegenModel.classname;
                 codegenParameter.paramName = toParamName(codegenModel.classname);
                 codegenParameter.baseType = codegenModel.classname;
-                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+                codegenParameter.dataType = codegenModel.classname;
                 codegenParameter.description = codegenModel.description;
                 imports.add(codegenParameter.baseType);
             } else {

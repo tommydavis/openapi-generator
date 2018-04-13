@@ -30,7 +30,7 @@ SWGPetApi::SWGPetApi(QString host, QString basePath) {
 }
 
 void
-SWGPetApi::addPet(SWGPet& pet) {
+SWGPetApi::addPet(SWGPet& swg_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
@@ -41,7 +41,7 @@ SWGPetApi::addPet(SWGPet& pet) {
 
 
     
-    QString output = pet.asJson();
+    QString output = swg_pet.asJson();
     input.request_body.append(output);
     
 
@@ -337,7 +337,7 @@ SWGPetApi::getPetByIdCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGPetApi::updatePet(SWGPet& pet) {
+SWGPetApi::updatePet(SWGPet& swg_pet) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/pet");
 
@@ -348,7 +348,7 @@ SWGPetApi::updatePet(SWGPet& pet) {
 
 
     
-    QString output = pet.asJson();
+    QString output = swg_pet.asJson();
     input.request_body.append(output);
     
 
