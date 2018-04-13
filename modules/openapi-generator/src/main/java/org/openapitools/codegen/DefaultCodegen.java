@@ -2085,7 +2085,7 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                     }
                     // TODO need to revise the logic below
-                    op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>)responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+                    op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
                     op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.datatype;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
@@ -3961,15 +3961,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected String getCollectionFormat(Parameter parameter) {
-        if (
-                Parameter.StyleEnum.FORM.equals(parameter.getStyle())
-                        || Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())
-                ) {
-            if (parameter.getExplode() != null && parameter.getExplode()) {
-                return "csv";
-            } else {
+        if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
+            // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values
+            if (Boolean.TRUE.equals(parameter.getExplode())) { // explode is true (default)
                 return "multi";
+            } else {
+                return "csv";
             }
+        } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
+            return "csv";
         } else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
             return "pipe";
         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
