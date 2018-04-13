@@ -4187,7 +4187,10 @@ public class DefaultCodegen implements CodegenConfig {
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
-            imports.add(getArrayTypeConstructor(codegenParameter.dataType));
+            String arrayType = getArrayTypeConstructor(codegenParameter.dataType);
+            if (needToImport(arrayType)) {
+                imports.add(arrayType);
+            }
 
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
