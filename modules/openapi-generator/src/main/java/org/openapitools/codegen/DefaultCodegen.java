@@ -2085,7 +2085,7 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                     }
                     // TODO need to revise the logic below
-                    //op.examples = new ExampleGenerator(schemas).generate(responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+                    op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>)responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
                     op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.datatype;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);

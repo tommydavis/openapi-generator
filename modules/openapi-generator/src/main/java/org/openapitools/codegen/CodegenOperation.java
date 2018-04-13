@@ -131,6 +131,15 @@ public class CodegenOperation {
     }
 
     /**
+     * Check if there's at least one response header
+     *
+     * @return true if header response exists, false otherwise
+     */
+    public boolean getHasResponseHeaders() {
+        return nonempty(responseHeaders);
+    }
+
+    /**
      * Check if there's at least one example parameter
      *
      * @return true if examples parameter exists, false otherwise

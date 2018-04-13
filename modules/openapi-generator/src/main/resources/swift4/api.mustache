@@ -107,12 +107,12 @@ open class {{classname}} {
        - type: {{type}}{{#keyParamName}} {{keyParamName}} {{#isKeyInQuery}}(QUERY){{/isKeyInQuery}}{{#isKeyInHeaer}}(HEADER){{/isKeyInHeaer}}{{/keyParamName}}
        - name: {{name}}
        {{/authMethods}}
-     {{#responseHeaders}}
-     - responseHeaders: {{{responseHeaders}}}
-     {{/responseHeaders}}
-     {{#examples}}
+     {{#hasResponseHeaders}}
+     - responseHeaders: [{{#responseHeaders}}{{{baseName}}}({{{datatype}}}){{^-last}}, {{/-last}}{{/responseHeaders}}]
+     {{/hasResponseHeaders}}
+     {{#hasExamples}}
      - examples: {{{examples}}}
-     {{/examples}}
+     {{/hasExamples}}
      {{#externalDocs}}
      - externalDocs: {{externalDocs}}
      {{/externalDocs}}
