@@ -245,7 +245,6 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
         return objs;
     }
 
-
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
@@ -456,4 +455,11 @@ public class FinchServerCodegen extends DefaultCodegen implements CodegenConfig 
 
     }
 
+    @Override
+    public String getArrayTypeConstructor(String dataType) {
+        if (dataType != null && dataType.contains("[") && dataType.contains("]")) {
+            return dataType.substring(0, dataType.indexOf("["));
+        }
+        return super.getArrayTypeConstructor(dataType);
+    }
 }

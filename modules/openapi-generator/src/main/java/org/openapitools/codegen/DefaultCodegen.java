@@ -1160,6 +1160,8 @@ public class DefaultCodegen implements CodegenConfig {
             datatype = "UUID";
         } else if (ModelUtils.isStringSchema(schema)) {
             datatype = "string";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            datatype = "array";
         } else {
             if (schema != null) {
                 // TODO the following check should be covered by ModelUtils.isMapSchema(schema) above so can be removed
@@ -4185,6 +4187,8 @@ public class DefaultCodegen implements CodegenConfig {
 
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
+            imports.add(getArrayTypeConstructor(codegenParameter.dataType));
+
             while (codegenProperty != null) {
                 imports.add(codegenProperty.baseType);
                 codegenProperty = codegenProperty.items;
@@ -4269,4 +4273,14 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * For languages which support generic types, 'dataType' may represent the generic type containing a type argument.
+     * This method allows those language generators to provide a method for extracting the generic type from the full type.
+     *
+     * @param dataType The data type which may be a full generic type declaration.
+     * @return The array type only, excluding generic type argument.
+     */
+    public String getArrayTypeConstructor(String dataType) {
+        return getTypeDeclaration(dataType);
+    }
 }
