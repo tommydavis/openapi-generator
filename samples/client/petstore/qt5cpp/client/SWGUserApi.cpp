@@ -30,7 +30,7 @@ SWGUserApi::SWGUserApi(QString host, QString basePath) {
 }
 
 void
-SWGUserApi::createUser(SWGUser& user) {
+SWGUserApi::createUser(SWGUser& swg_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user");
 
@@ -41,7 +41,7 @@ SWGUserApi::createUser(SWGUser& user) {
 
 
     
-    QString output = user.asJson();
+    QString output = swg_user.asJson();
     input.request_body.append(output);
     
 
@@ -418,7 +418,7 @@ SWGUserApi::logoutUserCallback(SWGHttpRequestWorker * worker) {
 }
 
 void
-SWGUserApi::updateUser(QString* username, SWGUser& user) {
+SWGUserApi::updateUser(QString* username, SWGUser& swg_user) {
     QString fullPath;
     fullPath.append(this->host).append(this->basePath).append("/user/{username}");
 
@@ -431,7 +431,7 @@ SWGUserApi::updateUser(QString* username, SWGUser& user) {
 
 
     
-    QString output = user.asJson();
+    QString output = swg_user.asJson();
     input.request_body.append(output);
     
 
