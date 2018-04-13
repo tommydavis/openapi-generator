@@ -3962,10 +3962,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     protected String getCollectionFormat(Parameter parameter) {
         if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
-            // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md
+            // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values
             if (Boolean.TRUE.equals(parameter.getExplode())) { // explode is true (default)
                 return "multi";
-            } else { // explode is false
+            } else {
                 return "csv";
             }
         } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
