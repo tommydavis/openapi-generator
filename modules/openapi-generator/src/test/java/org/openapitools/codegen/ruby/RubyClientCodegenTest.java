@@ -6,11 +6,9 @@ import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.languages.RubyClientCodegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.OpenAPIV3Parser;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.rules.TemporaryFolder;
@@ -46,7 +44,7 @@ public class RubyClientCodegenTest {
   public void testGenerateRubyClientWithHtmlEntity() throws Exception {
       final File output = folder.getRoot();
 
-      final OpenAPI openAPI = new OpenAPIV3Parser().read("src/test/resources/2_0/pathWithHtmlEntity.yaml");
+      final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/pathWithHtmlEntity.yaml", null, new ParseOptions()).getOpenAPI();
       CodegenConfig codegenConfig = new RubyClientCodegen();
       codegenConfig.setOutputDir(output.getAbsolutePath());
 

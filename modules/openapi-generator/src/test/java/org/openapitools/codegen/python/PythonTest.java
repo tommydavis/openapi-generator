@@ -6,25 +6,24 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.PythonClientCodegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.annotations.ITestAnnotation;
 
 import com.google.common.collect.Sets;
-import java.util.Map;
 
 @SuppressWarnings("static-method")
 public class PythonTest {
 
     @Test(description = "convert a python model with dots")
     public void modelTest() {
-        final OpenAPI openAPI= new OpenAPIV3Parser().read("src/test/resources/2_0/v1beta3.json");
+        final OpenAPI openAPI= new OpenAPIParser().readLocation("src/test/resources/2_0/v1beta3.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PythonClientCodegen();
 
         final CodegenModel simpleName = codegen.fromModel("v1beta3.Binding", openAPI.getComponents().getSchemas().get("v1beta3.Binding"));
