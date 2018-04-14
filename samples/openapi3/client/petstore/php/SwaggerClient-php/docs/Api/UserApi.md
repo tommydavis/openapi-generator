@@ -31,7 +31,7 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Created user object
+$user = new \Swagger\Client\Model\User(); // User | Created user object
 
 try {
     $apiInstance->createUser($user);
@@ -45,7 +45,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**\Swagger\Client\Model\User**](../Model/User.md)| Created user object |
+ **user** | [**User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -358,7 +358,7 @@ $apiInstance = new Swagger\Client\Api\UserApi(
     new GuzzleHttp\Client()
 );
 $username = "username_example"; // string | name that need to be deleted
-$user = new \Swagger\Client\Model\User(); // \Swagger\Client\Model\User | Updated user object
+$user = new \Swagger\Client\Model\User(); // User | Updated user object
 
 try {
     $apiInstance->updateUser($username, $user);
@@ -373,7 +373,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **user** | [**\Swagger\Client\Model\User**](../Model/User.md)| Updated user object |
+ **user** | [**User**](../Model/User.md)| Updated user object |
 
 ### Return type
 

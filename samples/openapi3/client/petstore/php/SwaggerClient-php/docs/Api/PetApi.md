@@ -33,7 +33,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = new \Swagger\Client\Model\Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
     $apiInstance->addPet($pet);
@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -296,7 +296,7 @@ $apiInstance = new Swagger\Client\Api\PetApi(
     new GuzzleHttp\Client(),
     $config
 );
-$pet = new \Swagger\Client\Model\Pet(); // \Swagger\Client\Model\Pet | Pet object that needs to be added to the store
+$pet = new \Swagger\Client\Model\Pet(); // Pet | Pet object that needs to be added to the store
 
 try {
     $apiInstance->updatePet($pet);
@@ -310,7 +310,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**\Swagger\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **pet** | [**Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 

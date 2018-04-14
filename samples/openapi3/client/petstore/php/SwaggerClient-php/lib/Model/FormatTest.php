@@ -64,7 +64,7 @@ class FormatTest implements ModelInterface, ArrayAccess
         'float' => 'float',
         'double' => 'double',
         'string' => 'string',
-        'byte' => '\SplFileObject',
+        'byte' => 'string',
         'binary' => '\SplFileObject',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
@@ -596,7 +596,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets byte
      *
-     * @return \SplFileObject
+     * @return string
      */
     public function getByte()
     {
@@ -606,7 +606,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets byte
      *
-     * @param \SplFileObject $byte byte
+     * @param string $byte byte
      *
      * @return $this
      */

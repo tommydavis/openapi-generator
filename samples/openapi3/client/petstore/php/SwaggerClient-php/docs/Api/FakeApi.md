@@ -81,7 +81,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_composite = new \Swagger\Client\Model\OuterComposite(); // \Swagger\Client\Model\OuterComposite | Input composite as post body
+$outer_composite = new \Swagger\Client\Model\OuterComposite(); // OuterComposite | Input composite as post body
 
 try {
     $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
@@ -96,7 +96,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**\Swagger\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **outer_composite** | [**OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -228,7 +228,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
+$client = new \Swagger\Client\Model\Client(); // Client | client model
 
 try {
     $result = $apiInstance->testClientModel($client);
@@ -243,7 +243,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -287,7 +287,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
 $number = 3.4; // float | None
 $double = 3.4; // double | None
 $pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
-$byte = "/path/to/file.txt"; // \SplFileObject | None
+$byte = "byte_example"; // string | None
 $integer = 56; // int | None
 $int32 = 56; // int | None
 $int64 = 56; // int | None
@@ -314,7 +314,7 @@ Name | Type | Description  | Notes
  **number** | **float**| None |
  **double** | **double**| None |
  **pattern_without_delimiter** | **string**| None |
- **byte** | **\SplFileObject****\SplFileObject**| None |
+ **byte** | **string****string**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
@@ -464,7 +464,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body4 = new \Swagger\Client\Model\Body4(); // \Swagger\Client\Model\Body4 | 
+$body4 = new \Swagger\Client\Model\Body4(); // Body4 | 
 
 try {
     $apiInstance->testJsonFormData($body4);
@@ -478,7 +478,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body4** | [**\Swagger\Client\Model\Body4**](../Model/Body4.md)|  | [optional]
+ **body4** | [**Body4**](../Model/Body4.md)|  | [optional]
 
 ### Return type
 

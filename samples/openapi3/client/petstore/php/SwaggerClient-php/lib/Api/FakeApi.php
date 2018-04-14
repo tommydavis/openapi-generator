@@ -337,7 +337,7 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -352,7 +352,7 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -427,7 +427,7 @@ class FakeApi
      *
      * 
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -447,7 +447,7 @@ class FakeApi
      *
      * 
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -497,7 +497,7 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterCompositeSerialize'
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1080,7 +1080,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1097,7 +1097,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1172,7 +1172,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1192,7 +1192,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1242,7 +1242,7 @@ class FakeApi
     /**
      * Create request for operation 'testClientModel'
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1340,7 +1340,7 @@ class FakeApi
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
-     * @param  \SplFileObject $byte None (required)
+     * @param  string $byte None (required)
      * @param  int $integer None (optional)
      * @param  int $int32 None (optional)
      * @param  int $int64 None (optional)
@@ -1369,7 +1369,7 @@ class FakeApi
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
-     * @param  \SplFileObject $byte None (required)
+     * @param  string $byte None (required)
      * @param  int $integer None (optional)
      * @param  int $int32 None (optional)
      * @param  int $int64 None (optional)
@@ -1435,7 +1435,7 @@ class FakeApi
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
-     * @param  \SplFileObject $byte None (required)
+     * @param  string $byte None (required)
      * @param  int $integer None (optional)
      * @param  int $int32 None (optional)
      * @param  int $int64 None (optional)
@@ -1468,7 +1468,7 @@ class FakeApi
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
-     * @param  \SplFileObject $byte None (required)
+     * @param  string $byte None (required)
      * @param  int $integer None (optional)
      * @param  int $int32 None (optional)
      * @param  int $int64 None (optional)
@@ -1517,7 +1517,7 @@ class FakeApi
      * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
-     * @param  \SplFileObject $byte None (required)
+     * @param  string $byte None (required)
      * @param  int $integer None (optional)
      * @param  int $int32 None (optional)
      * @param  int $int64 None (optional)
@@ -1915,7 +1915,7 @@ class FakeApi
 
         // query params
         if (is_array($enum_query_string_array)) {
-            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'csv', true);
+            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'multi', true);
         }
         if ($enum_query_string_array !== null) {
             $queryParams['enum_query_string_array'] = ObjectSerializer::toQueryValue($enum_query_string_array);
@@ -2242,7 +2242,7 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body4 body4 (optional)
+     * @param  Body4 $body4 body4 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -2258,7 +2258,7 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -2311,7 +2311,7 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -2331,7 +2331,7 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -2367,7 +2367,7 @@ class FakeApi
     /**
      * Create request for operation 'testJsonFormData'
      *
-     * @param  \Swagger\Client\Model\Body4 $body4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
