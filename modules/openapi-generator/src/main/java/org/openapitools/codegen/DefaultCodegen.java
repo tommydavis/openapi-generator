@@ -2092,19 +2092,19 @@ public class DefaultCodegen implements CodegenConfig {
                         ArraySchema as = (ArraySchema) responseSchema;
                         if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
                             op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                    new ArrayList<String>(getProducesInfo(operation)), as.getItems());
+                                    new ArrayList<String>(getProducesInfo(operation)), as.getItems(), openAPI);
                         } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
                             op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                    new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(as.getItems().get$ref()));
+                                    new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(as.getItems().get$ref()), openAPI);
                         } else {
                             // TODO log warning message as such case is not handled at the moment
                         }
                     } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
                         op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+                                new ArrayList<String>(getProducesInfo(operation)), responseSchema, openAPI);
                     } else { // model
                         op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
-                                new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(responseSchema.get$ref()));
+                                new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(responseSchema.get$ref()), openAPI);
                     }
 
                     op.defaultResponse = toDefaultValue(responseSchema);
@@ -2182,7 +2182,7 @@ public class DefaultCodegen implements CodegenConfig {
                     ArrayList<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
                     LOGGER.info("debugging reqeust body examples: " + consumes.toString());
                     LOGGER.info("body param datatype: " + bodyParam.baseType);
-                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType);
+                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
                 }
             }
         }

@@ -12,6 +12,7 @@ import io.swagger.v3.oas.models.media.ObjectSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.media.UUIDSchema;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import io.swagger.v3.core.util.Json;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +46,7 @@ public class ExampleGenerator {
         this.random = new Random("ExampleGenerator".hashCode());
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property) {
+    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property, OpenAPI openAPI) {
         logger.info("debugging generate in ExampleGenerator");
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
@@ -58,7 +59,7 @@ public class ExampleGenerator {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
                 if (property != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
-                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
+                    String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels, openAPI));
                     if (example != null) {
                         kv.put(EXAMPLE, example);
                         output.add(kv);
@@ -88,7 +89,7 @@ public class ExampleGenerator {
         return output;
     }
 
-    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName) {
+    public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, String modelName, OpenAPI openAPI) {
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
@@ -102,7 +103,7 @@ public class ExampleGenerator {
                 if (modelName != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     final Schema schema = this.examples.get(modelName);
                     if (schema != null) {
-                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels));
+                        String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels, openAPI));
 
                         if (example != null) {
                             kv.put(EXAMPLE, example);
@@ -135,7 +136,7 @@ public class ExampleGenerator {
         return output;
     }
 
-    private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
+    private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels, OpenAPI openAPI) {
         logger.info("Resolving example for property {}...", property);
         if (property.getExample() != null) {
             logger.info("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
@@ -151,7 +152,7 @@ public class ExampleGenerator {
             if (innerType != null) {
                 int arrayLength = null == ((ArraySchema) property).getMaxItems() ? 2 : ((ArraySchema) property).getMaxItems();
                 Object[] objectProperties = new Object[arrayLength];
-                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels);
+                Object objProperty = resolvePropertyToExample(propertyName, mediaType, innerType, processedModels, openAPI);
                 for (int i = 0; i < arrayLength; i++) {
                     objectProperties[i] = objProperty;
                 }
@@ -185,10 +186,10 @@ public class ExampleGenerator {
             Map<String, Object> mp = new HashMap<String, Object>();
             if (property.getName() != null) {
                 mp.put(property.getName(),
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels, openAPI));
             } else {
                 mp.put("key",
-                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels));
+                        resolvePropertyToExample(propertyName, mediaType, (Schema) property.getAdditionalProperties(), processedModels, openAPI));
             }
             return mp;
         } else if (ModelUtils.isUUIDSchema(property)) {
@@ -212,6 +213,11 @@ public class ExampleGenerator {
             }
             logger.debug("No values found, using property name " + propertyName + " as example");
             return propertyName;
+        } else if (!StringUtils.isEmpty(property.get$ref())) { // model
+            String simpleName = ModelUtils.getSimpleRef(property.get$ref());
+            Schema schema = openAPI.getComponents().getSchemas().get(simpleName);
+            return resolveModelToExample(simpleName, mediaType, property, processedModels, openAPI);
+
         } else if (ModelUtils.isObjectSchema(property)) {
             return "{}";
         }
@@ -232,7 +238,7 @@ public class ExampleGenerator {
         }
     }
 
-    private Object resolveModelToExample(String name, String mediaType, Schema schema, Set<String> processedModels) {
+    private Object resolveModelToExample(String name, String mediaType, Schema schema, Set<String> processedModels, OpenAPI openAPI) {
         if (processedModels.contains(name)) {
             return schema.getExample();
         }
@@ -247,7 +253,7 @@ public class ExampleGenerator {
             logger.info("Creating example from model values");
             for (Object propertyName : schema.getProperties().keySet()) {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
-                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
+                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels, openAPI));
             }
             schema.setExample(values);
             return schema.getExample();

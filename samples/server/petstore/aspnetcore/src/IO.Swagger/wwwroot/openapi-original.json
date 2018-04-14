@@ -948,8 +948,7 @@
           "photoUrls" : [ "photoUrls", "photoUrls" ],
           "name" : "doggie",
           "id" : 0,
-          "category" : "",
-          "tags" : [ "", "" ],
+          "tags" : [ null, null ],
           "status" : "available"
         },
         "xml" : {
