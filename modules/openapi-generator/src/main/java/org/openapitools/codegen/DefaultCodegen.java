@@ -2090,9 +2090,14 @@ public class DefaultCodegen implements CodegenConfig {
                     LOGGER.info("debugging produces info: " + produces.toString());
                     if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
                         ArraySchema as = (ArraySchema) responseSchema;
-                        if (as.getItems() != null) {
+                        if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
                             op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
                                     new ArrayList<String>(getProducesInfo(operation)), as.getItems());
+                        } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
+                            op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                    new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(as.getItems().get$ref()));
+                        } else {
+                            // TODO log warning message as such case is not handled at the moment
                         }
                     } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
                         op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
