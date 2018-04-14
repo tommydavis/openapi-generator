@@ -1641,8 +1641,7 @@ class FakeApi
         }
         // form params
         if ($byte !== null) {
-            $multipart = true;
-            $formParams['byte'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($byte), 'rb');
+            $formParams['byte'] = ObjectSerializer::toFormValue($byte);
         }
         // form params
         if ($binary !== null) {

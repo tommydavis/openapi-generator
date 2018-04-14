@@ -314,7 +314,7 @@ Name | Type | Description  | Notes
  **number** | **float**| None |
  **double** | **double**| None |
  **pattern_without_delimiter** | **string**| None |
- **byte** | **string****string**| None |
+ **byte** | **string**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
