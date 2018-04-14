@@ -127,20 +127,6 @@ class PetApiTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(0, $response);
     }
 
-    public function testFindPetsByTags()
-    {
-        $response = $this->api->findPetsByTags('test php tag');
-        $this->assertGreaterThan(0, count($response)); // at least one object returned
-        $this->assertSame(get_class($response[0]), Pet::class); // verify the object is Pet
-
-        foreach ($response as $pet) {
-            $this->assertSame($pet['tags'][0]['name'], 'test php tag');
-        }
-
-        $response = $this->api->findPetsByTags('unknown_and_incorrect_tag');
-        $this->assertCount(0, $response);
-    }
-
     public function testUpdatePet()
     {
         $petId = 10001;
