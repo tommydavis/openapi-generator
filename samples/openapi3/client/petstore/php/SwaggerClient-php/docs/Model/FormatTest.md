@@ -6,12 +6,12 @@ Name | Type | Description | Notes
 **integer** | **int** |  | [optional] 
 **int32** | **int** |  | [optional] 
 **int64** | **int** |  | [optional] 
-**number** | [**BigDecimal**](BigDecimal.md) |  | 
+**number** | **float** |  | 
 **float** | **float** |  | [optional] 
 **double** | **double** |  | [optional] 
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
-**binary** | **string** |  | [optional] 
+**binary** | [**\SplFileObject**](\SplFileObject.md) |  | [optional] 
 **date** | [**\DateTime**](\DateTime.md) |  | 
 **date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 
 **uuid** | **string** |  | [optional] 

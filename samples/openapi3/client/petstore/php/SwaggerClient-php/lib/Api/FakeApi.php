@@ -90,31 +90,31 @@ class FakeApi
     /**
      * Operation fakeOuterBooleanSerialize
      *
-     * @param   $UNKNOWN_PARAM_NAME Input boolean as post body (optional)
+     * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Swagger\Client\Model\OuterBoolean
      */
-    public function fakeOuterBooleanSerialize($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterBooleanSerialize($body = null)
     {
-        list($response) = $this->fakeOuterBooleanSerializeWithHttpInfo($UNKNOWN_PARAM_NAME);
+        list($response) = $this->fakeOuterBooleanSerializeWithHttpInfo($body);
         return $response;
     }
 
     /**
      * Operation fakeOuterBooleanSerializeWithHttpInfo
      *
-     * @param   $UNKNOWN_PARAM_NAME Input boolean as post body (optional)
+     * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Swagger\Client\Model\OuterBoolean, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterBooleanSerializeWithHttpInfo($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterBooleanSerializeWithHttpInfo($body = null)
     {
         $returnType = '\Swagger\Client\Model\OuterBoolean';
-        $request = $this->fakeOuterBooleanSerializeRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->fakeOuterBooleanSerializeRequest($body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -180,14 +180,14 @@ class FakeApi
      *
      * 
      *
-     * @param   $UNKNOWN_PARAM_NAME Input boolean as post body (optional)
+     * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterBooleanSerializeAsync($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterBooleanSerializeAsync($body = null)
     {
-        return $this->fakeOuterBooleanSerializeAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
+        return $this->fakeOuterBooleanSerializeAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -200,15 +200,15 @@ class FakeApi
      *
      * 
      *
-     * @param   $UNKNOWN_PARAM_NAME Input boolean as post body (optional)
+     * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterBooleanSerializeAsyncWithHttpInfo($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterBooleanSerializeAsyncWithHttpInfo($body = null)
     {
         $returnType = '\Swagger\Client\Model\OuterBoolean';
-        $request = $this->fakeOuterBooleanSerializeRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->fakeOuterBooleanSerializeRequest($body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -250,12 +250,12 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterBooleanSerialize'
      *
-     * @param   $UNKNOWN_PARAM_NAME Input boolean as post body (optional)
+     * @param  bool $body Input boolean as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterBooleanSerializeRequest($UNKNOWN_PARAM_NAME = null)
+    protected function fakeOuterBooleanSerializeRequest($body = null)
     {
 
         $resourcePath = '/fake/outer/boolean';
@@ -269,8 +269,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($UNKNOWN_PARAM_NAME)) {
-            $_tempBody = $UNKNOWN_PARAM_NAME;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {
@@ -337,7 +337,7 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -352,7 +352,7 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -427,7 +427,7 @@ class FakeApi
      *
      * 
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -447,7 +447,7 @@ class FakeApi
      *
      * 
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -497,7 +497,7 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterCompositeSerialize'
      *
-     * @param  \Swagger\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
+     * @param  OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -584,31 +584,31 @@ class FakeApi
     /**
      * Operation fakeOuterNumberSerialize
      *
-     * @param   $UNKNOWN_PARAM_NAME Input number as post body (optional)
+     * @param  float $body Input number as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Swagger\Client\Model\OuterNumber
      */
-    public function fakeOuterNumberSerialize($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterNumberSerialize($body = null)
     {
-        list($response) = $this->fakeOuterNumberSerializeWithHttpInfo($UNKNOWN_PARAM_NAME);
+        list($response) = $this->fakeOuterNumberSerializeWithHttpInfo($body);
         return $response;
     }
 
     /**
      * Operation fakeOuterNumberSerializeWithHttpInfo
      *
-     * @param   $UNKNOWN_PARAM_NAME Input number as post body (optional)
+     * @param  float $body Input number as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Swagger\Client\Model\OuterNumber, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterNumberSerializeWithHttpInfo($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterNumberSerializeWithHttpInfo($body = null)
     {
         $returnType = '\Swagger\Client\Model\OuterNumber';
-        $request = $this->fakeOuterNumberSerializeRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->fakeOuterNumberSerializeRequest($body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -674,14 +674,14 @@ class FakeApi
      *
      * 
      *
-     * @param   $UNKNOWN_PARAM_NAME Input number as post body (optional)
+     * @param  float $body Input number as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterNumberSerializeAsync($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterNumberSerializeAsync($body = null)
     {
-        return $this->fakeOuterNumberSerializeAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
+        return $this->fakeOuterNumberSerializeAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -694,15 +694,15 @@ class FakeApi
      *
      * 
      *
-     * @param   $UNKNOWN_PARAM_NAME Input number as post body (optional)
+     * @param  float $body Input number as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterNumberSerializeAsyncWithHttpInfo($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterNumberSerializeAsyncWithHttpInfo($body = null)
     {
         $returnType = '\Swagger\Client\Model\OuterNumber';
-        $request = $this->fakeOuterNumberSerializeRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->fakeOuterNumberSerializeRequest($body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -744,12 +744,12 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterNumberSerialize'
      *
-     * @param   $UNKNOWN_PARAM_NAME Input number as post body (optional)
+     * @param  float $body Input number as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterNumberSerializeRequest($UNKNOWN_PARAM_NAME = null)
+    protected function fakeOuterNumberSerializeRequest($body = null)
     {
 
         $resourcePath = '/fake/outer/number';
@@ -763,8 +763,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($UNKNOWN_PARAM_NAME)) {
-            $_tempBody = $UNKNOWN_PARAM_NAME;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {
@@ -831,31 +831,31 @@ class FakeApi
     /**
      * Operation fakeOuterStringSerialize
      *
-     * @param   $UNKNOWN_PARAM_NAME Input string as post body (optional)
+     * @param  string $body Input string as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \Swagger\Client\Model\OuterString
      */
-    public function fakeOuterStringSerialize($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterStringSerialize($body = null)
     {
-        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($UNKNOWN_PARAM_NAME);
+        list($response) = $this->fakeOuterStringSerializeWithHttpInfo($body);
         return $response;
     }
 
     /**
      * Operation fakeOuterStringSerializeWithHttpInfo
      *
-     * @param   $UNKNOWN_PARAM_NAME Input string as post body (optional)
+     * @param  string $body Input string as post body (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Swagger\Client\Model\OuterString, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterStringSerializeWithHttpInfo($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterStringSerializeWithHttpInfo($body = null)
     {
         $returnType = '\Swagger\Client\Model\OuterString';
-        $request = $this->fakeOuterStringSerializeRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->fakeOuterStringSerializeRequest($body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -921,14 +921,14 @@ class FakeApi
      *
      * 
      *
-     * @param   $UNKNOWN_PARAM_NAME Input string as post body (optional)
+     * @param  string $body Input string as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterStringSerializeAsync($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterStringSerializeAsync($body = null)
     {
-        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
+        return $this->fakeOuterStringSerializeAsyncWithHttpInfo($body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -941,15 +941,15 @@ class FakeApi
      *
      * 
      *
-     * @param   $UNKNOWN_PARAM_NAME Input string as post body (optional)
+     * @param  string $body Input string as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterStringSerializeAsyncWithHttpInfo($UNKNOWN_PARAM_NAME = null)
+    public function fakeOuterStringSerializeAsyncWithHttpInfo($body = null)
     {
         $returnType = '\Swagger\Client\Model\OuterString';
-        $request = $this->fakeOuterStringSerializeRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->fakeOuterStringSerializeRequest($body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -991,12 +991,12 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterStringSerialize'
      *
-     * @param   $UNKNOWN_PARAM_NAME Input string as post body (optional)
+     * @param  string $body Input string as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterStringSerializeRequest($UNKNOWN_PARAM_NAME = null)
+    protected function fakeOuterStringSerializeRequest($body = null)
     {
 
         $resourcePath = '/fake/outer/string';
@@ -1010,8 +1010,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($UNKNOWN_PARAM_NAME)) {
-            $_tempBody = $UNKNOWN_PARAM_NAME;
+        if (isset($body)) {
+            $_tempBody = $body;
         }
 
         if ($multipart) {
@@ -1080,7 +1080,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1097,7 +1097,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
@@ -1172,7 +1172,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1192,7 +1192,7 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
@@ -1242,7 +1242,7 @@ class FakeApi
     /**
      * Create request for operation 'testClientModel'
      *
-     * @param  \Swagger\Client\Model\Client $client client model (required)
+     * @param  Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
@@ -1337,7 +1337,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
-     * @param  BigDecimal $number None (required)
+     * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
@@ -1346,7 +1346,7 @@ class FakeApi
      * @param  int $int64 None (optional)
      * @param  float $float None (optional)
      * @param  string $string None (optional)
-     * @param  string $binary None (optional)
+     * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
      * @param  string $password None (optional)
@@ -1366,7 +1366,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
-     * @param  BigDecimal $number None (required)
+     * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
@@ -1375,7 +1375,7 @@ class FakeApi
      * @param  int $int64 None (optional)
      * @param  float $float None (optional)
      * @param  string $string None (optional)
-     * @param  string $binary None (optional)
+     * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
      * @param  string $password None (optional)
@@ -1432,7 +1432,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
-     * @param  BigDecimal $number None (required)
+     * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
@@ -1441,7 +1441,7 @@ class FakeApi
      * @param  int $int64 None (optional)
      * @param  float $float None (optional)
      * @param  string $string None (optional)
-     * @param  string $binary None (optional)
+     * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
      * @param  string $password None (optional)
@@ -1465,7 +1465,7 @@ class FakeApi
      *
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
-     * @param  BigDecimal $number None (required)
+     * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
@@ -1474,7 +1474,7 @@ class FakeApi
      * @param  int $int64 None (optional)
      * @param  float $float None (optional)
      * @param  string $string None (optional)
-     * @param  string $binary None (optional)
+     * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
      * @param  string $password None (optional)
@@ -1514,7 +1514,7 @@ class FakeApi
     /**
      * Create request for operation 'testEndpointParameters'
      *
-     * @param  BigDecimal $number None (required)
+     * @param  float $number None (required)
      * @param  double $double None (required)
      * @param  string $pattern_without_delimiter None (required)
      * @param  string $byte None (required)
@@ -1523,7 +1523,7 @@ class FakeApi
      * @param  int $int64 None (optional)
      * @param  float $float None (optional)
      * @param  string $string None (optional)
-     * @param  string $binary None (optional)
+     * @param  \SplFileObject $binary None (optional)
      * @param  \DateTime $date None (optional)
      * @param  \DateTime $date_time None (optional)
      * @param  string $password None (optional)
@@ -1641,8 +1641,7 @@ class FakeApi
         }
         // form params
         if ($byte !== null) {
-            $multipart = true;
-            $formParams['byte'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($byte), 'rb');
+            $formParams['byte'] = ObjectSerializer::toFormValue($byte);
         }
         // form params
         if ($binary !== null) {
@@ -1915,7 +1914,7 @@ class FakeApi
 
         // query params
         if (is_array($enum_query_string_array)) {
-            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'csv', true);
+            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'multi', true);
         }
         if ($enum_query_string_array !== null) {
             $queryParams['enum_query_string_array'] = ObjectSerializer::toQueryValue($enum_query_string_array);
@@ -2022,15 +2021,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $unknown_base_type request body (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testInlineAdditionalProperties($UNKNOWN_PARAM_NAME)
+    public function testInlineAdditionalProperties($unknown_base_type)
     {
-        $this->testInlineAdditionalPropertiesWithHttpInfo($UNKNOWN_PARAM_NAME);
+        $this->testInlineAdditionalPropertiesWithHttpInfo($unknown_base_type);
     }
 
     /**
@@ -2038,16 +2037,16 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $unknown_base_type request body (required)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testInlineAdditionalPropertiesWithHttpInfo($UNKNOWN_PARAM_NAME)
+    public function testInlineAdditionalPropertiesWithHttpInfo($unknown_base_type)
     {
         $returnType = '';
-        $request = $this->testInlineAdditionalPropertiesRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->testInlineAdditionalPropertiesRequest($unknown_base_type);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2091,14 +2090,14 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $unknown_base_type request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsync($UNKNOWN_PARAM_NAME)
+    public function testInlineAdditionalPropertiesAsync($unknown_base_type)
     {
-        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
+        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($unknown_base_type)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2111,15 +2110,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $unknown_base_type request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($UNKNOWN_PARAM_NAME)
+    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($unknown_base_type)
     {
         $returnType = '';
-        $request = $this->testInlineAdditionalPropertiesRequest($UNKNOWN_PARAM_NAME);
+        $request = $this->testInlineAdditionalPropertiesRequest($unknown_base_type);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2147,17 +2146,17 @@ class FakeApi
     /**
      * Create request for operation 'testInlineAdditionalProperties'
      *
-     * @param  map[string,string] $UNKNOWN_PARAM_NAME request body (required)
+     * @param  map[string,string] $unknown_base_type request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testInlineAdditionalPropertiesRequest($UNKNOWN_PARAM_NAME)
+    protected function testInlineAdditionalPropertiesRequest($unknown_base_type)
     {
-        // verify the required parameter 'UNKNOWN_PARAM_NAME' is set
-        if ($UNKNOWN_PARAM_NAME === null || (is_array($UNKNOWN_PARAM_NAME) && count($UNKNOWN_PARAM_NAME) === 0)) {
+        // verify the required parameter 'unknown_base_type' is set
+        if ($unknown_base_type === null || (is_array($unknown_base_type) && count($unknown_base_type) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $UNKNOWN_PARAM_NAME when calling testInlineAdditionalProperties'
+                'Missing the required parameter $unknown_base_type when calling testInlineAdditionalProperties'
             );
         }
 
@@ -2172,8 +2171,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($UNKNOWN_PARAM_NAME)) {
-            $_tempBody = $UNKNOWN_PARAM_NAME;
+        if (isset($unknown_base_type)) {
+            $_tempBody = $unknown_base_type;
         }
 
         if ($multipart) {
@@ -2242,15 +2241,15 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body_4 body_4 (optional)
+     * @param  Body4 $body4 body4 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testJsonFormData($body_4 = null)
+    public function testJsonFormData($body4 = null)
     {
-        $this->testJsonFormDataWithHttpInfo($body_4);
+        $this->testJsonFormDataWithHttpInfo($body4);
     }
 
     /**
@@ -2258,16 +2257,16 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \Swagger\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testJsonFormDataWithHttpInfo($body_4 = null)
+    public function testJsonFormDataWithHttpInfo($body4 = null)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest($body_4);
+        $request = $this->testJsonFormDataRequest($body4);
 
         try {
             $options = $this->createHttpClientOption();
@@ -2311,14 +2310,14 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsync($body_4 = null)
+    public function testJsonFormDataAsync($body4 = null)
     {
-        return $this->testJsonFormDataAsyncWithHttpInfo($body_4)
+        return $this->testJsonFormDataAsyncWithHttpInfo($body4)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2331,15 +2330,15 @@ class FakeApi
      *
      * test json serialization of form data
      *
-     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testJsonFormDataAsyncWithHttpInfo($body_4 = null)
+    public function testJsonFormDataAsyncWithHttpInfo($body4 = null)
     {
         $returnType = '';
-        $request = $this->testJsonFormDataRequest($body_4);
+        $request = $this->testJsonFormDataRequest($body4);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -2367,12 +2366,12 @@ class FakeApi
     /**
      * Create request for operation 'testJsonFormData'
      *
-     * @param  \Swagger\Client\Model\Body4 $body_4 (optional)
+     * @param  Body4 $body4 (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testJsonFormDataRequest($body_4 = null)
+    protected function testJsonFormDataRequest($body4 = null)
     {
 
         $resourcePath = '/fake/jsonFormData';
@@ -2386,8 +2385,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($body_4)) {
-            $_tempBody = $body_4;
+        if (isset($body4)) {
+            $_tempBody = $body4;
         }
 
         if ($multipart) {

@@ -96,7 +96,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**map[string,int]**](../Model/map.md)
+**map[string,int]**
 
 ### Authorization
 
@@ -173,7 +173,7 @@ $apiInstance = new Swagger\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$order = new \Swagger\Client\Model\Order(); // \Swagger\Client\Model\Order | order placed for purchasing the pet
+$order = new \Swagger\Client\Model\Order(); // Order | order placed for purchasing the pet
 
 try {
     $result = $apiInstance->placeOrder($order);
@@ -188,7 +188,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**\Swagger\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

@@ -61,7 +61,7 @@ $apiInstance = new Swagger\Client\Api\AnotherFakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
+$client = new \Swagger\Client\Model\Client(); // Client | client model
 
 try {
     $result = $apiInstance->testSpecialTags($client);
@@ -121,10 +121,6 @@ Class | Method | HTTP request | Description
  - [ArrayOfArrayOfNumberOnly](docs/Model/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/Model/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/Model/ArrayTest.md)
- - [Body](docs/Model/Body.md)
- - [Body1](docs/Model/Body1.md)
- - [Body2](docs/Model/Body2.md)
- - [Body3](docs/Model/Body3.md)
  - [Body4](docs/Model/Body4.md)
  - [Capitalization](docs/Model/Capitalization.md)
  - [Cat](docs/Model/Cat.md)

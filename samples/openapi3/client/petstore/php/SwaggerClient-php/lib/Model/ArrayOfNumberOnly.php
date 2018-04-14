@@ -57,7 +57,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'array_number' => 'BigDecimal[]'
+        'array_number' => 'float[]'
     ];
 
     /**
@@ -208,7 +208,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
     /**
      * Gets array_number
      *
-     * @return BigDecimal[]
+     * @return float[]
      */
     public function getArrayNumber()
     {
@@ -218,7 +218,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
     /**
      * Sets array_number
      *
-     * @param BigDecimal[] $array_number array_number
+     * @param float[] $array_number array_number
      *
      * @return $this
      */
