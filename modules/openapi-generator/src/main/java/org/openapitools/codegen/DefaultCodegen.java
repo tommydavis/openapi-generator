@@ -2085,7 +2085,23 @@ public class DefaultCodegen implements CodegenConfig {
                         }
                     }
                     // TODO need to revise the logic below
-                    op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>)responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+                    LOGGER.info("debugging example responseSchema: " + responseSchema);
+                    ArrayList<String> produces = new ArrayList<String>(getProducesInfo(operation));
+                    LOGGER.info("debugging produces info: " + produces.toString());
+                    if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
+                        ArraySchema as = (ArraySchema) responseSchema;
+                        if (as.getItems() != null) {
+                            op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                    new ArrayList<String>(getProducesInfo(operation)), as.getItems());
+                        }
+                    } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+                        op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+                    } else { // model
+                        op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(responseSchema.get$ref()));
+                    }
+
                     op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.datatype;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
@@ -2155,9 +2171,13 @@ public class DefaultCodegen implements CodegenConfig {
                 if (prependFormOrBodyParameters) {
                     allParams.add(bodyParam);
                 }
+
+                // add example
                 if (schemas != null) {
-                    // TODO fix NPE
-                    //op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.dataType);
+                    ArrayList<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
+                    LOGGER.info("debugging reqeust body examples: " + consumes.toString());
+                    LOGGER.info("body param datatype: " + bodyParam.baseType);
+                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType);
                 }
             }
         }
@@ -3918,11 +3938,24 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * returns the list of MIME types the APIs can produce
+     *
+     * @param operation Operation
+     * @return a set of MIME types
+     */
     public static Set<String> getProducesInfo(Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
-        return operation.getResponses().keySet();
+
+        Set<String> produces = new TreeSet<String>();
+
+        for (ApiResponse response : operation.getResponses().values()) {
+            produces.addAll(response.getContent().keySet());
+        }
+
+        return produces;
     }
 
     protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {

@@ -45,6 +45,7 @@ public class ExampleGenerator {
     }
 
     public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property) {
+        logger.info("debugging generate in ExampleGenerator");
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
@@ -55,7 +56,7 @@ public class ExampleGenerator {
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
-                if (property != null && mediaType.startsWith(MIME_TYPE_JSON)) {
+                if (property != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     String example = Json.pretty(resolvePropertyToExample("", mediaType, property, processedModels));
                     if (example != null) {
                         kv.put(EXAMPLE, example);
@@ -97,7 +98,7 @@ public class ExampleGenerator {
             for (String mediaType : mediaTypes) {
                 Map<String, String> kv = new HashMap<>();
                 kv.put(CONTENT_TYPE, mediaType);
-                if (modelName != null && mediaType.startsWith(MIME_TYPE_JSON)) {
+                if (modelName != null && (mediaType.startsWith(MIME_TYPE_JSON) || mediaType.contains("*/*"))) {
                     final Schema schema = this.examples.get(modelName);
                     if (schema != null) {
                         String example = Json.pretty(resolveModelToExample(modelName, mediaType, schema, processedModels));
@@ -124,6 +125,7 @@ public class ExampleGenerator {
                 output.add(kv);
             }
         }
+
         if (output.size() == 0) {
             Map<String, String> kv = new HashMap<>();
             kv.put(OUTPUT, NONE);
@@ -133,9 +135,9 @@ public class ExampleGenerator {
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels) {
-        logger.debug("Resolving example for property {}...", property);
+        logger.info("Resolving example for property {}...", property);
         if (property.getExample() != null) {
-            logger.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
+            logger.info("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
             return property.getExample();
         } else if (ModelUtils.isBooleanSchema(property)) {
             Object defaultValue = property.getDefault();
@@ -236,18 +238,21 @@ public class ExampleGenerator {
 
         processedModels.add(name);
         Map<String, Object> values = new HashMap<>();
-        logger.debug("Resolving model '{}' to example", name);
+        logger.info("Resolving model '{}' to example", name);
         if (schema.getExample() != null) {
-            logger.debug("Using example from spec: {}", schema.getExample());
+            logger.info("Using example from spec: {}", schema.getExample());
             return schema.getExample();
         } else if (schema.getProperties() != null) {
-            logger.debug("Creating example from model values");
+            logger.info("Creating example from model values");
             for (Object propertyName : schema.getProperties().keySet()) {
-                schema.getProperties().get(propertyName.toString());
-                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, schema, processedModels));
+                Schema property = (Schema) schema.getProperties().get(propertyName.toString());
+                values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels));
             }
             schema.setExample(values);
+            return schema.getExample();
+        } else {
+            // TODO log an error message as the model does not have any properties
+            return null;
         }
-        return "";
     }
 }

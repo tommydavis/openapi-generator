@@ -47,6 +47,7 @@ public class XmlExampleGenerator {
     }
 
     protected String toXml(Schema schema, int indent, Collection<String> path) {
+        if (schema == null) return "";
         if (StringUtils.isNotEmpty(schema.get$ref())) {
             Schema actualSchema = examples.get(schema.get$ref());
             if (actualSchema != null) {
