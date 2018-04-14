@@ -2085,8 +2085,27 @@ public class DefaultCodegen implements CodegenConfig {
                             op.returnBaseType = cm.baseType;
                         }
                     }
-                    // TODO need to revise the logic below
-                    op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+
+                    // generate examples
+                    if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
+                        ArraySchema as = (ArraySchema) responseSchema;
+                        if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+                            op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                    new ArrayList<String>(getProducesInfo(operation)), as.getItems(), openAPI);
+                        } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
+                            op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                    new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(as.getItems().get$ref()), openAPI);
+                        } else {
+                            // TODO log warning message as such case is not handled at the moment
+                        }
+                    } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+                        op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                new ArrayList<String>(getProducesInfo(operation)), responseSchema, openAPI);
+                    } else { // model
+                        op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(responseSchema.get$ref()), openAPI);
+                    }
+
                     op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.datatype;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
@@ -2156,9 +2175,10 @@ public class DefaultCodegen implements CodegenConfig {
                 if (prependFormOrBodyParameters) {
                     allParams.add(bodyParam);
                 }
+
+                // add example
                 if (schemas != null) {
-                    // TODO fix NPE
-                    //op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.dataType);
+                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
                 }
             }
         }
@@ -3919,11 +3939,24 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * returns the list of MIME types the APIs can produce
+     *
+     * @param operation Operation
+     * @return a set of MIME types
+     */
     public static Set<String> getProducesInfo(Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
-        return operation.getResponses().keySet();
+
+        Set<String> produces = new TreeSet<String>();
+
+        for (ApiResponse response : operation.getResponses().values()) {
+            produces.addAll(response.getContent().keySet());
+        }
+
+        return produces;
     }
 
     protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {

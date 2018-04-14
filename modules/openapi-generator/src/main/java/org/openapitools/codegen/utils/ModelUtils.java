@@ -100,7 +100,7 @@ public class ModelUtils {
     }
 
     // todo change it to public later
-    protected static String getSimpleRef(String ref) {
+    public static String getSimpleRef(String ref) {
         if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
