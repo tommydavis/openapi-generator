@@ -1399,7 +1399,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (!supportsMixins) {
+                        if (!supportsMixins && !supportsInheritance) {
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
                         if (supportsInheritance) {
@@ -1421,21 +1421,22 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-            // TODO need to revise the child model logic below
+
             // child model (properties owned by the model itself)
-			/*
-            Model child = composed.getChild();
-            if (child != null && child instanceof RefModel && allDefinitions != null) {
-                final String childRef = ((RefModel) child).getSimpleRef();
-                child = allDefinitions.get(childRef);
+            Schema child = null;
+            if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+                for (Schema component : composed.getAllOf()) {
+                    if (component.get$ref() == null) {
+                        child = component;
+                    }
+                }
             }
-            if (child != null && child instanceof ModelImpl) {
+            if (child != null) {
                 addProperties(properties, required, child, allDefinitions);
                 if (supportsInheritance) {
                     addProperties(allProperties, allRequired, child, allDefinitions);
                 }
-            }*/
-            addProperties(properties, required, composed, allDefinitions);
+            }
             addVars(m, properties, required, allProperties, allRequired);
             // TODO
             //} else if (schema instanceof RefModel) {
