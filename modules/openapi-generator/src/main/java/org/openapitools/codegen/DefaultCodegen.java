@@ -2084,10 +2084,8 @@ public class DefaultCodegen implements CodegenConfig {
                             op.returnBaseType = cm.baseType;
                         }
                     }
-                    // TODO need to revise the logic below
-                    LOGGER.info("debugging example responseSchema: " + responseSchema);
-                    ArrayList<String> produces = new ArrayList<String>(getProducesInfo(operation));
-                    LOGGER.info("debugging produces info: " + produces.toString());
+
+                    // generate examples
                     if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
                         ArraySchema as = (ArraySchema) responseSchema;
                         if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
@@ -2179,9 +2177,6 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // add example
                 if (schemas != null) {
-                    ArrayList<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
-                    LOGGER.info("debugging reqeust body examples: " + consumes.toString());
-                    LOGGER.info("body param datatype: " + bodyParam.baseType);
                     op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
                 }
             }

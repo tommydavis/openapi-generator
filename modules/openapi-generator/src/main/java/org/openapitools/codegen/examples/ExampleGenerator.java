@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class ExampleGenerator {
-    private static final Logger logger = LoggerFactory.getLogger(ExampleGenerator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExampleGenerator.class);
 
     // TODO: move constants to more appropriate location
     private static final String MIME_TYPE_JSON = "application/json";
@@ -47,7 +47,7 @@ public class ExampleGenerator {
     }
 
     public List<Map<String, String>> generate(Map<String, Object> examples, List<String> mediaTypes, Schema property, OpenAPI openAPI) {
-        logger.info("debugging generate in ExampleGenerator");
+        LOGGER.debug("debugging generate in ExampleGenerator");
         List<Map<String, String>> output = new ArrayList<>();
         Set<String> processedModels = new HashSet<>();
         if (examples == null) {
@@ -137,9 +137,9 @@ public class ExampleGenerator {
     }
 
     private Object resolvePropertyToExample(String propertyName, String mediaType, Schema property, Set<String> processedModels, OpenAPI openAPI) {
-        logger.info("Resolving example for property {}...", property);
+        LOGGER.debug("Resolving example for property {}...", property);
         if (property.getExample() != null) {
-            logger.info("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
+            LOGGER.debug("Example set in openapi spec, returning example: '{}'", property.getExample().toString());
             return property.getExample();
         } else if (ModelUtils.isBooleanSchema(property)) {
             Object defaultValue = property.getDefault();
@@ -195,23 +195,23 @@ public class ExampleGenerator {
         } else if (ModelUtils.isUUIDSchema(property)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
         } else if (ModelUtils.isStringSchema(property)) {
-            logger.debug("String property");
+            LOGGER.debug("String property");
             String defaultValue = (String) property.getDefault();
             if (defaultValue != null && !defaultValue.isEmpty()) {
-                logger.debug("Default value found: '{}'", defaultValue);
+                LOGGER.debug("Default value found: '{}'", defaultValue);
                 return defaultValue;
             }
             List<String> enumValues = property.getEnum();
             if (enumValues != null && !enumValues.isEmpty()) {
-                logger.debug("Enum value found: '{}'", enumValues.get(0));
+                LOGGER.debug("Enum value found: '{}'", enumValues.get(0));
                 return enumValues.get(0);
             }
             String format = property.getFormat();
             if (format != null && (URI.equals(format) || URL.equals(format))) {
-                logger.debug("URI or URL format, without default or enum, generating random one.");
+                LOGGER.debug("URI or URL format, without default or enum, generating random one.");
                 return "http://example.com/aeiou";
             }
-            logger.debug("No values found, using property name " + propertyName + " as example");
+            LOGGER.debug("No values found, using property name " + propertyName + " as example");
             return propertyName;
         } else if (!StringUtils.isEmpty(property.get$ref())) { // model
             String simpleName = ModelUtils.getSimpleRef(property.get$ref());
@@ -245,12 +245,12 @@ public class ExampleGenerator {
 
         processedModels.add(name);
         Map<String, Object> values = new HashMap<>();
-        logger.info("Resolving model '{}' to example", name);
+        LOGGER.debug("Resolving model '{}' to example", name);
         if (schema.getExample() != null) {
-            logger.info("Using example from spec: {}", schema.getExample());
+            LOGGER.debug("Using example from spec: {}", schema.getExample());
             return schema.getExample();
         } else if (schema.getProperties() != null) {
-            logger.info("Creating example from model values");
+            LOGGER.debug("Creating example from model values");
             for (Object propertyName : schema.getProperties().keySet()) {
                 Schema property = (Schema) schema.getProperties().get(propertyName.toString());
                 values.put(propertyName.toString(), resolvePropertyToExample(propertyName.toString(), mediaType, property, processedModels, openAPI));
