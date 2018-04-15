@@ -16,7 +16,7 @@ public class CodegenParameter {
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary, isBoolean, isDate, isDateTime, isUuid;
     public boolean isListContainer, isMapContainer;
-    public boolean isFile, notFile;
+    public boolean isFile;
     public boolean isEnum;
     public List<String> _enum;
     public Map<String, Object> allowableValues;
@@ -79,7 +79,6 @@ public class CodegenParameter {
     public CodegenParameter copy() {
         CodegenParameter output = new CodegenParameter();
         output.isFile = this.isFile;
-        output.notFile = this.notFile;
         output.hasMore = this.hasMore;
         output.isContainer = this.isContainer;
         output.secondaryParam = this.secondaryParam;
@@ -237,8 +236,6 @@ public class CodegenParameter {
             return false;
         if (isFile != that.isFile)
             return false;
-        if (notFile != that.notFile)
-            return false;
         if (_enum != null ? !_enum.equals(that._enum) : that._enum != null)
             return false;
         if (allowableValues != null ? !allowableValues.equals(that.allowableValues) : that.allowableValues != null)
@@ -317,7 +314,6 @@ public class CodegenParameter {
         result = 31 * result + (isListContainer ? 13:31);
         result = 31 * result + (isMapContainer ? 13:31);
         result = 31 * result + (isFile ? 13:31);
-        result = 31 * result + (notFile ? 13:31);
         result = 31 * result + (isEnum ? 1 : 0);
         result = 31 * result + (_enum != null ? _enum.hashCode() : 0);
         result = 31 * result + (allowableValues != null ? allowableValues.hashCode() : 0);
@@ -382,7 +378,6 @@ public class CodegenParameter {
                 ", isListContainer=" + isListContainer +
                 ", isMapContainer=" + isMapContainer +
                 ", isFile=" + isFile +
-                ", notFile=" + notFile +
                 ", isEnum=" + isEnum +
                 ", _enum=" + _enum +
                 ", allowableValues=" + allowableValues +

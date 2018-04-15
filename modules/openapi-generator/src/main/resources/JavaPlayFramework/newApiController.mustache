@@ -126,15 +126,15 @@ public class {{classname}}Controller extends Controller {
         {{/collectionFormat}}
         {{/queryParams}}
         {{#formParams}}
-        {{^notFile}}
+        {{#isFile}}
         {{{dataType}}} {{paramName}} = request().body().asMultipartFormData().getFile("{{baseName}}");
         {{#required}}
         if (({{paramName}} == null || ((File) {{paramName}}.getFile()).length() == 0)) {
             throw new IllegalArgumentException("'{{baseName}}' file cannot be empty");
         }
         {{/required}}
-        {{/notFile}}
-        {{#notFile}}
+        {{/isFile}}
+        {{^isFile}}
         {{#collectionFormat}}
         String[] {{paramName}}Array = request().body().asMultipartFormData().asFormUrlEncoded().get("{{baseName}}");
         {{#required}}
@@ -165,7 +165,7 @@ public class {{classname}}Controller extends Controller {
             {{/required}}
         }
         {{/collectionFormat}}
-        {{/notFile}}
+        {{/isFile}}
         {{/formParams}}
         {{#headerParams}}
         {{#collectionFormat}}
