@@ -215,8 +215,11 @@ public class ExampleGenerator {
             return propertyName;
         } else if (!StringUtils.isEmpty(property.get$ref())) { // model
             String simpleName = ModelUtils.getSimpleRef(property.get$ref());
-            Schema schema = openAPI.getComponents().getSchemas().get(simpleName);
-            return resolveModelToExample(simpleName, mediaType, property, processedModels, openAPI);
+            Schema schema = ModelUtils.getSchema(openAPI, simpleName);
+            if (schema == null) { // couldn't find the model/schema
+                return "{}";
+            }
+            return resolveModelToExample(simpleName, mediaType, schema, processedModels, openAPI);
 
         } else if (ModelUtils.isObjectSchema(property)) {
             return "{}";

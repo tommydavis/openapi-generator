@@ -833,6 +833,10 @@
           }
         },
         "description" : "A category for a pet",
+        "example" : {
+          "name" : "name",
+          "id" : 6
+        },
         "xml" : {
           "name" : "Category"
         }
@@ -897,6 +901,10 @@
           }
         },
         "description" : "A tag for a pet",
+        "example" : {
+          "name" : "name",
+          "id" : 1
+        },
         "xml" : {
           "name" : "Tag"
         }
@@ -948,7 +956,17 @@
           "photoUrls" : [ "photoUrls", "photoUrls" ],
           "name" : "doggie",
           "id" : 0,
-          "tags" : [ null, null ],
+          "category" : {
+            "name" : "name",
+            "id" : 6
+          },
+          "tags" : [ {
+            "name" : "name",
+            "id" : 1
+          }, {
+            "name" : "name",
+            "id" : 1
+          } ],
           "status" : "available"
         },
         "xml" : {
