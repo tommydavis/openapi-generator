@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 
 public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig {
@@ -108,7 +109,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see io.swagger.codegen.CodegenType
+     * @see org.openapitools.codegen.CodegenType
      */
     @Override
     public CodegenType getTag() {
@@ -176,7 +177,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String escapeReservedWord(String name) {
-        if(this.reservedWordsMappings().containsKey(name)) {
+        if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
         return "_" + name;
@@ -286,7 +287,7 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         if (additionalProperties.containsKey(EXPORTED_NAME)) {
-            setExportedName((String)additionalProperties.get(EXPORTED_NAME));
+            setExportedName((String) additionalProperties.get(EXPORTED_NAME));
         }
 
         /*
@@ -377,11 +378,11 @@ public class NodeJSServerCodegen extends DefaultCodegen implements CodegenConfig
         // need vendor extensions for x-swagger-router-controller
         Paths paths = openAPI.getPaths();
         if (paths != null) {
-            for(String pathname : paths.keySet()) {
+            for (String pathname : paths.keySet()) {
                 PathItem path = paths.get(pathname);
                 Map<HttpMethod, Operation> operationMap = path.readOperationsMap();
-                if(operationMap != null) {
-                    for(HttpMethod method : operationMap.keySet()) {
+                if (operationMap != null) {
+                    for (HttpMethod method : operationMap.keySet()) {
                         Operation operation = operationMap.get(method);
                         String tag = "default";
                         if (operation.getTags() != null && operation.getTags().size() > 0) {

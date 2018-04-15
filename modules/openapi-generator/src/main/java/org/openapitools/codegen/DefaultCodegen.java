@@ -794,8 +794,6 @@ public class DefaultCodegen implements CodegenConfig {
      * This method will map between OAS type and language-specified type, as well as mapping
      * between OAS type and the corresponding import statement for the language. This will
      * also add some language specified CLI options, if any.
-     * <p>
-     * <p>
      * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
@@ -1298,8 +1296,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Model object to Codegen Model object without providing all model definitions
      *
-     * @param name  the name of the model
-     * @param model OAS Model object
+     * @param name   the name of the model
+     * @param schema OAS Model object
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Schema schema) {
@@ -2002,11 +2000,11 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Operation object to Codegen Operation object
      *
-     * @param path        the path of the operation
-     * @param httpMethod  HTTP method
-     * @param operation   OAS operation object
-     * @param definitions a map of OAS models
-     * @param schemas     a OAS object representing the spec
+     * @param path       the path of the operation
+     * @param httpMethod HTTP method
+     * @param operation  OAS operation object
+     * @param schemas    a map of OAS models
+     * @param openAPI    a OAS object representing the spec
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
@@ -2416,8 +2414,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
-     * @param param   OAS parameter object
-     * @param imports set of imports for library/package/module
+     * @param parameter OAS parameter object
+     * @param imports   set of imports for library/package/module
      * @return Codegen Parameter object
      */
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
@@ -2743,7 +2741,7 @@ public class DefaultCodegen implements CodegenConfig {
      *
      * @param parameter Parameter
      * @param schema    Schema
-     * @return
+     * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
         return null;
