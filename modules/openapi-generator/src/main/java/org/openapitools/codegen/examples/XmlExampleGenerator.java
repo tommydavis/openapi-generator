@@ -38,7 +38,7 @@ public class XmlExampleGenerator {
     public XmlExampleGenerator(Map<String, Schema> examples) {
         this.examples = examples;
         if (examples == null) {
-            this.examples = new HashMap<String, Schema>(); 
+            this.examples = new HashMap<String, Schema>();
         }
     }
 
@@ -79,7 +79,7 @@ public class XmlExampleGenerator {
         }
         // TODO: map objects will not enter this block
         Map<String, Schema> properties = schema.getProperties();
-        if(properties != null && !properties.isEmpty()) {
+        if (properties != null && !properties.isEmpty()) {
             for (String pName : properties.keySet()) {
                 Schema property = properties.get(pName);
                 if (property != null && property.getXml() != null && property.getXml().getAttribute() != null && property.getXml().getAttribute()) {
@@ -166,14 +166,13 @@ public class XmlExampleGenerator {
     }
 
     /**
-    * Get the example string value for the given schema.
-    *
-    * If an example value was not provided in the specification, a default will be generated.
-    *
-    * @param schema Schema to get example string for
-    *
-    * @return Example String
-    */
+     * Get the example string value for the given schema.
+     *
+     * If an example value was not provided in the specification, a default will be generated.
+     *
+     * @param schema Schema to get example string for
+     * @return Example String
+     */
     protected String getExample(Schema schema) {
         if (schema.getExample() != null) {
             return schema.getExample().toString();
@@ -193,7 +192,7 @@ public class XmlExampleGenerator {
             return "********";
         } else if (ModelUtils.isUUIDSchema(schema)) {
             return "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
-        // do these last in case the specific types above are derived from these classes
+            // do these last in case the specific types above are derived from these classes
         } else if (ModelUtils.isStringSchema(schema)) {
             return "aeiou";
         } else if (ModelUtils.isIntegerSchema(schema)) {
@@ -202,9 +201,10 @@ public class XmlExampleGenerator {
             } else { //integer
                 return "123";
             }
+        } else {
+            LOGGER.debug("default example value not implemented for {}. Default to UNDEFINED_EXAMPLE_VALUE", schema);
+            return "UNDEFINED_EXAMPLE_VALUE";
         }
-        LOGGER.warn("default example value not implemented for " + schema);
-        return "";
     }
 
     @SuppressWarnings("static-method")
