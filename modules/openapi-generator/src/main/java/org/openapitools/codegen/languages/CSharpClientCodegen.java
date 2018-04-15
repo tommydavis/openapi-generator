@@ -52,7 +52,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     protected boolean supportsUWP = Boolean.FALSE;
     protected boolean netStandard = Boolean.FALSE;
     protected boolean generatePropertyChanged = Boolean.FALSE;
-    protected boolean hideGenerationTimestamp = Boolean.TRUE;
 
     protected boolean validatable = Boolean.TRUE;
     protected Map<Character, String> regexModifiers;
@@ -69,6 +68,8 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
+
+        hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.clear();
 
@@ -196,12 +197,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
 
-        // default HIDE_GENERATION_TIMESTAMP to true
-        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
-            setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
-        } else {
-            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
-        }
 
         if (isEmpty(apiPackage)) {
             setApiPackage("Api");
@@ -773,10 +768,6 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
 
     public void setGeneratePropertyChanged(final Boolean generatePropertyChanged) {
         this.generatePropertyChanged = generatePropertyChanged;
-    }
-
-    public void setHideGenerationTimestamp(boolean hideGenerationTimestamp) {
-        this.hideGenerationTimestamp = hideGenerationTimestamp;
     }
 
     public boolean isNonPublicApi() {
