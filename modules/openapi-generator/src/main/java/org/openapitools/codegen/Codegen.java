@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -89,7 +89,7 @@ public class Codegen extends DefaultGenerator {
                 return;
             }
             if (cmd.hasOption("i")) {
-                openAPI = new OpenAPIV3Parser().read(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), null);
+                openAPI = new OpenAPIParser().readLocation(cmd.getOptionValue("i"), clientOptInput.getAuthorizationValues(), null).getOpenAPI();
             }
             if (cmd.hasOption("c")) {
                 String configFile = cmd.getOptionValue("c");
