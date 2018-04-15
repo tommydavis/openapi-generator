@@ -309,4 +309,16 @@ public class ModelUtils {
         return false;
     }
 
+    public static Schema getSchema(OpenAPI openapi, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openapi != null && openapi.getComponents() != null && openapi.getComponents().getSchemas() != null) {
+            return openapi.getComponents().getSchemas().get(name);
+        }
+
+        return null;
+    }
+
 }
