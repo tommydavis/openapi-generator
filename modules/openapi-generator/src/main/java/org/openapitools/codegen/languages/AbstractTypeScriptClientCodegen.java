@@ -277,7 +277,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      *
      * @param values   list of allowed enum values
      * @param dataType either "string" or "number"
-     * @return
+     * @return a literal union for representing enum values as a type
      */
     protected String enumValuesToEnumTypeUnion(List<String> values, String dataType) {
         StringBuilder b = new StringBuilder();
@@ -296,8 +296,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      * Converts a list of numbers to a literal union for representing enum values as a type.
      * Example output: 3 | 9 | 55
      *
-     * @param values
-     * @return
+     * @param values a list of numbers
+     * @return a literal union for representing enum values as a type
      */
     protected String numericEnumValuesToEnumTypeUnion(List<Number> values) {
         List<String> stringValues = new ArrayList<>();
