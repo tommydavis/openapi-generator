@@ -2182,7 +2182,6 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // add example
                 if (schemas != null) {
-                    LOGGER.info("Debugging consume info {}.", getConsumesInfo(operation));
                     op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
                 }
             }
