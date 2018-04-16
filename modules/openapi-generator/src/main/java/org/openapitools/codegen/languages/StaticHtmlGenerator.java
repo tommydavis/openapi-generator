@@ -68,18 +68,18 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives = new HashSet<String>();
         importMapping = new HashMap<String, String>();
     }
-    
+
     /**
      * Convert Markdown (CommonMark) to HTML. This class also disables normal HTML
-     * escaping in the Mustache engine (see {@link DefaultCodegen#processCompiler(Compiler)} above.)
+     * escaping in the Mustache engine.
      */
-   @Override
+    @Override
     public String escapeText(String input) {
         // newline escaping disabled for HTML documentation for markdown to work correctly
         return toHtml(input);
     }
 
-  @Override
+    @Override
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
     }
@@ -107,7 +107,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         return super.getTypeDeclaration(p);
     }
 
-@Override
+    @Override
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
@@ -135,7 +135,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
         return input;
     }
 
-      /**
+    /**
      * Markdown conversion emits HTML and by default, the Mustache
      * {@link Compiler} will escape HTML. For example a summary
      * <code>"Text with **bold**"</code> is converted from Markdown to HTML as
@@ -156,6 +156,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     /**
      * Convert Markdown text to HTML
+     *
      * @param input text in Markdown; may be null.
      * @return the text, converted to Markdown. For null input, "" is returned.
      */
@@ -193,7 +194,7 @@ public class StaticHtmlGenerator extends DefaultCodegen implements CodegenConfig
 
     // override to post-process any model properties
     public void postProcessModelProperty(CodegenModel model,
-            CodegenProperty property) {
+                                         CodegenProperty property) {
         property.description = toHtml(property.description);
         property.unescapedDescription = toHtml(
                 property.unescapedDescription);

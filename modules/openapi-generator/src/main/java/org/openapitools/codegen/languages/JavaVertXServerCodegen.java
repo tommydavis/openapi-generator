@@ -81,7 +81,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see io.swagger.codegen.CodegenType
+     * @see org.openapitools.codegen.CodegenType
      */
     public CodegenType getTag() {
         return CodegenType.SERVER;

@@ -23,7 +23,7 @@ public class JMeterCodegen extends DefaultCodegen implements CodegenConfig {
      * Configures the type of generator.
      *
      * @return the CodegenType for this generator
-     * @see io.swagger.codegen.CodegenType
+     * @see org.openapitools.codegen.CodegenType
      */
     @Override
     public CodegenType getTag() {

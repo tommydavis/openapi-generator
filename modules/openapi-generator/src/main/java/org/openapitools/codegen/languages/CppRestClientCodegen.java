@@ -347,7 +347,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      * into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Schema
+     * @see io.swagger.v3.oas.models.media.Schema
      */
     @Override
     public String getSchemaType(Schema p) {
