@@ -123,19 +123,15 @@ MyApp.add_route('GET', '/v2/user/login', {
       "name" => "username",
       "description" => "The user name for login",
       "dataType" => "string",
-      "paramType" => "query",
-      
       "allowableValues" => "",
-      
+      "paramType" => "query",
     },
     {
       "name" => "password",
       "description" => "The password for login in clear text",
       "dataType" => "string",
-      "paramType" => "query",
-      
       "allowableValues" => "",
-      
+      "paramType" => "query",
     },
     ]}) do
   cross_origin
