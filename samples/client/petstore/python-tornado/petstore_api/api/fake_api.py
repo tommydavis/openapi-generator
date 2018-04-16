@@ -632,7 +632,7 @@ class FakeApi(object):
         :param int int64: None
         :param float float: None
         :param str string: None
-        :param file binary: None
+        :param str binary: None
         :param date date: None
         :param datetime date_time: None
         :param str password: None
@@ -667,7 +667,7 @@ class FakeApi(object):
         :param int int64: None
         :param float float: None
         :param str string: None
-        :param file binary: None
+        :param str binary: None
         :param date date: None
         :param datetime date_time: None
         :param str password: None
@@ -748,33 +748,33 @@ class FakeApi(object):
         form_params = []
         local_var_files = {}
         if 'integer' in params:
-              # noqa: E501
+            form_params.append(('integer', params['integer']))  # noqa: E501
         if 'int32' in params:
-              # noqa: E501
+            form_params.append(('int32', params['int32']))  # noqa: E501
         if 'int64' in params:
-              # noqa: E501
+            form_params.append(('int64', params['int64']))  # noqa: E501
         if 'number' in params:
-              # noqa: E501
+            form_params.append(('number', params['number']))  # noqa: E501
         if 'float' in params:
-              # noqa: E501
+            form_params.append(('float', params['float']))  # noqa: E501
         if 'double' in params:
-              # noqa: E501
+            form_params.append(('double', params['double']))  # noqa: E501
         if 'string' in params:
-              # noqa: E501
+            form_params.append(('string', params['string']))  # noqa: E501
         if 'pattern_without_delimiter' in params:
-              # noqa: E501
+            form_params.append(('pattern_without_delimiter', params['pattern_without_delimiter']))  # noqa: E501
         if 'byte' in params:
-            local_var_files['byte'] = params['byte']  # noqa: E501
+            form_params.append(('byte', params['byte']))  # noqa: E501
         if 'binary' in params:
             local_var_files['binary'] = params['binary']  # noqa: E501
         if 'date' in params:
-              # noqa: E501
+            form_params.append(('date', params['date']))  # noqa: E501
         if 'date_time' in params:
-              # noqa: E501
+            form_params.append(('dateTime', params['date_time']))  # noqa: E501
         if 'password' in params:
-              # noqa: E501
+            form_params.append(('password', params['password']))  # noqa: E501
         if 'param_callback' in params:
-              # noqa: E501
+            form_params.append(('callback', params['param_callback']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`
@@ -893,9 +893,9 @@ class FakeApi(object):
         form_params = []
         local_var_files = {}
         if 'enum_form_string_array' in params:
-              # noqa: E501
+            form_params.append(('enum_form_string_array', params['enum_form_string_array']))  # noqa: E501
         if 'enum_form_string' in params:
-              # noqa: E501
+            form_params.append(('enum_form_string', params['enum_form_string']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`
@@ -1087,9 +1087,9 @@ class FakeApi(object):
         form_params = []
         local_var_files = {}
         if 'param' in params:
-              # noqa: E501
+            form_params.append(('param', params['param']))  # noqa: E501
         if 'param2' in params:
-              # noqa: E501
+            form_params.append(('param2', params['param2']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`

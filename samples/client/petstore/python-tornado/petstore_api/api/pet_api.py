@@ -672,9 +672,9 @@ class PetApi(object):
         form_params = []
         local_var_files = {}
         if 'name' in params:
-              # noqa: E501
+            form_params.append(('name', params['name']))  # noqa: E501
         if 'status' in params:
-              # noqa: E501
+            form_params.append(('status', params['status']))  # noqa: E501
 
         body_params = None
         # HTTP header `Content-Type`
@@ -711,7 +711,7 @@ class PetApi(object):
         :param async bool
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
+        :param str file: file to upload
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -734,7 +734,7 @@ class PetApi(object):
         :param async bool
         :param int pet_id: ID of pet to update (required)
         :param str additional_metadata: Additional data to pass to server
-        :param file file: file to upload
+        :param str file: file to upload
         :return: ApiResponse
                  If the method is called asynchronously,
                  returns the request thread.
@@ -773,7 +773,7 @@ class PetApi(object):
         form_params = []
         local_var_files = {}
         if 'additional_metadata' in params:
-              # noqa: E501
+            form_params.append(('additionalMetadata', params['additional_metadata']))  # noqa: E501
         if 'file' in params:
             local_var_files['file'] = params['file']  # noqa: E501
 
