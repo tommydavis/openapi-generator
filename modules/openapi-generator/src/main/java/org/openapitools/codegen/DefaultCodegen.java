@@ -3856,7 +3856,8 @@ public class DefaultCodegen implements CodegenConfig {
         for (String key : consumes) {
             Map<String, String> mediaType = new HashMap<>();
             if ("*/*".equals(key)) {
-                mediaType.put("mediaType", key);
+                // skip as it implies `consumes` in OAS2 is not defined
+                continue;
             } else {
                 mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
             }

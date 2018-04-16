@@ -47,7 +47,7 @@ module Petstore
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['*/*'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['*/*'])
+      header_params['Content-Type'] = @api_client.select_header_content_type([])
 
       # form parameters
       form_params = {}
@@ -95,7 +95,7 @@ module Petstore
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['*/*'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['*/*'])
+      header_params['Content-Type'] = @api_client.select_header_content_type([])
 
       # form parameters
       form_params = {}
@@ -143,7 +143,7 @@ module Petstore
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['*/*'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['*/*'])
+      header_params['Content-Type'] = @api_client.select_header_content_type([])
 
       # form parameters
       form_params = {}
@@ -191,7 +191,7 @@ module Petstore
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['*/*'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['*/*'])
+      header_params['Content-Type'] = @api_client.select_header_content_type([])
 
       # form parameters
       form_params = {}
