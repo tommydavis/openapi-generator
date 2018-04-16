@@ -2182,6 +2182,7 @@ public class DefaultCodegen implements CodegenConfig {
 
                 // add example
                 if (schemas != null) {
+                    LOGGER.info("Debugging consume info {}.", getConsumesInfo(operation));
                     op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
                 }
             }
@@ -3745,7 +3746,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Provides an override location, if any is specified, for the .swagger-codegen-ignore.
-     * <p>
+     *
      * This is originally intended for the first generation only.
      *
      * @return a string of the full path to an override ignore file.
@@ -3876,17 +3877,19 @@ public class DefaultCodegen implements CodegenConfig {
 
     public static Set<String> getConsumesInfo(Operation operation) {
         if (operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
-            return null;
+            return Collections.emptySet(); // return emtpy set
         }
         return operation.getRequestBody().getContent().keySet();
     }
 
     public Boolean hasFormParameter(Operation operation) {
-        if (getConsumesInfo(operation) == null) {
+        Set<String> consumesInfo = getConsumesInfo(operation);
+
+        if (consumesInfo == null || consumesInfo.isEmpty()) {
             return Boolean.FALSE;
         }
 
-        List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
+        List<String> consumes = new ArrayList<String>(consumesInfo);
 
         if (consumes == null) {
             return Boolean.FALSE;
@@ -3965,7 +3968,9 @@ public class DefaultCodegen implements CodegenConfig {
         Set<String> produces = new TreeSet<String>();
 
         for (ApiResponse response : operation.getResponses().values()) {
-            produces.addAll(response.getContent().keySet());
+            if (response.getContent() != null) {
+                produces.addAll(response.getContent().keySet());
+            }
         }
 
         return produces;
