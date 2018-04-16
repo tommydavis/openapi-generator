@@ -3748,7 +3748,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Provides an override location, if any is specified, for the .swagger-codegen-ignore.
-     *
+     * <p>
      * This is originally intended for the first generation only.
      *
      * @return a string of the full path to an override ignore file.
@@ -3874,8 +3874,11 @@ public class DefaultCodegen implements CodegenConfig {
 
             mediaTypeList.add(mediaType);
         }
-        codegenOperation.consumes = mediaTypeList;
-        codegenOperation.hasConsumes = true;
+
+        if (!mediaTypeList.isEmpty()) {
+            codegenOperation.consumes = mediaTypeList;
+            codegenOperation.hasConsumes = true;
+        }
     }
 
     public static Set<String> getConsumesInfo(Operation operation) {
