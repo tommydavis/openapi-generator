@@ -142,7 +142,7 @@ Class | Method | HTTP request | Description
  - [Petstore::OuterString](docs/OuterString.md)
  - [Petstore::Pet](docs/Pet.md)
  - [Petstore::ReadOnlyFirst](docs/ReadOnlyFirst.md)
- - [Petstore::SpecialModelName_](docs/SpecialModelName_.md)
+ - [Petstore::SpecialModelName](docs/SpecialModelName.md)
  - [Petstore::Tag](docs/Tag.md)
  - [Petstore::User](docs/User.md)
 

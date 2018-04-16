@@ -3308,6 +3308,9 @@ public class DefaultCodegen implements CodegenConfig {
             word = word.substring(0, 1).toLowerCase() + word.substring(1);
         }
 
+        // remove all underscore
+        word = word.replaceAll("_", "");
+
         return word;
     }
 

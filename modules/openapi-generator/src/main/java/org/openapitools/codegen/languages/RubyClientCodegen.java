@@ -472,31 +472,7 @@ public class RubyClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String toModelFilename(String name) {
-        name = sanitizeName(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            name = modelNamePrefix + "_" + name;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            name = name + "_" + modelNameSuffix;
-        }
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(name)) {
-            String filename = underscore("model_" + name);
-            LOGGER.warn(name + " (reserved word) cannot be used as model filename. Renamed to " + filename);
-            return filename;
-        }
-
-        // model name starts with number
-        if (name.matches("^\\d.*")) {
-            LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + underscore("model_" + name));
-            name = "model_" + name; // e.g. 200Response => model_200_response
-        }
-
-        // underscore the model file name
-        // PhoneNumber.rb => phone_number.rb
-        return underscore(name);
+        return underscore(toModelName(name));
     }
 
     @Override
