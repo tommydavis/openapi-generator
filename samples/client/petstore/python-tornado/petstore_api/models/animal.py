@@ -50,7 +50,7 @@ class Animal(object):
 
         self._class_name = None
         self._color = None
-        self.discriminator = 'className'
+        self.discriminator = 'Discriminator{propertyName&#x3D;&#39;className&#39;, mapping&#x3D;null}'
 
         self.class_name = class_name
         if color is not None:
