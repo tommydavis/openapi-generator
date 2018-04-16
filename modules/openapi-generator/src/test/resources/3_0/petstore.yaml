@@ -77,6 +77,7 @@ paths:
           description: Status values that need to be considered for filter
           required: true
           style: form
+          explode: false
           schema:
             type: array
             items:
@@ -121,6 +122,7 @@ paths:
           description: Tags to filter by
           required: true
           style: form
+          explode: false
           schema:
             type: array
             items:
