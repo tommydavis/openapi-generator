@@ -64,7 +64,7 @@ MyApp.add_route('GET', '/v2/pet/findByStatus', {
       "description" => "Status values that need to be considered for filter",
       "dataType" => "array[string]",
       "paramType" => "query",
-      "collectionFormat" => "csv",
+      
       "allowableValues" => "",
       
     },
@@ -89,7 +89,7 @@ MyApp.add_route('GET', '/v2/pet/findByTags', {
       "description" => "Tags to filter by",
       "dataType" => "array[string]",
       "paramType" => "query",
-      "collectionFormat" => "csv",
+      
       "allowableValues" => "",
       
     },
