@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **test_special_tags**
-> Client test_special_tags(client)
+> Client test_special_tags(body)
 
 To test special tags
 
@@ -20,11 +20,13 @@ To test special tags
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-client = Petstore::Client.new # Client | client model
+
+body = Petstore::Client.new # Client | client model
+
 
 begin
   #To test special tags
-  result = api_instance.test_special_tags(client)
+  result = api_instance.test_special_tags(body)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling AnotherFakeApi->test_special_tags: #{e}"
@@ -35,7 +37,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md)| client model | 
 
 ### Return type
 
