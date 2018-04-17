@@ -6,18 +6,16 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.PhpClientCodegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.OpenAPIV3Parser;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.Sets;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -280,8 +278,8 @@ public class PhpModelTest {
     }
 
     @Test(description = "test enum array model")
-    public void enumArrayMdoelTest() {
-        final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+    public void enumArrayModelTest() {
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
         final Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
         final Schema definition = schemas.get("EnumArrays");
@@ -313,7 +311,7 @@ public class PhpModelTest {
 
     @Test(description = "test enum model for values (numeric, string, etc)")
     public void enumMdoelValueTest() {
-        final OpenAPI openAPI =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
         final Schema definition = openAPI.getComponents().getSchemas().get("Enum_Test");
 
@@ -347,9 +345,9 @@ public class PhpModelTest {
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body
-    @Test(description = "returns DateTime when using `--model-name-prefix`", enabled = false)
+    @Test(description = "returns DateTime when using `--model-name-prefix`")
     public void dateTest() {
-        final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/datePropertyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setModelNamePrefix("foo");
 

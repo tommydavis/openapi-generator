@@ -7,10 +7,11 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.ObjcClientCodegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.OpenAPIV3Parser;
+import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import com.google.common.collect.Sets;
@@ -276,7 +277,7 @@ public class ObjcModelTest {
 
     @Test(description = "test udid")
     public void udidAndPasswordDataModelTest() {
-        final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = model.getComponents().getSchemas().get("format_test");
 
@@ -290,7 +291,7 @@ public class ObjcModelTest {
 
     @Test(description = "test mixedProperties")
     public void mixedPropertiesDataModelTest() {
-        final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = model.getComponents().getSchemas().get("MixedPropertiesAndAdditionalPropertiesClass");
 
@@ -301,7 +302,7 @@ public class ObjcModelTest {
 
     @Test(description = "test isArrayModel")
     public void isArrayModelModelTest() {
-        final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final Schema definition = model.getComponents().getSchemas().get("AnimalFarm");
         final CodegenModel codegenModel = codegen.fromModel("AnimalFarm",definition);
@@ -313,7 +314,7 @@ public class ObjcModelTest {
 
     @Test(description = "test binary data", enabled = false)
     public void binaryDataModelTest() {
-        final OpenAPI model =  new OpenAPIV3Parser().read("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI model =  new OpenAPIParser().readLocation("src/test/resources/2_0/binaryDataTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
         final String path = "/tests/binaryResponse";
         final Operation p = model.getPaths().get(path).getPost();
@@ -327,7 +328,7 @@ public class ObjcModelTest {
 
     @Test(description = "create proper imports per #316")
     public void issue316Test() {
-        final OpenAPI model = new OpenAPIV3Parser().read("src/test/resources/2_0/postBodyTest.json");
+        final OpenAPI model = new OpenAPIParser().readLocation("src/test/resources/2_0/postBodyTest.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new ObjcClientCodegen();
 
         final Map<String, PathItem> animalPaths = model.getPaths();

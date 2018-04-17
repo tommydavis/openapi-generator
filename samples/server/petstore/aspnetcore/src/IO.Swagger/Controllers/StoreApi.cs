@@ -70,7 +70,7 @@ namespace IO.Swagger.Controllers
             // return StatusCode(200, default(Dictionary<string, int?>));
 
             string exampleJson = null;
-            exampleJson = "{\r\n  \"key\" : 0\r\n}";
+            exampleJson = "{\n  \"key\" : 0\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Dictionary<string, int?>>(exampleJson)
@@ -104,8 +104,8 @@ namespace IO.Swagger.Controllers
             // return StatusCode(404);
 
             string exampleJson = null;
+            exampleJson = "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}";
             exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
-            exampleJson = "{\r\n  \"petId\" : 6,\r\n  \"quantity\" : 1,\r\n  \"id\" : 0,\r\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"complete\" : false,\r\n  \"status\" : \"placed\"\r\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)
@@ -118,7 +118,7 @@ namespace IO.Swagger.Controllers
         /// Place an order for a pet
         /// </summary>
         
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <response code="200">successful operation</response>
         /// <response code="400">Invalid Order</response>
         [HttpPost]
@@ -126,7 +126,7 @@ namespace IO.Swagger.Controllers
         [ValidateModelState]
         [SwaggerOperation("PlaceOrder")]
         [SwaggerResponse(statusCode: 200, type: typeof(Order), description: "successful operation")]
-        public virtual IActionResult PlaceOrder([FromBody]Order body)
+        public virtual IActionResult PlaceOrder([FromBody]Order order)
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Order));
@@ -135,8 +135,8 @@ namespace IO.Swagger.Controllers
             // return StatusCode(400);
 
             string exampleJson = null;
+            exampleJson = "{\n  \"petId\" : 6,\n  \"quantity\" : 1,\n  \"id\" : 0,\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\n  \"complete\" : false,\n  \"status\" : \"placed\"\n}";
             exampleJson = "<Order>\n  <id>123456789</id>\n  <petId>123456789</petId>\n  <quantity>123</quantity>\n  <shipDate>2000-01-23T04:56:07.000Z</shipDate>\n  <status>aeiou</status>\n  <complete>true</complete>\n</Order>";
-            exampleJson = "{\r\n  \"petId\" : 6,\r\n  \"quantity\" : 1,\r\n  \"id\" : 0,\r\n  \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\",\r\n  \"complete\" : false,\r\n  \"status\" : \"placed\"\r\n}";
             
             var example = exampleJson != null
             ? JsonConvert.DeserializeObject<Order>(exampleJson)

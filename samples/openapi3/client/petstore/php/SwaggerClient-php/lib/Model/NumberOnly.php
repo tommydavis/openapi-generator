@@ -57,7 +57,7 @@ class NumberOnly implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $swaggerTypes = [
-        'just_number' => 'BigDecimal'
+        'just_number' => 'float'
     ];
 
     /**
@@ -208,7 +208,7 @@ class NumberOnly implements ModelInterface, ArrayAccess
     /**
      * Gets just_number
      *
-     * @return BigDecimal
+     * @return float
      */
     public function getJustNumber()
     {
@@ -218,7 +218,7 @@ class NumberOnly implements ModelInterface, ArrayAccess
     /**
      * Sets just_number
      *
-     * @param BigDecimal $just_number just_number
+     * @param float $just_number just_number
      *
      * @return $this
      */

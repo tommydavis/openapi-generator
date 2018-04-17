@@ -176,6 +176,10 @@ public interface CodegenConfig {
 
     void setRemoveOperationIdPrefix(boolean removeOperationIdPrefix);
 
+    public boolean isHideGenerationTimestamp();
+
+    public void setHideGenerationTimestamp(boolean hideGenerationTimestamp);
+
     Map<String, String> supportedLibraries();
 
     void setLibrary(String library);

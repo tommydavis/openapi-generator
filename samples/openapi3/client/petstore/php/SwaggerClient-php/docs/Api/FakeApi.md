@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 
 # **fakeOuterBooleanSerialize**
-> \Swagger\Client\Model\OuterBoolean fakeOuterBooleanSerialize($UNKNOWN_PARAM_NAME)
+> \Swagger\Client\Model\OuterBoolean fakeOuterBooleanSerialize($body)
 
 
 
@@ -32,10 +32,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\null(); //  | Input boolean as post body
+$body = True; // bool | Input boolean as post body
 
 try {
-    $result = $apiInstance->fakeOuterBooleanSerialize($UNKNOWN_PARAM_NAME);
+    $result = $apiInstance->fakeOuterBooleanSerialize($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterBooleanSerialize: ', $e->getMessage(), PHP_EOL;
@@ -47,7 +47,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](../Model/.md)| Input boolean as post body | [optional]
+ **body** | **bool**| Input boolean as post body | [optional]
 
 ### Return type
 
@@ -81,7 +81,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$outer_composite = new \Swagger\Client\Model\OuterComposite(); // \Swagger\Client\Model\OuterComposite | Input composite as post body
+$outer_composite = new \Swagger\Client\Model\OuterComposite(); // OuterComposite | Input composite as post body
 
 try {
     $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
@@ -96,7 +96,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **outer_composite** | [**\Swagger\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **outer_composite** | [**OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -114,7 +114,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterNumberSerialize**
-> \Swagger\Client\Model\OuterNumber fakeOuterNumberSerialize($UNKNOWN_PARAM_NAME)
+> \Swagger\Client\Model\OuterNumber fakeOuterNumberSerialize($body)
 
 
 
@@ -130,10 +130,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\null(); //  | Input number as post body
+$body = 3.4; // float | Input number as post body
 
 try {
-    $result = $apiInstance->fakeOuterNumberSerialize($UNKNOWN_PARAM_NAME);
+    $result = $apiInstance->fakeOuterNumberSerialize($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterNumberSerialize: ', $e->getMessage(), PHP_EOL;
@@ -145,7 +145,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](../Model/.md)| Input number as post body | [optional]
+ **body** | **float**| Input number as post body | [optional]
 
 ### Return type
 
@@ -163,7 +163,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **fakeOuterStringSerialize**
-> \Swagger\Client\Model\OuterString fakeOuterStringSerialize($UNKNOWN_PARAM_NAME)
+> \Swagger\Client\Model\OuterString fakeOuterStringSerialize($body)
 
 
 
@@ -179,10 +179,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\null(); //  | Input string as post body
+$body = "body_example"; // string | Input string as post body
 
 try {
-    $result = $apiInstance->fakeOuterStringSerialize($UNKNOWN_PARAM_NAME);
+    $result = $apiInstance->fakeOuterStringSerialize($body);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterStringSerialize: ', $e->getMessage(), PHP_EOL;
@@ -194,7 +194,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [****](../Model/.md)| Input string as post body | [optional]
+ **body** | **string**| Input string as post body | [optional]
 
 ### Return type
 
@@ -228,7 +228,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$client = new \Swagger\Client\Model\Client(); // \Swagger\Client\Model\Client | client model
+$client = new \Swagger\Client\Model\Client(); // Client | client model
 
 try {
     $result = $apiInstance->testClientModel($client);
@@ -243,7 +243,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **client** | [**\Swagger\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -284,7 +284,7 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     new GuzzleHttp\Client(),
     $config
 );
-$number = new \Swagger\Client\Model\BigDecimal(); // BigDecimal | None
+$number = 3.4; // float | None
 $double = 3.4; // double | None
 $pattern_without_delimiter = "pattern_without_delimiter_example"; // string | None
 $byte = "byte_example"; // string | None
@@ -293,7 +293,7 @@ $int32 = 56; // int | None
 $int64 = 56; // int | None
 $float = 3.4; // float | None
 $string = "string_example"; // string | None
-$binary = "binary_example"; // string | None
+$binary = "/path/to/file.txt"; // \SplFileObject | None
 $date = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $date_time = new \DateTime("2013-10-20T19:20:30+01:00"); // \DateTime | None
 $password = "password_example"; // string | None
@@ -311,16 +311,16 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **number** | **BigDecimal**| None |
+ **number** | **float**| None |
  **double** | **double**| None |
  **pattern_without_delimiter** | **string**| None |
- **byte** | **string****string**| None |
+ **byte** | **string**| None |
  **integer** | **int**| None | [optional]
  **int32** | **int**| None | [optional]
  **int64** | **int**| None | [optional]
  **float** | **float**| None | [optional]
  **string** | **string**| None | [optional]
- **binary** | **string****string**| None | [optional]
+ **binary** | **\SplFileObject****\SplFileObject**| None | [optional]
  **date** | **\DateTime**| None | [optional]
  **date_time** | **\DateTime**| None | [optional]
  **password** | **string**| None | [optional]
@@ -404,7 +404,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testInlineAdditionalProperties**
-> testInlineAdditionalProperties($UNKNOWN_PARAM_NAME)
+> testInlineAdditionalProperties($unknown_base_type)
 
 test inline additionalProperties
 
@@ -418,10 +418,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$UNKNOWN_PARAM_NAME = new \Swagger\Client\Model\map(); // map[string,string] | request body
+$unknown_base_type = new \Swagger\Client\Model\UNKNOWN_BASE_TYPE(); // map[string,string] | request body
 
 try {
-    $apiInstance->testInlineAdditionalProperties($UNKNOWN_PARAM_NAME);
+    $apiInstance->testInlineAdditionalProperties($unknown_base_type);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
@@ -432,7 +432,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **UNKNOWN_PARAM_NAME** | [**map[string,string]**](../Model/map.md)| request body |
+ **unknown_base_type** | [**map[string,string]**](../Model/UNKNOWN_BASE_TYPE.md)| request body |
 
 ### Return type
 
@@ -450,7 +450,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
 
 # **testJsonFormData**
-> testJsonFormData($body_4)
+> testJsonFormData($body4)
 
 test json serialization of form data
 
@@ -464,10 +464,10 @@ $apiInstance = new Swagger\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body_4 = new \Swagger\Client\Model\Body4(); // \Swagger\Client\Model\Body4 | 
+$body4 = new \Swagger\Client\Model\Body4(); // Body4 | 
 
 try {
-    $apiInstance->testJsonFormData($body_4);
+    $apiInstance->testJsonFormData($body4);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testJsonFormData: ', $e->getMessage(), PHP_EOL;
 }
@@ -478,7 +478,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body_4** | [**\Swagger\Client\Model\Body4**](../Model/Body4.md)|  | [optional]
+ **body4** | [**Body4**](../Model/Body4.md)|  | [optional]
 
 ### Return type
 

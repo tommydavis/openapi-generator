@@ -615,9 +615,7 @@ paths:
       description: To test enum parameters
       operationId: testEnumParameters
       consumes:
-        - "*/*"
-      produces:
-        - "*/*"
+        - "application/x-www-form-urlencoded"
       parameters:
         - name: enum_form_string_array
           type: array
@@ -712,11 +710,7 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       consumes:
-        - application/xml; charset=utf-8
-        - application/json; charset=utf-8
-      produces:
-        - application/xml; charset=utf-8
-        - application/json; charset=utf-8
+        - application/x-www-form-urlencoded
       parameters:
         - name: integer
           type: integer
@@ -883,7 +877,7 @@ paths:
       description: ''
       operationId: testJsonFormData
       consumes:
-        - application/json
+        - application/x-www-form-urlencoded
       parameters:
         - name: param
           in: formData

@@ -127,6 +127,12 @@ public class DefaultCodegen implements CodegenConfig {
             this.setApiPackage((String) additionalProperties.get(CodegenConstants.API_PACKAGE));
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.HIDE_GENERATION_TIMESTAMP)) {
+            setHideGenerationTimestamp(convertPropertyToBooleanAndWriteBack(CodegenConstants.HIDE_GENERATION_TIMESTAMP));
+        } else {
+            additionalProperties.put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, hideGenerationTimestamp);
+        }
+
         if (additionalProperties.containsKey(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG)) {
             this.setSortParamsByRequiredFlag(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG).toString()));
@@ -788,8 +794,6 @@ public class DefaultCodegen implements CodegenConfig {
      * This method will map between OAS type and language-specified type, as well as mapping
      * between OAS type and the corresponding import statement for the language. This will
      * also add some language specified CLI options, if any.
-     * <p>
-     * <p>
      * returns string presentation of the example path (it's a constructor)
      */
     public DefaultCodegen() {
@@ -1139,7 +1143,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (ModelUtils.isDateTimeSchema(schema)) {
             datatype = "DateTime";
         } else if (ModelUtils.isNumberSchema(schema)) {
-            if (schema.getFormat() == null ) { // no format defined
+            if (schema.getFormat() == null) { // no format defined
                 datatype = "number";
             } else if (ModelUtils.isFloatSchema(schema)) {
                 datatype = SchemaTypeUtil.FLOAT_FORMAT;
@@ -1292,8 +1296,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Model object to Codegen Model object without providing all model definitions
      *
-     * @param name  the name of the model
-     * @param model OAS Model object
+     * @param name   the name of the model
+     * @param schema OAS Model object
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Schema schema) {
@@ -1399,7 +1403,7 @@ public class DefaultCodegen implements CodegenConfig {
                     m.interfaces.add(modelName);
                     addImport(m, modelName);
                     if (allDefinitions != null && refSchema != null) {
-                        if (!supportsMixins) {
+                        if (!supportsMixins && !supportsInheritance) {
                             addProperties(properties, required, refSchema, allDefinitions);
                         }
                         if (supportsInheritance) {
@@ -1421,21 +1425,22 @@ public class DefaultCodegen implements CodegenConfig {
                     }
                 }
             }
-            // TODO need to revise the child model logic below
+
             // child model (properties owned by the model itself)
-			/*
-            Model child = composed.getChild();
-            if (child != null && child instanceof RefModel && allDefinitions != null) {
-                final String childRef = ((RefModel) child).getSimpleRef();
-                child = allDefinitions.get(childRef);
+            Schema child = null;
+            if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
+                for (Schema component : composed.getAllOf()) {
+                    if (component.get$ref() == null) {
+                        child = component;
+                    }
+                }
             }
-            if (child != null && child instanceof ModelImpl) {
+            if (child != null) {
                 addProperties(properties, required, child, allDefinitions);
                 if (supportsInheritance) {
                     addProperties(allProperties, allRequired, child, allDefinitions);
                 }
-            }*/
-            addProperties(properties, required, composed, allDefinitions);
+            }
             addVars(m, properties, required, allProperties, allRequired);
             // TODO
             //} else if (schema instanceof RefModel) {
@@ -1582,11 +1587,11 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         String type = getSchemaType(p);
-        if (ModelUtils.isIntegerSchema(p)) {
+        if (ModelUtils.isIntegerSchema(p)) { // integer type
             property.isNumeric = Boolean.TRUE;
-            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) {
+            if (SchemaTypeUtil.INTEGER64_FORMAT.equals(p.getFormat())) { // int64/long format
                 property.isLong = Boolean.TRUE;
-            } else {
+            } else { // int32 format
                 property.isInteger = Boolean.TRUE;
             }
 
@@ -1630,54 +1635,76 @@ public class DefaultCodegen implements CodegenConfig {
             if (allowableValues.size() > 0) {
                 property.allowableValues = allowableValues;
             }
-        }
+        } else if (ModelUtils.isBooleanSchema(p)) { // boolean type
+            property.isBoolean = true;
+            property.getter = toBooleanGetter(name);
+        } else if (ModelUtils.isDateSchema(p)) { // date format
+            property.isString = false; // for backward compatibility with 2.x
+            property.isDate = true;
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
+                property._enum = new ArrayList<String>();
+                for (String i : _enum) {
+                    property._enum.add(i);
+                }
+                property.isEnum = true;
 
-        if (ModelUtils.isStringSchema(p)) {
-            if (ModelUtils.isBinarySchema(p)) {
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        } else if (ModelUtils.isDateTimeSchema(p)) { // date-time format
+            property.isString = false; // for backward compatibility with 2.x
+            property.isDateTime = true;
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
+                property._enum = new ArrayList<String>();
+                for (String i : _enum) {
+                    property._enum.add(i);
+                }
+                property.isEnum = true;
+
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        } else if (ModelUtils.isStringSchema(p)) {
+            if (ModelUtils.isByteArraySchema(p)) {
+                property.isByteArray = true;
+            } else if (ModelUtils.isBinarySchema(p)) {
                 property.isBinary = true;
                 property.isFile = true; // file = binary in OAS3
             } else if (ModelUtils.isFileSchema(p)) {
                 property.isFile = true;
-            } else {
-                property.maxLength = p.getMaxLength();
-                property.minLength = p.getMinLength();
-                property.pattern = toRegularExpression(p.getPattern());
-
-                // check if any validation rule defined
-                if (property.pattern != null || property.minLength != null || property.maxLength != null)
-                    property.hasValidation = true;
-
+            } else if (ModelUtils.isUUIDSchema(p)) {
+                // keep isString to true to make it backward compatible
                 property.isString = true;
-                if (p.getEnum() != null) {
-                    List<String> _enum = p.getEnum();
-                    property._enum = _enum;
-                    property.isEnum = true;
-
-                    // legacy support
-                    Map<String, Object> allowableValues = new HashMap<String, Object>();
-                    allowableValues.put("values", _enum);
-                    property.allowableValues = allowableValues;
-                }
+                property.isUuid = true;
+            } else {
+                property.isString = true;
             }
-        }
 
-        if (ModelUtils.isBooleanSchema(p)) {
-            property.isBoolean = true;
-            property.getter = toBooleanGetter(name);
-        }
+            property.maxLength = p.getMaxLength();
+            property.minLength = p.getMinLength();
+            property.pattern = toRegularExpression(p.getPattern());
 
+            // check if any validation rule defined
+            if (property.pattern != null || property.minLength != null || property.maxLength != null)
+                property.hasValidation = true;
 
-        if (ModelUtils.isUUIDSchema(p)) {
-            // keep isString to true to make it backward compatible
-            property.isString = true;
-            property.isUuid = true;
-        }
-        if (ModelUtils.isByteArraySchema(p)) {
-            property.isByteArray = true;
-            property.isFile = true; // in OAS3.0 "file" is 'byte' (format)
-        }
+            if (p.getEnum() != null) {
+                List<String> _enum = p.getEnum();
+                property._enum = _enum;
+                property.isEnum = true;
 
-        if (ModelUtils.isNumberSchema(p)) {
+                // legacy support
+                Map<String, Object> allowableValues = new HashMap<String, Object>();
+                allowableValues.put("values", _enum);
+                property.allowableValues = allowableValues;
+            }
+        } else if (ModelUtils.isNumberSchema(p)) {
             property.isNumeric = Boolean.TRUE;
             if (ModelUtils.isFloatSchema(p)) { // float
                 property.isFloat = Boolean.TRUE;
@@ -1720,44 +1747,9 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
-        if (ModelUtils.isDateSchema(p)) {
-            property.isString = false; // for backward compatibility with 2.x
-            property.isDate = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (String i : _enum) {
-                    property._enum.add(i);
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-
-        if (ModelUtils.isDateTimeSchema(p)) {
-            property.isString = false; // for backward compatibility with 2.x
-            property.isDateTime = true;
-            if (p.getEnum() != null) {
-                List<String> _enum = p.getEnum();
-                property._enum = new ArrayList<String>();
-                for (String i : _enum) {
-                    property._enum.add(i);
-                }
-                property.isEnum = true;
-
-                // legacy support
-                Map<String, Object> allowableValues = new HashMap<String, Object>();
-                allowableValues.put("values", _enum);
-                property.allowableValues = allowableValues;
-            }
-        }
-
         property.datatype = getTypeDeclaration(p);
         property.dataFormat = p.getFormat();
+        property.baseType = getSchemaType(p);
 
         // this can cause issues for clients which don't support enums
         if (property.isEnum) {
@@ -1766,8 +1758,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             property.datatypeWithEnum = property.datatype;
         }
-
-        property.baseType = getSchemaType(p);
 
         if (ModelUtils.isArraySchema(p)) {
             property.isContainer = true;
@@ -2010,11 +2000,11 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Operation object to Codegen Operation object
      *
-     * @param path        the path of the operation
-     * @param httpMethod  HTTP method
-     * @param operation   OAS operation object
-     * @param definitions a map of OAS models
-     * @param schemas     a OAS object representing the spec
+     * @param path       the path of the operation
+     * @param httpMethod HTTP method
+     * @param operation  OAS operation object
+     * @param schemas    a map of OAS models
+     * @param openAPI    a OAS object representing the spec
      * @return Codegen Operation object
      */
     public CodegenOperation fromOperation(String path,
@@ -2099,8 +2089,27 @@ public class DefaultCodegen implements CodegenConfig {
                             op.returnBaseType = cm.baseType;
                         }
                     }
-                    // TODO need to revise the logic below
-                    //op.examples = new ExampleGenerator(schemas).generate(responseSchema.getExample(), new ArrayList<String>(getProducesInfo(operation)), responseSchema);
+
+                    // generate examples
+                    if (ModelUtils.isArraySchema(responseSchema)) { // array of schema
+                        ArraySchema as = (ArraySchema) responseSchema;
+                        if (as.getItems() != null && StringUtils.isEmpty(as.getItems().get$ref())) { // arary of primtive types
+                            op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                    new ArrayList<String>(getProducesInfo(operation)), as.getItems(), openAPI);
+                        } else if (as.getItems() != null && !StringUtils.isEmpty(as.getItems().get$ref())) { // array of model
+                            op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                    new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(as.getItems().get$ref()), openAPI);
+                        } else {
+                            // TODO log warning message as such case is not handled at the moment
+                        }
+                    } else if (StringUtils.isEmpty(responseSchema.get$ref())) { // primtiive type (e.g. integer, string)
+                        op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                new ArrayList<String>(getProducesInfo(operation)), responseSchema, openAPI);
+                    } else { // model
+                        op.examples = new ExampleGenerator(schemas).generate((Map<String, Object>) responseSchema.getExample(),
+                                new ArrayList<String>(getProducesInfo(operation)), getSimpleRef(responseSchema.get$ref()), openAPI);
+                    }
+
                     op.defaultResponse = toDefaultValue(responseSchema);
                     op.returnType = cm.datatype;
                     op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
@@ -2170,9 +2179,10 @@ public class DefaultCodegen implements CodegenConfig {
                 if (prependFormOrBodyParameters) {
                     allParams.add(bodyParam);
                 }
+
+                // add example
                 if (schemas != null) {
-                    // TODO fix NPE
-                    //op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.dataType);
+                    op.requestBodyExamples = new ExampleGenerator(schemas).generate(null, new ArrayList<String>(getConsumesInfo(operation)), bodyParam.baseType, openAPI);
                 }
             }
         }
@@ -2404,8 +2414,8 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Convert OAS Parameter object to Codegen Parameter object
      *
-     * @param param   OAS parameter object
-     * @param imports set of imports for library/package/module
+     * @param parameter OAS parameter object
+     * @param imports   set of imports for library/package/module
      * @return Codegen Parameter object
      */
     public CodegenParameter fromParameter(Parameter parameter, Set<String> imports) {
@@ -2730,8 +2740,8 @@ public class DefaultCodegen implements CodegenConfig {
      * Returns null by default to use the CodegenProperty.datatype value
      *
      * @param parameter Parameter
-     * @param schema Schema
-     * @return
+     * @param schema    Schema
+     * @return data type
      */
     protected String getParameterDataType(Parameter parameter, Schema schema) {
         return null;
@@ -3350,6 +3360,14 @@ public class DefaultCodegen implements CodegenConfig {
         this.removeOperationIdPrefix = removeOperationIdPrefix;
     }
 
+    public boolean isHideGenerationTimestamp() {
+        return hideGenerationTimestamp;
+    }
+
+    public void setHideGenerationTimestamp(boolean hideGenerationTimestamp) {
+        this.hideGenerationTimestamp = hideGenerationTimestamp;
+    }
+
     /**
      * All library templates supported.
      * (key: library name, value: library description)
@@ -3589,11 +3607,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isByteArray)) {
             parameter.isByteArray = true;
             parameter.isPrimitiveType = true;
-            parameter.isFile = true; // in OAS3.0 "file" is 'byte' (format)
         } else if (Boolean.TRUE.equals(property.isBinary)) {
             parameter.isByteArray = true;
             parameter.isPrimitiveType = true;
-            parameter.isFile = true; // in OAS3.0 "file" is 'byte' (format)
         } else if (Boolean.TRUE.equals(property.isString)) {
             parameter.isString = true;
             parameter.isPrimitiveType = true;
@@ -3615,8 +3631,6 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(property.isNumber)) {
             parameter.isNumber = true;
             parameter.isPrimitiveType = true;
-        } else if (Boolean.TRUE.equals(property.isFile)) {
-            parameter.isFile = true;
         } else if (Boolean.TRUE.equals(property.isDate)) {
             parameter.isDate = true;
             parameter.isPrimitiveType = true;
@@ -3625,6 +3639,10 @@ public class DefaultCodegen implements CodegenConfig {
             parameter.isPrimitiveType = true;
         } else {
             LOGGER.debug("Property type is not primitive: " + property.datatype);
+        }
+
+        if (Boolean.TRUE.equals(property.isFile)) {
+            parameter.isFile = true;
         }
     }
 
@@ -3727,7 +3745,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Provides an override location, if any is specified, for the .swagger-codegen-ignore.
-     * <p>
+     *
      * This is originally intended for the first generation only.
      *
      * @return a string of the full path to an override ignore file.
@@ -3858,17 +3876,19 @@ public class DefaultCodegen implements CodegenConfig {
 
     public static Set<String> getConsumesInfo(Operation operation) {
         if (operation.getRequestBody() == null || operation.getRequestBody().getContent() == null || operation.getRequestBody().getContent().isEmpty()) {
-            return null;
+            return Collections.emptySet(); // return emtpy set
         }
         return operation.getRequestBody().getContent().keySet();
     }
 
     public Boolean hasFormParameter(Operation operation) {
-        if (getConsumesInfo(operation) == null) {
+        Set<String> consumesInfo = getConsumesInfo(operation);
+
+        if (consumesInfo == null || consumesInfo.isEmpty()) {
             return Boolean.FALSE;
         }
 
-        List<String> consumes = new ArrayList<String>(getConsumesInfo(operation));
+        List<String> consumes = new ArrayList<String>(consumesInfo);
 
         if (consumes == null) {
             return Boolean.FALSE;
@@ -3933,11 +3953,26 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
+    /**
+     * returns the list of MIME types the APIs can produce
+     *
+     * @param operation Operation
+     * @return a set of MIME types
+     */
     public static Set<String> getProducesInfo(Operation operation) {
         if (operation.getResponses() == null || operation.getResponses().isEmpty()) {
             return null;
         }
-        return operation.getResponses().keySet();
+
+        Set<String> produces = new TreeSet<String>();
+
+        for (ApiResponse response : operation.getResponses().values()) {
+            if (response.getContent() != null) {
+                produces.addAll(response.getContent().keySet());
+            }
+        }
+
+        return produces;
     }
 
     protected Schema detectParent(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
@@ -3976,15 +4011,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     protected String getCollectionFormat(Parameter parameter) {
-        if (
-                Parameter.StyleEnum.FORM.equals(parameter.getStyle())
-                        || Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())
-                ) {
-            if (parameter.getExplode() != null && parameter.getExplode()) {
-                return "csv";
-            } else {
+        if (Parameter.StyleEnum.FORM.equals(parameter.getStyle())) {
+            // Ref: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values
+            if (Boolean.TRUE.equals(parameter.getExplode())) { // explode is true (default)
                 return "multi";
+            } else {
+                return "csv";
             }
+        } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
+            return "csv";
         } else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
             return "pipe";
         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
@@ -4144,12 +4179,20 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseName = codegenModel.classname;
                 codegenParameter.paramName = toParamName(codegenModel.classname);
                 codegenParameter.baseType = codegenModel.classname;
-                codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
+                codegenParameter.dataType = codegenModel.classname;
                 codegenParameter.description = codegenModel.description;
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
                 if (codegenProperty != null) {
+                    LOGGER.warn("The folowing schema has undefined (null) baseType. " +
+                            "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
+                            "A correct 'consumes' for form parameters should be " +
+                            "'application/x-www-form-urlencoded' or 'multipart/form-data'");
+                    LOGGER.warn("schema: " + schema);
+                    LOGGER.warn("Defaulting baseType to UNKNOWN_BASE_TYPE");
+                    codegenProperty.baseType = "UNKNOWN_BASE_TYPE";
+
                     codegenParameter.baseName = codegenProperty.baseType;
                     codegenParameter.baseType = codegenProperty.baseType;
                     codegenParameter.dataType = codegenProperty.datatype;

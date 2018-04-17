@@ -60,12 +60,12 @@ class FormatTest implements ModelInterface, ArrayAccess
         'integer' => 'int',
         'int32' => 'int',
         'int64' => 'int',
-        'number' => 'BigDecimal',
+        'number' => 'float',
         'float' => 'float',
         'double' => 'double',
         'string' => 'string',
         'byte' => 'string',
-        'binary' => 'string',
+        'binary' => '\SplFileObject',
         'date' => '\DateTime',
         'date_time' => '\DateTime',
         'uuid' => 'string',
@@ -280,6 +280,30 @@ class FormatTest implements ModelInterface, ArrayAccess
         if ($this->container['number'] === null) {
             $invalidProperties[] = "'number' can't be null";
         }
+        if (($this->container['number'] > 543.2)) {
+            $invalidProperties[] = "invalid value for 'number', must be smaller than or equal to 543.2.";
+        }
+
+        if (($this->container['number'] < 32.1)) {
+            $invalidProperties[] = "invalid value for 'number', must be bigger than or equal to 32.1.";
+        }
+
+        if (!is_null($this->container['float']) && ($this->container['float'] > 987.6)) {
+            $invalidProperties[] = "invalid value for 'float', must be smaller than or equal to 987.6.";
+        }
+
+        if (!is_null($this->container['float']) && ($this->container['float'] < 54.3)) {
+            $invalidProperties[] = "invalid value for 'float', must be bigger than or equal to 54.3.";
+        }
+
+        if (!is_null($this->container['double']) && ($this->container['double'] > 123.4)) {
+            $invalidProperties[] = "invalid value for 'double', must be smaller than or equal to 123.4.";
+        }
+
+        if (!is_null($this->container['double']) && ($this->container['double'] < 67.8)) {
+            $invalidProperties[] = "invalid value for 'double', must be bigger than or equal to 67.8.";
+        }
+
         if ($this->container['byte'] === null) {
             $invalidProperties[] = "'byte' can't be null";
         }
@@ -322,6 +346,24 @@ class FormatTest implements ModelInterface, ArrayAccess
             return false;
         }
         if ($this->container['number'] === null) {
+            return false;
+        }
+        if ($this->container['number'] > 543.2) {
+            return false;
+        }
+        if ($this->container['number'] < 32.1) {
+            return false;
+        }
+        if ($this->container['float'] > 987.6) {
+            return false;
+        }
+        if ($this->container['float'] < 54.3) {
+            return false;
+        }
+        if ($this->container['double'] > 123.4) {
+            return false;
+        }
+        if ($this->container['double'] < 67.8) {
             return false;
         }
         if ($this->container['byte'] === null) {
@@ -434,7 +476,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets number
      *
-     * @return BigDecimal
+     * @return float
      */
     public function getNumber()
     {
@@ -444,12 +486,20 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets number
      *
-     * @param BigDecimal $number number
+     * @param float $number number
      *
      * @return $this
      */
     public function setNumber($number)
     {
+
+        if (($number > 543.2)) {
+            throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be smaller than or equal to 543.2.');
+        }
+        if (($number < 32.1)) {
+            throw new \InvalidArgumentException('invalid value for $number when calling FormatTest., must be bigger than or equal to 32.1.');
+        }
+
         $this->container['number'] = $number;
 
         return $this;
@@ -474,6 +524,14 @@ class FormatTest implements ModelInterface, ArrayAccess
      */
     public function setFloat($float)
     {
+
+        if (!is_null($float) && ($float > 987.6)) {
+            throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be smaller than or equal to 987.6.');
+        }
+        if (!is_null($float) && ($float < 54.3)) {
+            throw new \InvalidArgumentException('invalid value for $float when calling FormatTest., must be bigger than or equal to 54.3.');
+        }
+
         $this->container['float'] = $float;
 
         return $this;
@@ -498,6 +556,14 @@ class FormatTest implements ModelInterface, ArrayAccess
      */
     public function setDouble($double)
     {
+
+        if (!is_null($double) && ($double > 123.4)) {
+            throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be smaller than or equal to 123.4.');
+        }
+        if (!is_null($double) && ($double < 67.8)) {
+            throw new \InvalidArgumentException('invalid value for $double when calling FormatTest., must be bigger than or equal to 67.8.');
+        }
+
         $this->container['double'] = $double;
 
         return $this;
@@ -554,7 +620,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Gets binary
      *
-     * @return string
+     * @return \SplFileObject
      */
     public function getBinary()
     {
@@ -564,7 +630,7 @@ class FormatTest implements ModelInterface, ArrayAccess
     /**
      * Sets binary
      *
-     * @param string $binary binary
+     * @param \SplFileObject $binary binary
      *
      * @return $this
      */

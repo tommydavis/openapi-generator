@@ -834,7 +834,7 @@
                 <!-- <module>samples/server/petstore/erlang-server</module> note: make sample compilation work -->
                 <!-- clients -->
                 <module>samples/client/petstore/php/SwaggerClient-php</module>
-                <module>samples/client/petstore/ruby</module>
+                <!--<module>samples/client/petstore/ruby</module>-->
                 <module>samples/client/petstore/scala</module>
                 <module>samples/client/petstore/akka-scala</module>
                 <module>samples/client/petstore/javascript</module>
@@ -937,7 +937,7 @@
         <commons-lang-version>3.4</commons-lang-version>
         <slf4j-version>1.7.12</slf4j-version>
         <scala-maven-plugin-version>3.2.1</scala-maven-plugin-version>
-        <jmustache-version>1.12</jmustache-version>
+        <jmustache-version>1.14</jmustache-version>
         <testng-version>6.9.6</testng-version>
         <surefire-version>2.19.1</surefire-version>
         <jmockit-version>1.25</jmockit-version>

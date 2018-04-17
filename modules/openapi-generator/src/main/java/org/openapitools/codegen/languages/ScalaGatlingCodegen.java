@@ -199,7 +199,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
     /**
      * Modifies the openapi doc to make mustache easier to use
      *
-     * @param openapi input openapi document
+     * @param openAPI input openapi document
      */
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {

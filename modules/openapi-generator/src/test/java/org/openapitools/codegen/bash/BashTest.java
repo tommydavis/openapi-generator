@@ -5,11 +5,10 @@ import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.languages.BashClientCodegen;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.OpenAPIV3Parser;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import io.swagger.v3.parser.core.models.ParseOptions;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -21,8 +20,8 @@ public class BashTest {
     public void petstoreOperationTest() {
 
         final OpenAPI openAPI
-            = new OpenAPIV3Parser()
-                .read("src/test/resources/2_0/petstore-bash.json");
+            = new OpenAPIParser()
+                .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new BashClientCodegen();
         final Operation findPetsByStatusOperation
             = openAPI.getPaths().get("/pet/findByStatus").getGet();
@@ -48,8 +47,8 @@ public class BashTest {
     public void petstoreParameterExampleTest() {
 
         final OpenAPI openAPI
-            = new OpenAPIV3Parser()
-                .read("src/test/resources/2_0/petstore-bash.json");
+            = new OpenAPIParser()
+                .readLocation("src/test/resources/2_0/petstore-bash.json", null, new ParseOptions()).getOpenAPI();
         final DefaultCodegen codegen = new BashClientCodegen();
         final Operation addPetOperation
             = openAPI.getPaths().get("/pet").getPost();

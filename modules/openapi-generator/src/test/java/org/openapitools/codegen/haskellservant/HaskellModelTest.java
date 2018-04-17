@@ -10,7 +10,6 @@ import org.openapitools.codegen.languages.HaskellServantCodegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import org.testng.Assert;

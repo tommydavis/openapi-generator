@@ -100,7 +100,7 @@ public class ModelUtils {
     }
 
     // todo change it to public later
-    protected static String getSimpleRef(String ref) {
+    public static String getSimpleRef(String ref) {
         if (ref.startsWith("#/components/")) {
             ref = ref.substring(ref.lastIndexOf("/") + 1);
         } else if (ref.startsWith("#/definitions/")) {
@@ -307,6 +307,18 @@ public class ModelUtils {
             return true;
         }
         return false;
+    }
+
+    public static Schema getSchema(OpenAPI openapi, String name) {
+        if (name == null) {
+            return null;
+        }
+
+        if (openapi != null && openapi.getComponents() != null && openapi.getComponents().getSchemas() != null) {
+            return openapi.getComponents().getSchemas().get(name);
+        }
+
+        return null;
     }
 
 }

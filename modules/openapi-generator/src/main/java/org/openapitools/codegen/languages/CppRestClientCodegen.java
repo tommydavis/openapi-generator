@@ -311,8 +311,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
             }
             return "0";
         } else if (ModelUtils.isMapSchema(p)) {
-            MapSchema ap = (MapSchema) p;
-            String inner = getSchemaType((Schema) ap.getAdditionalProperties());
+            String inner = getSchemaType((Schema) p.getAdditionalProperties());
             return "std::map<utility::string_t, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -348,7 +347,7 @@ public class CppRestClientCodegen extends AbstractCppCodegen {
      * into complex models if there is not a mapping.
      *
      * @return a string value of the type or complex model for this property
-     * @see io.swagger.models.properties.Schema
+     * @see io.swagger.v3.oas.models.media.Schema
      */
     @Override
     public String getSchemaType(Schema p) {

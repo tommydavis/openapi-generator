@@ -68,7 +68,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String javaUtilPrefix = "";
     protected Boolean serializableModel = false;
     protected boolean serializeBigDecimalAsString = false;
-    protected boolean hideGenerationTimestamp = false;
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
     protected boolean supportJava6 = false;
@@ -82,6 +81,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
+        hideGenerationTimestamp = false; 
+        
         setReservedWordsLowerCase(
                 Arrays.asList(
                         // used as internal variables, can collide with parameter names
@@ -190,6 +191,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         } else {
             //not set, use default to be passed to template
             additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
+
+        if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+            additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.GROUP_ID)) {
@@ -659,18 +668,17 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(p)) {
-            final MapSchema ap = (MapSchema) p;
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
             } else {
                 pattern = "new HashMap<%s>()";
             }
-            if (ap.getAdditionalProperties() == null) {
+            if (p.getAdditionalProperties() == null) {
                 return null;
             }
 
-            String typeDeclaration = String.format("String, %s", getTypeDeclaration((Schema) ap.getAdditionalProperties()));
+            String typeDeclaration = String.format("String, %s", getTypeDeclaration((Schema) p.getAdditionalProperties()));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -699,9 +707,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
             return "null";
         } else if (ModelUtils.isBooleanSchema(p)) {
-            BooleanSchema bp = (BooleanSchema) p;
-            if (bp.getDefault() != null) {
-                return bp.getDefault().toString();
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
             }
             return "null";
         } else if (ModelUtils.isStringSchema(p)) {
@@ -1083,6 +1090,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             return "invalidPackageName";
         }
         return packageName;
+    }
+
+    public String getInvokerPackage() {
+        return invokerPackage;
     }
 
     public void setInvokerPackage(String invokerPackage) {
