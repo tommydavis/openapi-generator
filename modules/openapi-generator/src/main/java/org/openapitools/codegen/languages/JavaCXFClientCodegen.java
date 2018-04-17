@@ -124,7 +124,6 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperations(Map<String, Object> objs) {
         objs = super.postProcessOperations(objs);
         return AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
