@@ -99,6 +99,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testendpointparameters) | **POST** /fake | Fake endpoint for testing various parameters
 假端點
@@ -142,9 +143,11 @@ Class | Method | HTTP request | Description
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [ArrayTest](docs/ArrayTest.md)
  - [Capitalization](docs/Capitalization.md)
+ - [Cat](docs/Cat.md)
  - [Category](docs/Category.md)
  - [ClassModel](docs/ClassModel.md)
  - [Client](docs/Client.md)
+ - [Dog](docs/Dog.md)
  - [EnumArrays](docs/EnumArrays.md)
  - [EnumClass](docs/EnumClass.md)
  - [Enum_Test](docs/Enum_Test.md)
@@ -165,8 +168,6 @@ Class | Method | HTTP request | Description
  - [Return](docs/Return.md)
  - [Tag](docs/Tag.md)
  - [User](docs/User.md)
- - [Cat](docs/Cat.md)
- - [Dog](docs/Dog.md)
 
 
 ## Documentation For Authorization

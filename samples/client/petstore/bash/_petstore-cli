@@ -300,6 +300,7 @@ case $state in
             "fakeOuterCompositeSerialize[]" \
             "fakeOuterNumberSerialize[]" \
             "fakeOuterStringSerialize[]" \
+            "testBodyWithQueryParams[]" \
             "testClientModel[To test \"client\" model]" \
             "testEndpointParameters[Fake endpoint for testing various parameters
 假端點
@@ -361,6 +362,13 @@ case $state in
                               )
         _describe -t actions 'operations' _op_arguments -S '' && ret=0
         ;;
+      testBodyWithQueryParams)
+        local -a _op_arguments
+        _op_arguments=(
+                    "query=:[QUERY] "
+          )
+        _describe -t actions 'operations' _op_arguments -S '' && ret=0
+        ;;
       testClientModel)
         local -a _op_arguments
         _op_arguments=(
@@ -379,6 +387,7 @@ case $state in
                     "enum_query_string_array=:[QUERY] Query parameter enum test (string array)"
 "enum_query_string=:[QUERY] Query parameter enum test (string)"
 "enum_query_integer=:[QUERY] Query parameter enum test (double)"
+"enum_query_double=:[QUERY] Query parameter enum test (double)"
           "enum_header_string_array\::[HEADER] Header parameter enum test (string array)"
 "enum_header_string\::[HEADER] Header parameter enum test (string)"
 )

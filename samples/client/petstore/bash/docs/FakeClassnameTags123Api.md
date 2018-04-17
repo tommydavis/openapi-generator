@@ -11,6 +11,8 @@ Method | HTTP request | Description
 
 To test class name in snake case
 
+To test class name in snake case
+
 ### Example
 ```bash
 petstore-cli testClassname
@@ -20,7 +22,7 @@ petstore-cli testClassname
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model |
+ **client** | [**Client**](Client.md) | client model |
 
 ### Return type
 

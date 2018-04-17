@@ -18,8 +18,6 @@ Method | HTTP request | Description
 
 Add a new pet to the store
 
-
-
 ### Example
 ```bash
 petstore-cli addPet
@@ -29,7 +27,7 @@ petstore-cli addPet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -42,15 +40,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **deletePet**
 
 Deletes a pet
-
-
 
 ### Example
 ```bash
@@ -75,7 +71,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not Applicable
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -87,7 +83,7 @@ Multiple status values can be provided with comma separated strings
 
 ### Example
 ```bash
-petstore-cli findPetsByStatus  Specify as:  status="value1,value2,..."
+petstore-cli findPetsByStatus  Specify as: 
 ```
 
 ### Parameters
@@ -119,7 +115,7 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 
 ### Example
 ```bash
-petstore-cli findPetsByTags  Specify as:  tags="value1,value2,..."
+petstore-cli findPetsByTags  Specify as: 
 ```
 
 ### Parameters
@@ -179,8 +175,6 @@ Name | Type | Description  | Notes
 
 Update an existing pet
 
-
-
 ### Example
 ```bash
 petstore-cli updatePet
@@ -190,7 +184,7 @@ petstore-cli updatePet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -203,15 +197,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **updatePetWithForm**
 
 Updates a pet in the store with form data
-
-
 
 ### Example
 ```bash
@@ -237,15 +229,13 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: application/xml, application/json
+ - **Accept**: Not Applicable
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 ## **uploadFile**
 
 uploads an image
-
-
 
 ### Example
 ```bash
@@ -258,7 +248,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **integer** | ID of pet to update |
  **additionalMetadata** | **string** | Additional data to pass to server | [optional]
- **file** | **File** | file to upload | [optional]
+ **file** | **binary** | file to upload | [optional]
 
 ### Return type
 
