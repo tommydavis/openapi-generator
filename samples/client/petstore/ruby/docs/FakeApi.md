@@ -30,7 +30,7 @@ require 'petstore'
 
 api_instance = Petstore::FakeApi.new
 opts = {
-  boolean_post_body: true # BOOLEAN | Input boolean as post body
+  body: true # BOOLEAN | Input boolean as post body
 }
 
 begin
@@ -45,7 +45,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **boolean_post_body** | **BOOLEAN**| Input boolean as post body | [optional] 
+ **body** | **BOOLEAN**| Input boolean as post body | [optional] 
 
 ### Return type
 
@@ -57,7 +57,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 
@@ -103,7 +103,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 
@@ -149,7 +149,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
+ - **Content-Type**: application/json
  - **Accept**: */*
 
 
@@ -195,51 +195,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: */*
- - **Accept**: */*
-
-
-
-# **test_body_with_query_params**
-> test_body_with_query_params(query, user)
-
-
-
-### Example
-```ruby
-# load the gem
-require 'petstore'
-
-api_instance = Petstore::FakeApi.new
-query = 'query_example' # String | 
-user = Petstore::User.new # User | 
-
-begin
-  api_instance.test_body_with_query_params(query, user)
-rescue Petstore::ApiError => e
-  puts "Exception when calling FakeApi->test_body_with_query_params: #{e}"
-end
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **query** | **String**|  | 
- **user** | [**User**](User.md)|  | 
-
-### Return type
-
-nil (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
  - **Content-Type**: application/json
- - **Accept**: Not defined
+ - **Accept**: */*
 
 
 
@@ -283,7 +240,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
 
@@ -427,7 +384,7 @@ No authorization required
 
 
 # **test_inline_additional_properties**
-> test_inline_additional_properties(body)
+> test_inline_additional_properties(unknown_base_type)
 
 test inline additionalProperties
 
@@ -437,11 +394,11 @@ test inline additionalProperties
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-body = nil # Hash<String, String> | request body
+unknown_base_type = Petstore::UNKNOWN_BASE_TYPE.new # Hash<String, String> | request body
 
 begin
   #test inline additionalProperties
-  api_instance.test_inline_additional_properties(body)
+  api_instance.test_inline_additional_properties(unknown_base_type)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_inline_additional_properties: #{e}"
 end
@@ -451,7 +408,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | **Hash&lt;String, String&gt;**| request body | 
+ **unknown_base_type** | [**Hash&lt;String, String&gt;**](UNKNOWN_BASE_TYPE.md)| request body | 
 
 ### Return type
 
@@ -469,7 +426,7 @@ No authorization required
 
 
 # **test_json_form_data**
-> test_json_form_data(param, param2)
+> test_json_form_data(opts)
 
 test json serialization of form data
 
@@ -479,12 +436,13 @@ test json serialization of form data
 require 'petstore'
 
 api_instance = Petstore::FakeApi.new
-param = 'param_example' # String | field1
-param2 = 'param2_example' # String | field2
+opts = {
+  body4: Petstore::Body4.new # Body4 | 
+}
 
 begin
   #test json serialization of form data
-  api_instance.test_json_form_data(param, param2)
+  api_instance.test_json_form_data(opts)
 rescue Petstore::ApiError => e
   puts "Exception when calling FakeApi->test_json_form_data: #{e}"
 end
@@ -494,8 +452,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | **String**| field1 | 
- **param2** | **String**| field2 | 
+ **body4** | [**Body4**](Body4.md)|  | [optional] 
 
 ### Return type
 

@@ -1,8 +1,9 @@
-# Petstore::200Response
+# Petstore::Body4
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**name** | **Integer** |  | [optional] 
+**param** | **String** | field1 | 
+**param2** | **String** | field2 | 
 
 

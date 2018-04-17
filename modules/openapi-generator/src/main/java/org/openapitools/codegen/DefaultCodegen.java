@@ -1360,19 +1360,21 @@ public class DefaultCodegen implements CodegenConfig {
                 allProperties = new LinkedHashMap<String, Schema>();
                 allRequired = new ArrayList<String>();
                 m.allVars = new ArrayList<CodegenProperty>();
-                int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
-                for (Schema innerModel : composed.getAllOf()) {
-                    if (m.discriminator == null) {
-                        m.discriminator = schema.getDiscriminator();
-                    }
-                    if (innerModel.getXml() != null) {
-                        m.xmlPrefix = innerModel.getXml().getPrefix();
-                        m.xmlNamespace = innerModel.getXml().getNamespace();
-                        m.xmlName = innerModel.getXml().getName();
-                    }
-                    if (modelImplCnt++ > 1) {
-                        LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
-                        break; // only one ModelImpl with discriminator allowed in allOf
+                if(composed.getAllOf() != null) {
+                    int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
+                    for (Schema innerModel : composed.getAllOf()) {
+                        if (m.discriminator == null) {
+                            m.discriminator = schema.getDiscriminator();
+                        }
+                        if (innerModel.getXml() != null) {
+                            m.xmlPrefix = innerModel.getXml().getPrefix();
+                            m.xmlNamespace = innerModel.getXml().getNamespace();
+                            m.xmlName = innerModel.getXml().getName();
+                        }
+                        if (modelImplCnt++ > 1) {
+                            LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
+                            break; // only one ModelImpl with discriminator allowed in allOf
+                        }
                     }
                 }
             } else {
@@ -2192,6 +2194,14 @@ public class DefaultCodegen implements CodegenConfig {
                 if (StringUtils.isNotBlank(param.get$ref())) {
                     param = getParameterFromRef(param.get$ref(), openAPI);
                 }
+            } else {
+                // process body parameter
+                if (StringUtils.isNotBlank(requestBody.get$ref())) {
+                    requestBody = openAPI.getComponents().getRequestBodies().get(getSimpleRef(requestBody.get$ref()));
+                }
+                bodyParam = fromRequestBody(requestBody, schemas, imports);
+                bodyParam.description = requestBody.getDescription();
+                bodyParams.add(bodyParam);
 
                 CodegenParameter p = fromParameter(param, imports);
 
@@ -2433,32 +2443,16 @@ public class DefaultCodegen implements CodegenConfig {
             LOGGER.info("JSON schema: " + codegenParameter.jsonSchema);
         }
 
-        // TODO need to revise the logic below
-        // move the defaultValue for headers, forms and params
-        /*
-        if (param instanceof QueryParameter) {
-            QueryParameter qp = (QueryParameter) parameter;
-            if (qp.getDefaultValue() != null) {
-                codegenParameter.defaultValue = qp.getDefaultValue().toString();
-            }
-        } else if (param instanceof HeaderParameter) {
-            HeaderParameter hp = (HeaderParameter) parameter;
-            if (hp.getDefaultValue() != null) {
-                codegenParameter.defaultValue = hp.getDefaultValue().toString();
-            }
-        } else if (param instanceof FormParameter) {
-            FormParameter fp = (FormParameter) parameter;
-            if (fp.getDefaultValue() != null) {
-                codegenParameter.defaultValue = fp.getDefaultValue().toString();
-            }
-        }*/
-
         if (parameter.getExtensions() != null && !parameter.getExtensions().isEmpty()) {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
         if (parameter.getSchema() != null) {
             Schema parameterSchema = parameter.getSchema();
+            // set default value
+            if (parameterSchema.getDefault() != null) {
+                codegenParameter.defaultValue = (String) parameterSchema.getDefault();
+            }
             // TDOO revise collectionFormat
             String collectionFormat = null;
             if (ModelUtils.isArraySchema(parameterSchema)) { // for array parameter
@@ -3308,6 +3302,9 @@ public class DefaultCodegen implements CodegenConfig {
             word = word.substring(0, 1).toLowerCase() + word.substring(1);
         }
 
+        // remove all underscore
+        word = word.replaceAll("_", "");
+
         return word;
     }
 
@@ -3745,7 +3742,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     /**
      * Provides an override location, if any is specified, for the .swagger-codegen-ignore.
-     *
+     * <p>
      * This is originally intended for the first generation only.
      *
      * @return a string of the full path to an override ignore file.
@@ -3856,7 +3853,8 @@ public class DefaultCodegen implements CodegenConfig {
         for (String key : consumes) {
             Map<String, String> mediaType = new HashMap<>();
             if ("*/*".equals(key)) {
-                mediaType.put("mediaType", key);
+                // skip as it implies `consumes` in OAS2 is not defined
+                continue;
             } else {
                 mediaType.put("mediaType", escapeText(escapeQuotationMark(key)));
             }
@@ -3870,8 +3868,11 @@ public class DefaultCodegen implements CodegenConfig {
 
             mediaTypeList.add(mediaType);
         }
-        codegenOperation.consumes = mediaTypeList;
-        codegenOperation.hasConsumes = true;
+
+        if (!mediaTypeList.isEmpty()) {
+            codegenOperation.consumes = mediaTypeList;
+            codegenOperation.hasConsumes = true;
+        }
     }
 
     public static Set<String> getConsumesInfo(Operation operation) {
@@ -4184,7 +4185,9 @@ public class DefaultCodegen implements CodegenConfig {
                 imports.add(codegenParameter.baseType);
             } else {
                 CodegenProperty codegenProperty = fromProperty("property", schema);
-                if (codegenProperty != null) {
+                if (schema.getAdditionalProperties() != null) {// http body is map
+                    LOGGER.info("Map not supported in HTTP request body");
+                } else if (codegenProperty != null) {
                     LOGGER.warn("The folowing schema has undefined (null) baseType. " +
                             "It could be due to form parameter defined in OpenAPI v2 spec with incorrect consumes. " +
                             "A correct 'consumes' for form parameters should be " +
