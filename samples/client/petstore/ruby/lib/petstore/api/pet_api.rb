@@ -48,8 +48,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
 
       # form parameters
       form_params = {}
@@ -146,7 +144,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'status'] = status
+      query_params[:'status'] = @api_client.build_collection_param(status, :csv)
 
       # header parameters
       header_params = {}
@@ -199,7 +197,7 @@ module Petstore
 
       # query parameters
       query_params = {}
-      query_params[:'tags'] = tags
+      query_params[:'tags'] = @api_client.build_collection_param(tags, :csv)
 
       # header parameters
       header_params = {}
@@ -305,8 +303,6 @@ module Petstore
 
       # header parameters
       header_params = {}
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/xml'])
 
       # form parameters
       form_params = {}
