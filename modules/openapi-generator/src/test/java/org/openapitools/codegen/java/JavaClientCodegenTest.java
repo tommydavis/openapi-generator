@@ -98,46 +98,44 @@ public class JavaClientCodegenTest {
         modelMap.put("model", model5);
         allModels.add(modelMap);
 
-//        JavaClientCodegen clientCodegen = new JavaClientCodegen();
-//        List<Map<String, Object>> parentsList = clientCodegen.modelInheritanceSupportInGson(allModels);
-//
-//        Assert.assertNotNull(parentsList);
-//        Assert.assertEquals(parentsList.size(), 2);
-//
-//        Map<String, Object> parent = parentsList.get(0);
-//        Assert.assertEquals(parent.get("classname"), "test.Parent1");
-//
-//        List<CodegenModel> children = (List<CodegenModel>) parent.get("children");
-//        Assert.assertNotNull(children);
-//        Assert.assertEquals(children.size(), 3);
-//
-//        Map<String, Object> models = (Map<String, Object>) children.get(0);
-//        Assert.assertEquals(models.get("name"), "model1");
-//        Assert.assertEquals(models.get("classname"), "test.Model1");
-//
-//        models = (Map<String, Object>) children.get(1);
-//        Assert.assertEquals(models.get("name"), "model2");
-//        Assert.assertEquals(models.get("classname"), "test.Model2");
-//
-//        models = (Map<String, Object>) children.get(2);
-//        Assert.assertEquals(models.get("name"), "model3");
-//        Assert.assertEquals(models.get("classname"), "test.Model3");
-//
-//
-//        parent = parentsList.get(1);
-//        Assert.assertEquals(parent.get("classname"), "test.Parent2");
-//
-//        children = (List<CodegenModel>) parent.get("children");
-//        Assert.assertNotNull(children);
-//        Assert.assertEquals(children.size(), 2);
-//
-//        models = (Map<String, Object>) children.get(0);
-//        Assert.assertEquals(models.get("name"), "model4");
-//        Assert.assertEquals(models.get("classname"), "test.Model4");
-//
-//        models = (Map<String, Object>) children.get(1);
-//        Assert.assertEquals(models.get("name"), "model5");
-//        Assert.assertEquals(models.get("classname"), "test.Model5");
+        List<Map<String, Object>> parentsList = JavaClientCodegen.modelInheritanceSupportInGson(allModels);
+
+        Assert.assertNotNull(parentsList);
+        Assert.assertEquals(parentsList.size(), 2);
+
+        Map<String, Object> parent = parentsList.get(0);
+        Assert.assertEquals(parent.get("classname"), "test.Parent1");
+
+        List<CodegenModel> children = (List<CodegenModel>) parent.get("children");
+        Assert.assertNotNull(children);
+        Assert.assertEquals(children.size(), 3);
+
+        Map<String, Object> models = (Map<String, Object>) children.get(0);
+        Assert.assertEquals(models.get("name"), "model1");
+        Assert.assertEquals(models.get("classname"), "test.Model1");
+
+        models = (Map<String, Object>) children.get(1);
+        Assert.assertEquals(models.get("name"), "model2");
+        Assert.assertEquals(models.get("classname"), "test.Model2");
+
+        models = (Map<String, Object>) children.get(2);
+        Assert.assertEquals(models.get("name"), "model3");
+        Assert.assertEquals(models.get("classname"), "test.Model3");
+
+        parent = parentsList.get(1);
+        Assert.assertEquals(parent.get("classname"), "test.Parent2");
+
+        children = (List<CodegenModel>) parent.get("children");
+        Assert.assertNotNull(children);
+        Assert.assertEquals(children.size(), 2);
+
+        models = (Map<String, Object>) children.get(0);
+        Assert.assertEquals(models.get("name"), "model4");
+        Assert.assertEquals(models.get("classname"), "test.Model4");
+
+        models = (Map<String, Object>) children.get(1);
+        Assert.assertEquals(models.get("name"), "model5");
+        Assert.assertEquals(models.get("classname"), "test.Model5");
     }
 
     @Test

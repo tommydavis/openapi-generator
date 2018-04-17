@@ -514,7 +514,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         return objs;
     }
 
-    private List<Map<String, Object>> modelInheritanceSupportInGson(List<?> allModels) {
+    public static List<Map<String, Object>> modelInheritanceSupportInGson(List<?> allModels) {
         LinkedListMultimap<CodegenModel, CodegenModel> byParent = LinkedListMultimap.create();
         for (Object m : allModels) {
             Map entry = (Map) m;
