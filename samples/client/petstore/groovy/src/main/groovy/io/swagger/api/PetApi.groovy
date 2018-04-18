@@ -16,7 +16,7 @@ class PetApi {
     String basePath = "http://petstore.swagger.io/v2"
     String versionPath = "/api/v1"
 
-    def addPet ( Pet body, Closure onSuccess, Closure onFailure)  {
+    def addPet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/pet"
 
@@ -25,8 +25,8 @@ class PetApi {
         def headerParams = [:]
     
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
         
@@ -131,7 +131,7 @@ class PetApi {
                     Pet.class )
                     
     }
-    def updatePet ( Pet body, Closure onSuccess, Closure onFailure)  {
+    def updatePet ( Pet pet, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/pet"
 
@@ -140,8 +140,8 @@ class PetApi {
         def headerParams = [:]
     
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (pet == null) {
+            throw new RuntimeException("missing required params pet")
         }
 
         

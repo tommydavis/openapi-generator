@@ -14,7 +14,7 @@ class UserApi {
     String basePath = "http://petstore.swagger.io/v2"
     String versionPath = "/api/v1"
 
-    def createUser ( User body, Closure onSuccess, Closure onFailure)  {
+    def createUser ( User user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user"
 
@@ -23,8 +23,8 @@ class UserApi {
         def headerParams = [:]
     
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
         
@@ -36,7 +36,7 @@ class UserApi {
                     null )
                     
     }
-    def createUsersWithArrayInput ( List<User> body, Closure onSuccess, Closure onFailure)  {
+    def createUsersWithArrayInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/createWithArray"
 
@@ -45,8 +45,8 @@ class UserApi {
         def headerParams = [:]
     
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
         
@@ -58,7 +58,7 @@ class UserApi {
                     null )
                     
     }
-    def createUsersWithListInput ( List<User> body, Closure onSuccess, Closure onFailure)  {
+    def createUsersWithListInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/createWithList"
 
@@ -67,8 +67,8 @@ class UserApi {
         def headerParams = [:]
     
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
         
@@ -172,7 +172,7 @@ if (!"null".equals(String.valueOf(password)))
                     null )
                     
     }
-    def updateUser ( String username, User body, Closure onSuccess, Closure onFailure)  {
+    def updateUser ( String username, User user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/{username}"
 
@@ -185,8 +185,8 @@ if (!"null".equals(String.valueOf(password)))
             throw new RuntimeException("missing required params username")
         }
         // verify required params are set
-        if (body == null) {
-            throw new RuntimeException("missing required params body")
+        if (user == null) {
+            throw new RuntimeException("missing required params user")
         }
 
         
