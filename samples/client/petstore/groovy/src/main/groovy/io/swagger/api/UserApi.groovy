@@ -21,21 +21,20 @@ class UserApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (user == null) {
             throw new RuntimeException("missing required params user")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "POST", "",
                     null )
-                    
+
     }
+
     def createUsersWithArrayInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/createWithArray"
@@ -43,21 +42,20 @@ class UserApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (user == null) {
             throw new RuntimeException("missing required params user")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "POST", "",
                     null )
-                    
+
     }
+
     def createUsersWithListInput ( List<User> user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/createWithList"
@@ -65,21 +63,20 @@ class UserApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (user == null) {
             throw new RuntimeException("missing required params user")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "POST", "",
                     null )
-                    
+
     }
+
     def deleteUser ( String username, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/{username}"
@@ -87,21 +84,20 @@ class UserApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "DELETE", "",
                     null )
-                    
+
     }
+
     def getUserByName ( String username, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/{username}"
@@ -109,21 +105,20 @@ class UserApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "",
                     User.class )
-                    
+
     }
+
     def loginUser ( String username, String password, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/login"
@@ -131,11 +126,12 @@ class UserApi {
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
+
         // verify required params are set
         if (password == null) {
             throw new RuntimeException("missing required params password")
@@ -143,17 +139,18 @@ class UserApi {
 
         if (!"null".equals(String.valueOf(username)))
             queryParams.put("username", String.valueOf(username))
-if (!"null".equals(String.valueOf(password)))
+
+        if (!"null".equals(String.valueOf(password)))
             queryParams.put("password", String.valueOf(password))
 
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "",
                     String.class )
-                    
+
     }
+
     def logoutUser ( Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/logout"
@@ -161,17 +158,15 @@ if (!"null".equals(String.valueOf(password)))
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "GET", "",
                     null )
-                    
+
     }
+
     def updateUser ( String username, User user, Closure onSuccess, Closure onFailure)  {
         // create path and map path parameters (TODO)
         String resourcePath = "/user/{username}"
@@ -179,23 +174,23 @@ if (!"null".equals(String.valueOf(password)))
         // query params
         def queryParams = [:]
         def headerParams = [:]
-    
+
         // verify required params are set
         if (username == null) {
             throw new RuntimeException("missing required params username")
         }
+
         // verify required params are set
         if (user == null) {
             throw new RuntimeException("missing required params user")
         }
 
-        
-
-        // Also still TODO: form params, body param
+        // TODO: form params, body param not yet support
 
         invokeApi(onSuccess, onFailure, basePath, versionPath, resourcePath, queryParams, headerParams,
                     "PUT", "",
                     null )
-                    
+
     }
+
 }
