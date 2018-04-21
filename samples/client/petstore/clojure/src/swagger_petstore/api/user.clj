@@ -13,8 +13,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
-              :accepts       []
+              :content-types ["application/json"]
               :auth-names    []})))
 
 (defn create-user
@@ -35,7 +34,6 @@
               :form-params   {}
               :body-param    user
               :content-types []
-              :accepts       []
               :auth-names    []})))
 
 (defn create-users-with-array-input
@@ -55,7 +53,6 @@
               :form-params   {}
               :body-param    user
               :content-types []
-              :accepts       []
               :auth-names    []})))
 
 (defn create-users-with-list-input
@@ -75,7 +72,6 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       []
              :auth-names    []}))
 
 (defn delete-user
@@ -130,7 +126,6 @@
              :query-params  {}
              :form-params   {}
              :content-types []
-             :accepts       []
              :auth-names    []}))
 
 (defn logout-user
@@ -150,8 +145,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    user
-              :content-types []
-              :accepts       []
+              :content-types ["application/json"]
               :auth-names    []})))
 
 (defn update-user

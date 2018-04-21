@@ -12,8 +12,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    pet
-              :content-types ["application/json" "application/xml"]
-              :accepts       []
+              :content-types []
               :auth-names    ["petstore_auth"]})))
 
 (defn add-pet
@@ -33,7 +32,6 @@
               :query-params  {}
               :form-params   {}
               :content-types []
-              :accepts       []
               :auth-names    ["petstore_auth"]})))
 
 (defn delete-pet
@@ -50,7 +48,7 @@
    (call-api "/pet/findByStatus" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"status" status }
+              :query-params  {"status" (with-collection-format status :multi) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
@@ -71,7 +69,7 @@
    (call-api "/pet/findByTags" :get
              {:path-params   {}
               :header-params {}
-              :query-params  {"tags" tags }
+              :query-params  {"tags" (with-collection-format tags :multi) }
               :form-params   {}
               :content-types []
               :accepts       ["application/json" "application/xml"]
@@ -114,8 +112,7 @@
               :query-params  {}
               :form-params   {}
               :body-param    pet
-              :content-types ["application/json" "application/xml"]
-              :accepts       []
+              :content-types []
               :auth-names    ["petstore_auth"]})))
 
 (defn update-pet
@@ -135,7 +132,6 @@
               :query-params  {}
               :form-params   {"name" name "status" status }
               :content-types ["application/x-www-form-urlencoded"]
-              :accepts       []
               :auth-names    ["petstore_auth"]})))
 
 (defn update-pet-with-form
@@ -155,7 +151,6 @@
               :query-params  {}
               :form-params   {"additionalMetadata" additional-metadata "file" file }
               :content-types ["multipart/form-data"]
-              :accepts       []
               :auth-names    ["petstore_auth"]})))
 
 (defn upload-file
