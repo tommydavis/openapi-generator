@@ -239,14 +239,14 @@ public class GoModelTest {
 
     @DataProvider(name = "modelNames")
     public static Object[][] primeNumbers() {
-        return new Object[][] {
-            {"sample", "Sample"},
-            {"sample_name", "SampleName"},
-            {"sample__name", "SampleName"},
-            {"/sample", "Sample"},
-            {"\\sample", "Sample"},
-            {"sample.name", "SampleName"},
-            {"_sample", "Sample"},
+        return new Object[][]{
+                {"sample", "Sample"},
+                {"sample_name", "SampleName"},
+                {"sample__name", "SampleName"},
+                {"/sample", "Sample"},
+                {"\\sample", "Sample"},
+                {"sample.name", "SampleName"},
+                {"_sample", "Sample"},
         };
     }
 

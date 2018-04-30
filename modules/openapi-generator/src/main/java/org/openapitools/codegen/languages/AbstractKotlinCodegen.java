@@ -531,4 +531,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         boolean imports = !type.startsWith("kotlin.") && !type.startsWith("java.") && !defaultIncludes.contains(type) && !languageSpecificPrimitives.contains(type);
         return imports;
     }
+
+    @Override
+    public String toDefaultValue(Schema schema) {
+        if (schema.getDefault() != null) {
+            return schema.getDefault().toString();
+        } else {
+            return null;
+        }
+    }
 }
