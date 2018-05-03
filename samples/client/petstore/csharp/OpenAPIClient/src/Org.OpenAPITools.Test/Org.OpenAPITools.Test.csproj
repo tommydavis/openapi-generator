@@ -72,9 +72,47 @@ Contact: apiteam@swagger.io
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="obj\**" />
-    <Compile Include="Client\ApiClientTests.cs" />
+    <Compile Include="Api\AnotherFakeApiTests.cs" />
+    <Compile Include="Api\FakeApiTests.cs" />
+    <Compile Include="Api\FakeClassnameTags123ApiTests.cs" />
+    <Compile Include="Api\PetApiTests.cs" />
+    <Compile Include="Api\StoreApiTests.cs" />
+    <Compile Include="Api\UserApiTests.cs" />
+    <Compile Include="Model\AdditionalPropertiesClassTests.cs" />
+    <Compile Include="Model\AnimalFarmTests.cs" />
+    <Compile Include="Model\AnimalTests.cs" />
+    <Compile Include="Model\ApiResponseTests.cs" />
+    <Compile Include="Model\ArrayOfArrayOfNumberOnlyTests.cs" />
+    <Compile Include="Model\ArrayOfNumberOnlyTests.cs" />
+    <Compile Include="Model\ArrayTestTests.cs" />
+    <Compile Include="Model\CapitalizationTests.cs" />
+    <Compile Include="Model\CatTests.cs" />
+    <Compile Include="Model\CategoryTests.cs" />
+    <Compile Include="Model\ClassModelTests.cs" />
+    <Compile Include="Model\DogTests.cs" />
+    <Compile Include="Model\EnumArraysTests.cs" />
+    <Compile Include="Model\EnumClassTests.cs" />
+    <Compile Include="Model\EnumTestTests.cs" />
+    <Compile Include="Model\FormatTestTests.cs" />
+    <Compile Include="Model\HasOnlyReadOnlyTests.cs" />
+    <Compile Include="Model\ListTests.cs" />
+    <Compile Include="Model\MapTestTests.cs" />
+    <Compile Include="Model\MixedPropertiesAndAdditionalPropertiesClassTests.cs" />
+    <Compile Include="Model\Model200ResponseTests.cs" />
+    <Compile Include="Model\ModelClientTests.cs" />
+    <Compile Include="Model\NameTests.cs" />
+    <Compile Include="Model\NumberOnlyTests.cs" />
+    <Compile Include="Model\OrderTests.cs" />
+    <Compile Include="Model\OuterCompositeTests.cs" />
+    <Compile Include="Model\OuterEnumTests.cs" />
+    <Compile Include="Model\PetTests.cs" />
+    <Compile Include="Model\ReadOnlyFirstTests.cs" />
+    <Compile Include="Model\ReturnTests.cs" />
+    <Compile Include="Model\SpecialModelNameTests.cs" />
+    <Compile Include="Model\TagTests.cs" />
+    <Compile Include="Model\UserTests.cs" />
     <Compile Include="Client\ConfigurationTests.cs" />
+    <Compile Include="Client\ApiClientTests.cs" />
   </ItemGroup>
   <ItemGroup>
       <None Include="packages.config" />
@@ -88,6 +126,9 @@ Contact: apiteam@swagger.io
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="linux-logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Client\" />
   </ItemGroup>
 </Project>
 
